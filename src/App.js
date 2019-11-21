@@ -14,6 +14,7 @@ function App() {
         <Route exact path='/contact' component={Footer}></Route>
       </Switch>
       
+      <Footer />
     </Router>
   );
 }

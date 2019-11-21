@@ -21,3 +21,8 @@ code {
 .main-nav {
   background-color: rgb(123, 123, 204);
 }
+
+#footer {
+  background-color: rgb(24, 21, 21);
+  color: antiquewhite;
+}
