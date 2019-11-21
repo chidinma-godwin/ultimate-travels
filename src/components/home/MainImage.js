@@ -8,7 +8,7 @@ import Carousel from "react-bootstrap/Carousel";
 
 const MainImage = () => {
   return (
-    <Carousel>
+    <Carousel interval={null}>
       <Carousel.Item>
         <img
           className="d-block w-100"
