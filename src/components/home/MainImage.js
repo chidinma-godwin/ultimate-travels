@@ -1,8 +1,11 @@
 import React from "react";
-import abudhabi from "../images/abudhabi-uae.jpg";
+import waterpark from "../images/waterpark.jpg";
+import oman from "../images/oman.jpg";
+import kuvajt from "../images/kuvajt.jpg";
 import beirutLebanon from "../images/beirut-lebanon.jpg";
+import iran from "../images/iran.jpg";
 import dohaQatar from "../images/doha-qatar.jpg";
-import manamaBahrain from "../images/manama-bahrain.jpg";
+import bahrain from "../images/bahrain.jpg";
 import ritadhSaudi from "../images/ritadh-saudi.jpg";
 import Carousel from "react-bootstrap/Carousel";
 
@@ -12,8 +15,8 @@ const MainImage = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          style={{ maxHeight: "393px" }}
-          src={abudhabi}
+          style={{ maxHeight: "430px" }}
+          src={waterpark}
           alt="Dubai water park"
         />
         <Carousel.Caption>
@@ -25,7 +28,20 @@ const MainImage = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          style={{ maxHeight: "393px" }}
+          style={{ maxHeight: "430px" }}
+          src={kuvajt}
+          alt="Dubai water park"
+        />
+        <Carousel.Caption>
+          <h3>First slide label</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          style={{ maxHeight: "430px" }}
           src={beirutLebanon}
           alt="Dubai water park"
         />
@@ -38,7 +54,7 @@ const MainImage = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          style={{ maxHeight: "393px" }}
+          style={{ maxHeight: "430px" }}
           src={dohaQatar}
           alt="Dubai water park"
         />
@@ -51,8 +67,8 @@ const MainImage = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          style={{ maxHeight: "393px" }}
-          src={manamaBahrain}
+          style={{ maxHeight: "430px" }}
+          src={bahrain}
           alt="Dubai water park"
         />
         <Carousel.Caption>
@@ -64,7 +80,7 @@ const MainImage = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-            style={{ maxHeight: "393px" }}
+          style={{ maxHeight: "430px" }}
           src={ritadhSaudi}
           alt="Dubai water park"
         />
@@ -73,10 +89,34 @@ const MainImage = () => {
           <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
         </Carousel.Caption>
       </Carousel.Item>
+
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          style={{ maxHeight: "430px" }}
+          src={iran}
+          alt="Dubai water park"
+        />
+        <Carousel.Caption>
+          <h3>First slide label</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          style={{ maxHeight: "430px" }}
+          src={oman}
+          alt="Dubai water park"
+        />
+        <Carousel.Caption>
+          <h3>First slide label</h3>
+          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+
     </Carousel>
-    // <div className="container-fluid">
-    //     <img src={homeImage} alt='Water park' />
-    // </div>
   );
 };
 
