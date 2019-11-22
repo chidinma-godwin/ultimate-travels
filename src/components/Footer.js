@@ -9,7 +9,7 @@ const Footer = () => {
       <Container>
         <Row>
           <Col md>
-            <section>
+            <section id="contact">
               <h5>Contact us</h5>
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat

@@ -11,7 +11,6 @@ function App() {
       
       <Switch>
         <Route exact path='/' component={Home}></Route>
-        <Route exact path='/contact' component={Footer}></Route>
       </Switch>
       
       <Footer />
