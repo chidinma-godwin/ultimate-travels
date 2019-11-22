@@ -54,8 +54,8 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
-      <div className="bottom-nav">
-        <p>© 2019 Ultimate Travels. All Rights Reserved.</p>
+      <div id="bottom-nav">
+        <p className="mb-0">© 2019 Ultimate Travels. All Rights Reserved.</p>
       </div>
     </footer>
   );

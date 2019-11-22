@@ -27,10 +27,10 @@ code {
   color: antiquewhite;
 }
 
-.bottom-nav {
+#bottom-nav {
   background-color: rgb(252, 235, 213);
   margin-bottom: 0;
-  padding: 0.5em;
+  padding: 1em;
   color: black;
   display: flex;
   justify-content: center;
