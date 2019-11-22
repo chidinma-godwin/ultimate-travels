@@ -26,3 +26,12 @@ code {
   background-color: rgb(24, 21, 21);
   color: antiquewhite;
 }
+
+.bottom-nav {
+  background-color: rgb(252, 235, 213);
+  margin-bottom: 0;
+  padding: 0.5em;
+  color: black;
+  display: flex;
+  justify-content: center;
+}
