@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Button, CardColumns } from "react-bootstrap";
 
-const FlightDeals = (props) => {
+const HolidayPackages = (props) => {
   const { deals } = props;
   const dealList = deals.map(deal => {
     const city = deal.city;
@@ -25,4 +25,4 @@ const FlightDeals = (props) => {
   )
 };
 
-export default FlightDeals;
+export default HolidayPackages;
