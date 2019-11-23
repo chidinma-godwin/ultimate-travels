@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/home/Home';
 import Footer from './components/Footer';
-import saudi from './components/images/ritadh-saudi.jpg';
-import oman from './components/images/oman.jpg';
-import bahrain from './components/images/bahrain.jpg';
-import qatar from './components/images/doha-qatar.jpg';
-import kuvajt from './components/images/kuvajt.jpg';
-import beirut from './components/images/beirut-lebanon.jpg';
+import saudi from './images/ritadh-saudi.jpg';
+import oman from './images/oman.jpg';
+import bahrain from './images/bahrain.jpg';
+import qatar from './images/doha-qatar.jpg';
+import kuvajt from './images/kuvajt.jpg';
+import beirut from './images/beirut-lebanon.jpg';
 
 class App extends React.Component {
   constructor() {

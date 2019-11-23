@@ -9,8 +9,10 @@ const Home = (props)=> {
             <MainImage />
             <br />
             <br />
-            <h2>Flight Deals</h2>
+            <div className="container">
+            <h2 className="text-center">Flight Deals</h2>
             <FlightDeals deals={deals}/>
+            </div>
         </React.Fragment>
     )
 }

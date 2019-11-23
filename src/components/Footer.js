@@ -8,7 +8,7 @@ const Footer = () => {
     <footer id="footer">
       <Container>
         <Row>
-          <Col md>
+          <Col sm={6} lg={3}>
             <section id="contact">
               <h5>Contact us</h5>
               <p>
@@ -19,7 +19,7 @@ const Footer = () => {
               </p>
             </section>
           </Col>
-          <Col md>
+          <Col sm={6} lg={3}>
             <section>
               <h5>About us</h5>
               <p>
@@ -30,7 +30,7 @@ const Footer = () => {
               </p>
             </section>
           </Col>
-          <Col md>
+          <Col sm={6} lg={3}>
             <section>
               <h5>Our Services</h5>
               <p>
@@ -41,7 +41,7 @@ const Footer = () => {
               </p>
             </section>
           </Col>
-          <Col md>
+          <Col sm={6} lg={3}>
             <section>
               <h5>Quick links</h5>
               <p>

@@ -1,12 +1,12 @@
 import React from "react";
-import waterpark from "../images/waterpark.jpg";
-import oman from "../images/oman.jpg";
-import kuvajt from "../images/kuvajt.jpg";
+import waterpark from "../../images/waterpark.jpg";
+import oman from "../../images/oman.jpg";
+import kuvajt from "../../images/kuvajt.jpg";
 import beirutLebanon from "../images/beirut-lebanon.jpg";
-import iran from "../images/iran.jpg";
-import dohaQatar from "../images/doha-qatar.jpg";
-import bahrain from "../images/bahrain.jpg";
-import ritadhSaudi from "../images/ritadh-saudi.jpg";
+import iran from "../../images/iran.jpg";
+import dohaQatar from "../../images/doha-qatar.jpg";
+import bahrain from "../../images/bahrain.jpg";
+import ritadhSaudi from "../../images/ritadh-saudi.jpg";
 import Carousel from "react-bootstrap/Carousel";
 
 const MainImage = () => {
