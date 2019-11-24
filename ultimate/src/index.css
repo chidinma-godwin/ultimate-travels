@@ -35,3 +35,8 @@ code {
   display: flex;
   justify-content: center;
 }
+
+.show-border{
+  border: 1px solid;
+
+}
