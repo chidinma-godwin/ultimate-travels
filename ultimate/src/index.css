@@ -36,7 +36,6 @@ code {
   justify-content: center;
 }
 
-.show-border{
-  border: 1px solid;
-
+.custom-btn {
+  cursor: pointer;
 }
