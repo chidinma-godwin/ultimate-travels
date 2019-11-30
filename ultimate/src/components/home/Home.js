@@ -9,8 +9,6 @@ const Home = (props)=> {
     return(
         <React.Fragment>
             <MainImage />
-            <br />
-            <br />
             <div className="container">
             <Booking />
             <br/>

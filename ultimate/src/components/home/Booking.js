@@ -71,7 +71,6 @@ class Booking extends React.Component {
           <Card.Body>
               <Tabs defaultActiveKey="oneway" variant="pills">
                 <Tab title="One way" eventKey="oneway">
-                  <br />
                   <Container>
                     <Oneway />
                     </Container>

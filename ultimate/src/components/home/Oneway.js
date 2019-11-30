@@ -48,16 +48,22 @@ class OneWay extends React.Component {
 
   increment = evt => {
     const className = evt.target.className.split(" ")[0];
-    this.setState({
-      [className]: this.state[className] + 1
-    });
+    this.setState(prevState=> ({
+      [className]: prevState[className] + 1
+    }))
   };
 
   decrement = evt => {
     const className = evt.target.className.split(" ")[0];
-    this.setState({
-      [className]: this.state[className] - 1
-    });
+    if(className==="adults"){
+      this.setState(prevState=> ({
+        [className]: prevState[className] > 1  ? prevState[className] - 1 : 1
+      }));
+    } else{
+      this.setState(prevState=> ({
+        [className]: prevState[className] ? prevState[className] - 1 : 0
+      }));
+    }
   };
 
   render() {
@@ -123,14 +129,13 @@ class OneWay extends React.Component {
             </Table>
           </Col>
         </Row>
-        <Button>Done</Button>
+        <Button onClick={()=> document.body.click()}>Done</Button>
       </Popover>
     );
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Row>
-          <Col sm={12} md={6}>
+      <Form inline onSubmit={this.handleSubmit}>
+          <Col sm={12} md={6} lg={4}>
             <label htmlFor="from">Flying from: </label>
             <InputGroup className="mb-3">
               <InputGroup.Prepend>
@@ -152,7 +157,7 @@ class OneWay extends React.Component {
             </InputGroup>
           </Col>
 
-          <Col sm={12} md={6}>
+          <Col sm={12} md={6} lg={4}>
             <label htmlFor="destination">Flying to: </label>
             <InputGroup className="mb-3">
               <InputGroup.Prepend>
@@ -173,10 +178,8 @@ class OneWay extends React.Component {
               />
             </InputGroup>
           </Col>
-        </Row>
 
-        <Row>
-          <Col sm={12} md={6}>
+          <Col sm={12} md={6} lg={4}>
             <label htmlFor="date">Departure date: </label>
             <InputGroup className="mb-3">
               <InputGroup.Prepend>
@@ -195,7 +198,7 @@ class OneWay extends React.Component {
             </InputGroup>
           </Col>
 
-          <Col sm={12} md={6}>
+          <Col sm={12} md={6} lg={4}>
             <label htmlFor="cabin">Cabin class: </label>
             <InputGroup className="mb-3">
               <InputGroup.Prepend>
@@ -212,6 +215,7 @@ class OneWay extends React.Component {
                 onChange={this.handleChange}
                 value={this.state.cabin}
               >
+                <option>--Choose a cabin class--</option>
                 <option>Economy</option>
                 <option>Premium Economy</option>
                 <option>Business</option>
@@ -219,12 +223,12 @@ class OneWay extends React.Component {
               </FormControl>
             </InputGroup>
           </Col>
-        </Row>
 
+        <Col sm={12} md={6} lg={4}>
         <label htmlFor="passengers">No. of Passengers</label>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <InputGroup.Text id="addon4">
+            <InputGroup.Text id="addon5">
               <FontAwesomeIcon icon={["fas", "users"]} style={{ size: "lg" }} />
             </InputGroup.Text>
           </InputGroup.Prepend>
@@ -249,10 +253,13 @@ class OneWay extends React.Component {
             </OverlayTrigger>
           </ButtonToolbar>
         </InputGroup>
+        </Col>
 
+        <Col sm={12} md={6} lg={4}>
         <Button variant="primary" type="submit">
           Search flight
         </Button>
+        </Col>
       </Form>
     );
   }
