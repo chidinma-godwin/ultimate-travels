@@ -43,3 +43,7 @@ code {
 .booking-container {
   border: blue 2px;
 }
+
+#passengers {
+  width: fit-content;
+}

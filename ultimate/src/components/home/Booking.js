@@ -69,26 +69,28 @@ class Booking extends React.Component {
             </Nav> */}
           </Card.Header>
           <Card.Body>
-            <Card.Text>
               <Tabs defaultActiveKey="oneway" variant="pills">
                 <Tab title="One way" eventKey="oneway">
                   <br />
                   <Container>
                     <Oneway />
-                  </Container>
+                    </Container>
                 </Tab>
 
                 <Tab title="Round Trip" eventKey="roundtrip">
                   <br />
-                  <Container>This is for Round trip</Container>
+                  <Container>
+                  This is for Round trip
+                  </Container>
                 </Tab>
 
                 <Tab title="Multiple Destinations" eventKey="multiple">
                   <br />
-                  <Container>This is for multiple destinations</Container>
+                  <Container>
+                  This is for multiple destinations
+                  </Container>
                 </Tab>
               </Tabs>
-            </Card.Text>
 
           </Card.Body>
         </Card>
