@@ -1,13 +1,13 @@
 import React from "react";
 import Oneway from "./Oneway";
-import { Tabs, Tab, Card, Button, Container } from "react-bootstrap";
+import { Tabs, Tab, Card, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Booking extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Card>
+        <Card style={{border:"solid 2px blue"}}>
           <Card.Header>
             <Tabs variant="tabs" defaultActiveKey="flights">
               <Tab
@@ -90,7 +90,6 @@ class Booking extends React.Component {
               </Tabs>
             </Card.Text>
 
-            <Button variant="primary">Search flight</Button>
           </Card.Body>
         </Card>
       </React.Fragment>

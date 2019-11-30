@@ -10,7 +10,8 @@ const FlightDeals = ()=> {
             <Card.Body>
                 <Card.Text>
                     Price and availability period
-                    <p>Airline</p>
+                    <br/>
+                    Airline
                 </Card.Text>
                 <Button variant="primary">Book Now</Button>
             </Card.Body>

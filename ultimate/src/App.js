@@ -18,32 +18,32 @@ class App extends React.Component {
         {
           src: {saudi}, title: "Saudi", text: "Some quick example text to build on the card title and make up" +
           "the bulk of the card's content. Some quick example text to build on the card title and make up the" +
-          "bulk of the card's content.", city: "saudi"
+          "bulk of the card's content.", city: "saudi", id: 1
         },
         {
           src: {oman}, title: "oman", text: "Some quick example text to build on the card title and make up" +
           "the bulk of the card's content. Some quick example text to build on the card title and make up the" +
-          "bulk of the card's content.", city: "oman"
+          "bulk of the card's content.", city: "oman", id: 2
         },
         {
           src: {bahrain}, title: "bahrain", text: "Some quick example text to build on the card title and make up" +
           "the bulk of the card's content. Some quick example text to build on the card title and make up the" +
-          "bulk of the card's content.", city: "bahrain"
+          "bulk of the card's content.", city: "bahrain", id: 3
         },
         {
           src: {beirut}, title: "Dubai", text: "Some quick example text to build on the card title and make up" +
           "the bulk of the card's content. Some quick example text to build on the card title and make up the" +
-          "bulk of the card's content.", city: "beirut"
+          "bulk of the card's content.", city: "beirut", id: 4
         },
         {
           src: {kuvajt}, title: "Kuvayt", text: "Some quick example text to build on the card title and make up" +
           "the bulk of the card's content. Some quick example text to build on the card title and make up the" +
-          "bulk of the card's content.", city: "kuvajt"
+          "bulk of the card's content.", city: "kuvajt", id: 5
         },
         {
           src: {qatar}, title: "Qatar", text: "Some quick example text to build on the card title and make up" +
             "the bulk of the card's content. Some quick example text to build on the card title and make up the" +
-            "bulk of the card's content.", city: "qatar"
+            "bulk of the card's content.", city: "qatar", id: 6
         },
 
       ]

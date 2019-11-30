@@ -6,8 +6,8 @@ const HolidayPackages = (props) => {
   const dealList = deals.map(deal => {
     const city = deal.city;
     return (
-      <Card>
-        <Card.Img variant="top" src={deal.src[city]} fluid thumbnail/>
+      <Card key={deal.id}>
+        <Card.Img variant="top" src={deal.src[city]} fluid="true" thumbnail="true" />
         <Card.Body>
           <Card.Title>{deal.title}</Card.Title>
           <Card.Text>
