@@ -1,5 +1,6 @@
 import React from "react";
 import Oneway from "./Oneway";
+import Roundtrip from "./Roundtrip";
 import { Tabs, Tab, Card, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -71,16 +72,13 @@ class Booking extends React.Component {
           <Card.Body>
               <Tabs defaultActiveKey="oneway" variant="pills">
                 <Tab title="One way" eventKey="oneway">
-                  <Container>
+                  <br/>
                     <Oneway />
-                    </Container>
                 </Tab>
 
                 <Tab title="Round Trip" eventKey="roundtrip">
                   <br />
-                  <Container>
-                  This is for Round trip
-                  </Container>
+                    <Roundtrip />
                 </Tab>
 
                 <Tab title="Multiple Destinations" eventKey="multiple">

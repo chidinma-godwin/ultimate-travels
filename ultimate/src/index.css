@@ -40,6 +40,10 @@ body {
   border: blue 2px;
 }
 
+.form-inline label {
+  justify-content: left;
+}
+
 /* #passengers {
   width: fit-content;
 } */

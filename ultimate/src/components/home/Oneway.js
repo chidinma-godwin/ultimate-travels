@@ -3,13 +3,13 @@ import {
   InputGroup,
   FormControl,
   Form,
-  Row,
   Col,
   Popover,
+  Table,
+  Row,
   Button,
   ButtonToolbar,
   OverlayTrigger,
-  Table
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
@@ -131,8 +131,7 @@ class OneWay extends React.Component {
         </Row>
         <Button onClick={()=> document.body.click()}>Done</Button>
       </Popover>
-    );
-
+    )
     return (
       <Form inline onSubmit={this.handleSubmit}>
           <Col sm={12} md={6} lg={4}>
@@ -148,6 +147,7 @@ class OneWay extends React.Component {
               </InputGroup.Prepend>
               <FormControl
                 id="from"
+                className="form-control-sm"
                 placeholder="Enter city name or airport"
                 aria-label="city or airport"
                 aria-describedby="basic-addon1"
@@ -170,6 +170,7 @@ class OneWay extends React.Component {
               </InputGroup.Prepend>
               <FormControl
                 id="destination"
+                className="form-control-sm"
                 placeholder="Enter city name or airport"
                 aria-label="city or airpot"
                 aria-describedby="addon2"
@@ -192,6 +193,7 @@ class OneWay extends React.Component {
               </InputGroup.Prepend>
               <DatePicker
                 id="date"
+                className="form-control"
                 selected={this.state.date}
                 onChange={this.handleDateChange}
               />
@@ -211,6 +213,7 @@ class OneWay extends React.Component {
               </InputGroup.Prepend>
               <FormControl
                 id="cabin"
+                className="form-control-sm"
                 as="select"
                 onChange={this.handleChange}
                 value={this.state.cabin}
@@ -241,6 +244,7 @@ class OneWay extends React.Component {
             >
               <FormControl
                 id="passengers"
+                className="form-control-sm"
                 value={`${this.state.adults} ${
                   this.state.adults > 1 ? "adults" : "adult"
                 }, ${this.state.children} ${
