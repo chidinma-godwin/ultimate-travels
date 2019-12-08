@@ -1,0 +1,29 @@
+{
+  "name": "ultimate-travels",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chidinma-godwin/ultimate-travels.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chidinma-godwin/ultimate-travels/issues"
+  },
+  "homepage": "https://github.com/chidinma-godwin/ultimate-travels#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cors": "^2.8.5",
+    "dot-env": "0.0.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "unirest": "^0.6.0"
+  }
+}
