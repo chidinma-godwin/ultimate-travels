@@ -4,9 +4,12 @@ const {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLInt,
+  GraphQLBoolean
 } = graphql;
 const axios = require("axios");
+const qs = require('qs');
 
 // import required files
 const { rapidapi } = require("./config/keys");
@@ -20,6 +23,13 @@ const PlaceType = new GraphQLObjectType({
     RegionId: { type: GraphQLString },
     CityId: { type: GraphQLString },
     CountryName: { type: GraphQLString }
+  })
+});
+
+const CreateSessionType = new GraphQLObjectType({
+  name: "CreateSession",
+  fields: () => ({
+    _: { type: GraphQLBoolean }
   })
 });
 
@@ -50,6 +60,52 @@ const RootQuery = new GraphQLObjectType({
           .catch(error => {
             console.log(error);
           });
+      }
+    },
+    createSession: {
+      type: CreateSessionType,
+      args: {
+        cabinClass: { type: GraphQLString },
+        children: { type: GraphQLString },
+        infants: { type: GraphQLString },
+        country: { type: GraphQLString },
+        currency: { type: GraphQLString },
+        locale: { type: GraphQLString },
+        originPlace: { type: GraphQLString },
+        destinationPlace: { type: GraphQLString },
+        outboundDate: { type: GraphQLString },
+        adults: { type: GraphQLString }
+      },
+      async resolve(parentValue, args) {
+        const results = await axios({
+          method: "POST",
+          url:
+            "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/v1.0/",
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'x-rapidapi-host': rapidapi.host,
+              'x-rapidapi-key': rapidapi.secretKey
+            },
+          data: qs.stringify({
+            cabinClass: args.cabinClass,
+            children: args.children,
+            infants: args.infants,
+            country: args.country,
+            currency: args.currency,
+            locale: args.locale,
+            originPlace: args.originPlace,
+            destinationPlace: args.destinationPlace,
+            outboundDate: args.outboundDate,
+            adults: args.adults
+          })
+        })
+          .then(response => {
+            return response
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+          return results.headers.location;
       }
     }
   }

@@ -3,13 +3,13 @@ import {
   InputGroup,
   FormControl,
   Form,
-  Col,
   Popover,
   Table,
+  Col,
   Row,
   Button,
   ButtonToolbar,
-  OverlayTrigger,
+  OverlayTrigger
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
@@ -67,7 +67,7 @@ class OneWay extends React.Component {
     const className = evt.target.className.split(" ")[0];
     this.setState(prevState => ({
       [className]: prevState[className] + 1
-    }))
+    }));
   };
 
   decrement = evt => {
@@ -87,10 +87,10 @@ class OneWay extends React.Component {
     const popover = (
       <Popover style={{ width: "fitContent", padding: "1em" }}>
         <Row className="mb-2">
-          <Col xs={12} sm={6}>
+          <Form.Group as={Col} xs={12} sm={6}>
             Adults <div>(11+ yrs)</div>
-          </Col>
-          <Col xs={12} sm={6}>
+          </Form.Group>
+          <Form.Group as={Col} xs={12} sm={6}>
             <Table bordered>
               <tbody>
                 <tr>
@@ -104,13 +104,13 @@ class OneWay extends React.Component {
                 </tr>
               </tbody>
             </Table>
-          </Col>
+          </Form.Group>
         </Row>
         <Row className="mb-2">
-          <Col xs={12} sm={6}>
+          <Form.Group as={Col} xs={12} sm={6}>
             Children <div>(2-11 yrs)</div>
-          </Col>
-          <Col xs={12} sm={6}>
+          </Form.Group>
+          <Form.Group as={Col} xs={12} sm={6}>
             <Table bordered>
               <tbody>
                 <tr>
@@ -124,13 +124,13 @@ class OneWay extends React.Component {
                 </tr>
               </tbody>
             </Table>
-          </Col>
+          </Form.Group>
         </Row>
         <Row className="mb-2">
-          <Col xs={12} sm={6}>
+          <Form.Group as={Col} xs={12} sm={6}>
             Infants <div>(below 2 yrs)</div>
-          </Col>
-          <Col xs={12} sm={6}>
+          </Form.Group>
+          <Form.Group as={Col} xs={12} sm={6}>
             <Table bordered>
               <tbody>
                 <tr>
@@ -144,15 +144,15 @@ class OneWay extends React.Component {
                 </tr>
               </tbody>
             </Table>
-          </Col>
+          </Form.Group>
         </Row>
         <Button onClick={() => document.body.click()}>Done</Button>
       </Popover>
-    )
+    );
     return (
       <Form inline onSubmit={this.handleSubmit}>
-        <Col sm={12} md={6} lg={4}>
-          <label htmlFor="from">Flying from: </label>
+        <Form.Group as={Col} sm={12} md={6} lg={4}>
+          <Form.Label htmlFor="from">Flying from:</Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="basic-addon1">
@@ -174,17 +174,17 @@ class OneWay extends React.Component {
               id="from"
               className="form-control-sm"
               placeholder="Enter city name or airport"
-              aria-label="city or airport"
+              aria-Form.Label="city or airport"
               aria-describedby="basic-addon1"
               onChange={this.handleChange}
               value={this.state.from}
             /> */}
             <Autocomplete />
           </InputGroup>
-        </Col>
+        </Form.Group>
 
-        <Col sm={12} md={6} lg={4}>
-          <label htmlFor="destination">Flying to: </label>
+        <Form.Group as={Col} sm={12} md={6} lg={4}>
+          <Form.Label htmlFor="destination">Flying to: </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon2">
@@ -196,10 +196,10 @@ class OneWay extends React.Component {
             </InputGroup.Prepend>
             <Autocomplete />
           </InputGroup>
-        </Col>
+        </Form.Group>
 
-        <Col sm={12} md={6} lg={4}>
-          <label htmlFor="date">Departure date: </label>
+        <Form.Group as={Col} sm={12} md={6} lg={4}>
+          <Form.Label htmlFor="date">Departure date: </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon3">
@@ -216,10 +216,10 @@ class OneWay extends React.Component {
               onChange={this.handleDateChange}
             />
           </InputGroup>
-        </Col>
+        </Form.Group>
 
-        <Col sm={12} md={6} lg={4}>
-          <label htmlFor="cabin">Cabin class: </label>
+        <Form.Group as={Col} sm={12} md={6} lg={4}>
+          <Form.Label htmlFor="cabin">Cabin class: </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon4">
@@ -243,14 +243,17 @@ class OneWay extends React.Component {
               <option>First Class</option>
             </FormControl>
           </InputGroup>
-        </Col>
+        </Form.Group>
 
-        <Col sm={12} md={6} lg={4}>
-          <label htmlFor="passengers">No. of Passengers</label>
+        <Form.Group as={Col} sm={12} md={6} lg={4}>
+          <Form.Label htmlFor="passengers">No. of Passengers</Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon5">
-                <FontAwesomeIcon icon={["fas", "users"]} style={{ size: "lg" }} />
+                <FontAwesomeIcon
+                  icon={["fas", "users"]}
+                  style={{ size: "lg" }}
+                />
               </InputGroup.Text>
             </InputGroup.Prepend>
             <ButtonToolbar>
@@ -265,23 +268,23 @@ class OneWay extends React.Component {
                   className="form-control-sm"
                   value={`${this.state.adults} ${
                     this.state.adults > 1 ? "adults" : "adult"
-                    }, ${this.state.children} ${
+                  }, ${this.state.children} ${
                     this.state.children > 1 ? "children" : "child"
-                    }, ${this.state.infants} ${
+                  }, ${this.state.infants} ${
                     this.state.infants > 1 ? "infants" : "infant"
-                    }`}
+                  }`}
                   readOnly
                 />
               </OverlayTrigger>
             </ButtonToolbar>
           </InputGroup>
-        </Col>
+        </Form.Group>
 
-        <Col sm={12} md={6} lg={4}>
+        <Form.Group as={Col} sm={12} md={6} lg={4}>
           <Button variant="primary" type="submit">
             Search flight
-        </Button>
-        </Col>
+          </Button>
+        </Form.Group>
       </Form>
     );
   }

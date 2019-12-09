@@ -23,7 +23,7 @@ class Autoconplete extends React.Component {
               return (
                 <AsyncTypeahead
                   {...this.state}
-                  id="autocomplete"
+                  id="from"
                   labelKey="PlaceName"
                   isLoading={this.state.isLoading}
                   minLength={2}
@@ -46,6 +46,7 @@ class Autoconplete extends React.Component {
                       });
                   }}
                   placeholder="Enter city name"
+                //  ref={(ref) => this._typeahead = ref}
                   options={this.state.options}
                 ></AsyncTypeahead>
               );

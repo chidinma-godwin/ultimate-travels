@@ -93,7 +93,7 @@ const MainImage = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          style={{ maxHeight: "430px" }}
+          style={{ maxHeight: "200px" }}
           src={iran}
           alt="Dubai water park"
         />

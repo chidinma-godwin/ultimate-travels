@@ -11,15 +11,9 @@ import bahrain from './images/bahrain.jpg';
 import qatar from './images/doha-qatar.jpg';
 import kuvajt from './images/kuvajt.jpg';
 import beirut from './images/beirut-lebanon.jpg';
-import {getPlacesQuery} from './queries/queries';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql'
-})
-
-client.query({query: getPlacesQuery, variables:{search: "lond"}})
-.then(res=> {
-  console.log(res.data.places)
 })
 
 class App extends React.Component {
