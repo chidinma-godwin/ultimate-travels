@@ -15,7 +15,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 // import axios from "axios";
-import AsyncAutocomplete from "./AsyncAutocomplete";
+import Autocomplete from "./Autocomplete";
+//import AsyncAutocomplete from "./AsyncAutocomplete";
 
 class OneWay extends React.Component {
   constructor() {
@@ -178,7 +179,7 @@ class OneWay extends React.Component {
               onChange={this.handleChange}
               value={this.state.from}
             /> */}
-            <AsyncAutocomplete />
+            <Autocomplete />
           </InputGroup>
         </Col>
 
@@ -193,15 +194,7 @@ class OneWay extends React.Component {
                 />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl
-              id="destination"
-              className="form-control-sm"
-              placeholder="Enter city name or airport"
-              aria-label="city or airpot"
-              aria-describedby="addon2"
-              onChange={this.handleChange}
-              value={this.state.destination}
-            />
+            <Autocomplete />
           </InputGroup>
         </Col>
 
