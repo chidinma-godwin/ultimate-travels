@@ -13,7 +13,7 @@ import kuvajt from './images/kuvajt.jpg';
 import beirut from './images/beirut-lebanon.jpg';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql'
+  uri: 'http://localhost:5000/graphql'
 })
 
 class App extends React.Component {
