@@ -14,9 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import axios from "axios";
 import Autocomplete from "./Autocomplete";
-//import AsyncAutocomplete from "./AsyncAutocomplete";
 
 class OneWay extends React.Component {
   constructor() {
@@ -29,22 +27,11 @@ class OneWay extends React.Component {
       adults: 1,
       infants: 0,
       children: 0,
-      places: [],
-      selected: []
+     // places: [],
+      fromSelectedOption: [],
+      toSelectedOption: []
     };
   }
-
-  // componentDidMount() {
-  //   axios.get('http://localhost:4000/api/flights/lond')
-  //     .then(response => {
-  //         console.log(response.data);
-  //         this.setState({
-  //           places: response.data.map(place => place.PlaceName)
-  //       })
-  //     })
-  //     .then(()=> console.log(this.state.places))
-  //     .catch(err => console.log(err))
-  // }
 
   handleSubmit = evt => {
     evt.preventDefault();
@@ -62,6 +49,14 @@ class OneWay extends React.Component {
       date: date
     });
   };
+
+  handleFromLocationChange = (selected) => {
+   this.setState({ fromSelectedOption: selected, from: selected[0].PlaceName });
+  };
+
+  handleToLocationChange = (selected) => {
+    this.setState({ toSelectedOption: selected, destination: selected[0].PlaceName });
+   }
 
   increment = evt => {
     const className = evt.target.className.split(" ")[0];
@@ -179,7 +174,7 @@ class OneWay extends React.Component {
               onChange={this.handleChange}
               value={this.state.from}
             /> */}
-            <Autocomplete />
+            <Autocomplete handleAsyncChange={this.handleFromLocationChange}/>
           </InputGroup>
         </Form.Group>
 
@@ -194,7 +189,7 @@ class OneWay extends React.Component {
                 />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <Autocomplete />
+            <Autocomplete handleAsyncChange={this.handleToLocationChange}/>
           </InputGroup>
         </Form.Group>
 
