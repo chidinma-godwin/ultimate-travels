@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../images/logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Navbar, Nav, Container, Form, FormControl, Button } from "react-bootstrap";
 
 const Header = () => {
@@ -61,7 +61,7 @@ const Header = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-md-auto">
-                <Nav.Link href="/">Home</Nav.Link>
+                <NavLink to="/">Home</NavLink>
                 <Nav.Link href="#contact">Contact</Nav.Link>
               </Nav>
               <Form inline>
