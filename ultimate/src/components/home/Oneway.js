@@ -14,6 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Link } from 'react-router-dom';
 import Autocomplete from "./Autocomplete";
 
 class OneWay extends React.Component {
@@ -27,9 +28,9 @@ class OneWay extends React.Component {
       adults: 1,
       infants: 0,
       children: 0,
-     // places: [],
+      // places: [],
       fromSelectedOption: [],
-      toSelectedOption: []
+      toSelectedOption: [],
     };
   }
 
@@ -50,13 +51,19 @@ class OneWay extends React.Component {
     });
   };
 
-  handleFromLocationChange = (selected) => {
-   this.setState({ fromSelectedOption: selected, from: selected[0].PlaceName });
+  handleFromLocationChange = selected => {
+    this.setState({
+      fromSelectedOption: selected,
+      from: selected[0].PlaceName
+    });
   };
 
-  handleToLocationChange = (selected) => {
-    this.setState({ toSelectedOption: selected, destination: selected[0].PlaceName });
-   }
+  handleToLocationChange = selected => {
+    this.setState({
+      toSelectedOption: selected,
+      destination: selected[0].PlaceName
+    });
+  };
 
   increment = evt => {
     const className = evt.target.className.split(" ")[0];
@@ -174,7 +181,7 @@ class OneWay extends React.Component {
               onChange={this.handleChange}
               value={this.state.from}
             /> */}
-            <Autocomplete handleAsyncChange={this.handleFromLocationChange}/>
+            <Autocomplete handleAsyncChange={this.handleFromLocationChange} />
           </InputGroup>
         </Form.Group>
 
@@ -189,7 +196,7 @@ class OneWay extends React.Component {
                 />
               </InputGroup.Text>
             </InputGroup.Prepend>
-            <Autocomplete handleAsyncChange={this.handleToLocationChange}/>
+            <Autocomplete handleAsyncChange={this.handleToLocationChange} />
           </InputGroup>
         </Form.Group>
 
@@ -276,9 +283,11 @@ class OneWay extends React.Component {
         </Form.Group>
 
         <Form.Group as={Col} sm={12} md={6} lg={4}>
+          <Link to={{pathname: "/flightDetails", state: {userData: this.state}}}>
           <Button variant="primary" type="submit">
             Search flight
           </Button>
+          </Link>
         </Form.Group>
       </Form>
     );

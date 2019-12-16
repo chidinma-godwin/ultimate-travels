@@ -39,9 +39,9 @@ class Autocomplete extends React.Component {
                   />
                 )
               }
-              if(error) {
-                return "Error loading data, Please refresh the page"
-              }
+              // if(error) {
+              //   return "Error loading data, Please refresh the page"
+              // }
               
               return (
                 <AsyncTypeahead
@@ -73,8 +73,8 @@ class Autocomplete extends React.Component {
                         });
                       })
                       .catch(err => {
-                        console.log(err);
-                      });
+                        console.log(err)
+                      })
                   }}
                   placeholder="Enter city name"
                   selected={this.state.selected}
