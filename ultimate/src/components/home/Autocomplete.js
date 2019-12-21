@@ -32,7 +32,7 @@ class Autocomplete extends React.Component {
               if(loading) {
                 return (
                   <FormControl
-                    id="from"
+                   // id="from"
                     className="form-control-sm"
                     placeholder="Enter city name or airport"
                     aria-describedby="basic-addon1"

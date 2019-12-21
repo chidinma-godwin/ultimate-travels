@@ -256,13 +256,14 @@ const RootQuery = new GraphQLObjectType({
           })
         })
           .then(response => {
+            console.log(response.headers.location);
             return response;
           })
           .catch(error => {
-            console.log(error.response);
-          });
-        console.log(results.headers.location);
-        return results.headers.location;
+           console.log(error);
+          })
+
+        return results;
       }
     },
     poll: {
