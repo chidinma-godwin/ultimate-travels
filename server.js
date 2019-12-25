@@ -1,11 +1,13 @@
 // import required packages
-const express = require('express');
-const graphqlHTTP = require('express-graphql');
-const cors = require('cors');
-require('dotenv').config();
+const express = require("express");
+const { ApolloServer } = require("apollo-server-express");
+const cors = require("cors");
+require("dotenv").config();
 
 // import required files
-const schema = require('./schema');
+const typeDefs = require("./typeDefs/typeDefs");
+const resolvers = require("./resolvers/resolvers");
+//const { resolvers } = require('./schema');
 
 const app = express();
 
@@ -13,12 +15,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// graphql route
-app.use('/graphql', graphqlHTTP({
-    schema,
-    graphiql: true
-}));
+app.disable('x-powered-by');
+
+// graphql server
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req, res })=> (res.set({'Access-Control-Expose-Headers': '*'}))
+});
+server.applyMiddleware({ app });
 
 // Set the port
-const port = process.env.PORT || 5000;
-app.listen(port, console.log(`Server listening on port: ${port}`));
+const Port = process.env.PORT || 5000;
+app.listen({ port: Port }, () =>
+  console.log(
+    `Server is listening on port: http://localhost:${Port}${server.graphqlPath}`
+  )
+);
