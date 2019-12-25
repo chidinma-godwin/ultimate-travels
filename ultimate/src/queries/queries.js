@@ -1,7 +1,7 @@
-import { gql } from "apollo-boost";
+import gql from 'graphql-tag';
 
 const getPlacesQuery = gql`
-  query($search: String) {
+  query($search: String!) {
     places(search: $search) {
       PlaceId
       PlaceName

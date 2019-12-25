@@ -23,7 +23,7 @@ class OneWay extends React.Component {
     this.state = {
       from: "",
       destination: "",
-      date: Date.now(),
+      date: new Date(),
       cabin: "",
       adults: 1,
       infants: 0,

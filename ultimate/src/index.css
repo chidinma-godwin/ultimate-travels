@@ -21,6 +21,8 @@ body {
 #footer {
   background-color: rgb(24, 21, 21);
   color: antiquewhite;
+  box-sizing: border-box;
+  padding-top: 2em;
 }
 
 #bottom-nav {
