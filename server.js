@@ -15,13 +15,28 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 
 // graphql server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res })=> (res.set({'Access-Control-Expose-Headers': '*'}))
+  context: ({ req, res }) => {
+    res.set({ "Access-Control-Expose-Headers": "*" });
+  },
+  formatResponse: (response, requestContext) => {
+    const location = requestContext.context.res.location
+      ? requestContext.context.res.location
+      : "no location header";
+      response = Object.assign(response, {
+        extensions: {
+          headers: {
+            location: location
+          }
+        }
+      })
+      return response;
+  }
 });
 server.applyMiddleware({ app });
 

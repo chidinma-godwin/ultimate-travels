@@ -30,13 +30,14 @@ class ShowQuery extends React.Component {
             adults: userData.adults.toString()
           }}
         >
-          {({ loading, error, data }) => {
-            if (loading) return "loading data";
-            if (error) {
-              console.log(error);
+          {result => {
+            if (result.loading) return "loading data";
+            if (result.error) {
+              console.log(result.error);
               return "Please fill the flight form";
             }
-            console.log(data);
+            console.log(result.data);
+            console.log(result.data.extensions);
 
             return <Container>"It worked"</Container>;
           }}

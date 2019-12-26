@@ -33,7 +33,6 @@ const sessionResolver = {
         .then(response => {
           console.log(response.headers.location);
           context.res = response.headers;
-          console.log(context.res);
           return response;
         })
         .catch(error => {
