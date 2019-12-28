@@ -14,7 +14,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import qs from "qs";
+import { withRouter } from "react-router-dom";
 import Autocomplete from "./Autocomplete";
 
 class OneWay extends React.Component {
@@ -31,12 +33,46 @@ class OneWay extends React.Component {
       // places: [],
       fromSelectedOption: [],
       toSelectedOption: [],
+      sessionKey: ""
     };
   }
 
   handleSubmit = evt => {
     evt.preventDefault();
-    console.log(this.state);
+    const userInfo = qs.stringify({
+      cabinClass: this.state.cabin,
+      children: this.state.children.toString(),
+      infants: this.state.infants.toString(),
+      country: "NG",
+      currency: "NGN",
+      locale: "en-GB",
+      originPlace: this.state.fromSelectedOption[0].CityId,
+      destinationPlace: this.state.toSelectedOption[0].CityId,
+      outboundDate: this.state.date.toISOString().split("T")[0],
+      inboundDate: "2020-01-30",
+      adults: this.state.adults.toString()
+    });
+
+    axios
+      .post("http://localhost:5000/skyscanner/", userInfo, {headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+        }})
+      .then(res => {
+        console.log(res.data);
+        let key = res.data.split("/");
+        this.setState({
+          sessionKey: key[key.length - 1]
+        });
+        console.log(this.state.sessionKey);
+        const location = {
+          pathname: '/flightDetails',
+          state: { sessionKey: this.state.sessionKey }
+        };
+        this.props.history.push(location);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   handleChange = evt => {
@@ -283,15 +319,15 @@ class OneWay extends React.Component {
         </Form.Group>
 
         <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Link to={{pathname: "/flightDetails", state: {userData: this.state}}}>
+          {/* <Link to={{pathname: "/flightDetails", state: {userData: this.state}}}> */}
           <Button variant="primary" type="submit">
             Search flight
           </Button>
-          </Link>
+          {/* </Link> */}
         </Form.Group>
       </Form>
     );
   }
 }
 
-export default OneWay;
+export default withRouter(OneWay);

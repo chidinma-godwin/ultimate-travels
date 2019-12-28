@@ -4,7 +4,7 @@ import { ApolloClient } from "apollo-client";
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from "react-apollo";
-import { ApolloLink, Observable } from 'apollo-link';
+//import { ApolloLink, Observable } from 'apollo-link';
 import Header from "./components/Header";
 import Home from "./components/home/Home";
 import Footer from "./components/Footer";
@@ -16,21 +16,21 @@ import kuvajt from "./images/kuvajt.jpg";
 import beirut from "./images/beirut-lebanon.jpg";
 import ShowQuery from "./components/flightDetails/ShowQuery";
 
-const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
-  return new Observable(observer => {
-    const sub = forward(operation).subscribe({
-      next: result => {
-        result.data.extensions = ()=>　result.extensions;
-        observer.next(result)
-        console.log(result);
-      },
-      complete: observer.complete.bind(observer),
-    })
-    return () => {
-      if (sub) sub.unsubscribe()
-    }
-  })
-});
+// const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
+//   return new Observable(observer => {
+//     const sub = forward(operation).subscribe({
+//       next: result => {
+//         result.data.extensions = ()=>　result.extensions;
+//         observer.next(result)
+//         console.log(result);
+//       },
+//       complete: observer.complete.bind(observer),
+//     })
+//     return () => {
+//       if (sub) sub.unsubscribe()
+//     }
+//   })
+// });
 
 const httpLink = createHttpLink({
   uri: "http://localhost:5000/graphql",
@@ -38,7 +38,7 @@ const httpLink = createHttpLink({
 });
 
 const client = new ApolloClient({
-  link: ForwardExtensionsLink.concat(httpLink),
+  link: httpLink,
   cache: new InMemoryCache()
 });
 
