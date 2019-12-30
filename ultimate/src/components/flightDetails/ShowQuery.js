@@ -77,32 +77,73 @@ class ShowQuery extends React.Component {
               </Row>
 
               {data.flightDetails.Legs.map(flight => {
-                let imageSrc = data.flightDetails.Carriers.filter(
-                  src => src.Id == flight.Carriers[0]
+                let outbound = data.flightDetails.Itineraries.filter(
+                  Itinerary => Itinerary.OutboundLegId == flight.Id
                 );
 
-                let originPlaceCode = data.flightDetails.Places.filter(
-                  place => place.Id == flight.OriginStation
+                let inbound = data.flightDetails.Itineraries.filter(
+                  Itinerary => Itinerary.InboundLegId == flight.Id
+                );
+                console.log(outbound);
+                console.log(inbound);
+
+                let outboundImageSrc = data.flightDetails.Carriers.filter(
+                  src => {
+                    console.log(outbound);
+                    return src.Id == outbound[0].Carriers[0];
+                  }
                 );
 
-                let destinationPlaceCode = data.flightDetails.Places.filter(
-                  place => place.Id == flight.DestinationStation
+                let inboundImageSrc = data.flightDetails.Carriers.filter(
+                  src => src.Id == inbound[0].Carriers[0]
                 );
+
+                let outboundOriginPlaceCode = data.flightDetails.Places.filter(
+                  place => place.Id == outbound[0].OriginStation
+                );
+
+                let inboundOriginPlaceCode = data.flightDetails.Places.filter(
+                  place => place.Id == inbound[0].OriginStation
+                );
+
+                let outboundDestinationPlaceCode = data.flightDetails.Places.filter(
+                  place => place.Id == outbound[0].DestinationStation
+                );
+
+                let inboundDestinationPlaceCode = data.flightDetails.Places.filter(
+                  place => place.Id == inbound[0].DestinationStation
+                );
+
                 return (
                   <Row key={flight.id} className="mb-2">
                     <Col xs={2}>
                       <img
-                        src={imageSrc[0].ImageUrl}
+                        src={outboundImageSrc[0].ImageUrl}
                         style={{ maxWidth: "60px" }}
                         alt="Carrier logo"
                       />
                     </Col>
                     <Col xs={10}>
-                      {`${originPlaceCode[0].Code} ${
-                        flight.Departure.split("T")[1]
-                      } ----------------- ${destinationPlaceCode[0].Code} ${
-                        flight.Arrival.split("T")[1]
-                      }`}
+                      {`${outboundOriginPlaceCode[0].Code} ${
+                        outbound.Departure.split("T")[1]
+                      } ----------------- ${
+                        outboundDestinationPlaceCode[0].Code
+                      } ${outbound.Arrival.split("T")[1]}`}
+                    </Col>
+
+                    <Col xs={2}>
+                      <img
+                        src={inboundImageSrc[0].ImageUrl}
+                        style={{ maxWidth: "60px" }}
+                        alt="Carrier logo"
+                      />
+                    </Col>
+                    <Col xs={10}>
+                      {`${inboundOriginPlaceCode[0].Code} ${
+                        inbound.Departure.split("T")[1]
+                      } ----------------- ${
+                        inboundDestinationPlaceCode[0].Code
+                      } ${inbound.Arrival.split("T")[1]}`}
                     </Col>
                   </Row>
                 );
