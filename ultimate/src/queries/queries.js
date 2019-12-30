@@ -16,6 +16,7 @@ const getFlightDetails = gql`
       Status
       Itineraries {
         OutboundLegId
+        InboundLegId
         PricingOptions {
           Agents
           QuoteAgeInMinutes

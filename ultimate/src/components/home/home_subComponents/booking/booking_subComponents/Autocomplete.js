@@ -1,6 +1,6 @@
 import React from "react";
 import { ApolloConsumer } from "react-apollo";
-import { getPlacesQuery } from "../../queries/queries";
+import { getPlacesQuery } from "../../../../../queries/queries";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
 class Autocomplete extends React.Component {
@@ -35,7 +35,7 @@ class Autocomplete extends React.Component {
             selectHintOnEnter
             bsSize="small"
             onChange={this.onChange}
-            onSearch={ async value => {
+            onSearch={async value => {
               this.setState({ isLoading: true });
               await client
                 .query({

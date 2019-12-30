@@ -22,9 +22,10 @@ import Autocomplete from "./Autocomplete";
 class OneWay extends React.Component {
   constructor() {
     super();
+    this.userInfo = {};
     this.state = {
-      from: "",
-      destination: "",
+      from: {},
+      destination: {},
       date: new Date(),
       cabin: "",
       adults: 1,
@@ -35,11 +36,12 @@ class OneWay extends React.Component {
       toSelectedOption: [],
       sessionKey: ""
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit = evt => {
     evt.preventDefault();
-    const userInfo = qs.stringify({
+    this.userInfo = {
       cabinClass: this.state.cabin,
       children: this.state.children.toString(),
       infants: this.state.infants.toString(),
@@ -51,12 +53,14 @@ class OneWay extends React.Component {
       outboundDate: this.state.date.toISOString().split("T")[0],
       inboundDate: "2020-01-30",
       adults: this.state.adults.toString()
-    });
+    };
 
     axios
-      .post("http://localhost:5000/skyscanner/", userInfo, {headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-        }})
+      .post("http://localhost:5000/skyscanner/", qs.stringify(this.userInfo), {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
       .then(res => {
         console.log(res.data);
         let key = res.data.split("/");
@@ -65,9 +69,16 @@ class OneWay extends React.Component {
         });
         console.log(this.state.sessionKey);
         const location = {
-          pathname: '/flightDetails',
-          state: { sessionKey: this.state.sessionKey }
+          pathname: "/flightDetails",
+          state: {
+            sessionKey: this.state.sessionKey,
+            from: this.state.from,
+            userInfo: this.userInfo,
+            to: this.state.destination
+          }
         };
+        console.log(this.userInfo);
+        console.log(location.state);
         this.props.history.push(location);
       })
       .catch(error => {
@@ -90,14 +101,14 @@ class OneWay extends React.Component {
   handleFromLocationChange = selected => {
     this.setState({
       fromSelectedOption: selected,
-      from: selected[0].PlaceName
+      from: selected[0]
     });
   };
 
   handleToLocationChange = selected => {
     this.setState({
       toSelectedOption: selected,
-      destination: selected[0].PlaceName
+      destination: selected[0]
     });
   };
 
@@ -190,7 +201,9 @@ class OneWay extends React.Component {
     return (
       <Form inline onSubmit={this.handleSubmit}>
         <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="from">Flying from:</Form.Label>
+          <Form.Label htmlFor="from" className="mr-1">
+            Flying from:
+          </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="basic-addon1">
@@ -222,7 +235,9 @@ class OneWay extends React.Component {
         </Form.Group>
 
         <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="destination">Flying to: </Form.Label>
+          <Form.Label htmlFor="destination" className="mr-1">
+            Flying to:{" "}
+          </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon2">
@@ -237,7 +252,9 @@ class OneWay extends React.Component {
         </Form.Group>
 
         <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="date">Departure date: </Form.Label>
+          <Form.Label htmlFor="date" className="mr-1">
+            Departure date:{" "}
+          </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon3">
@@ -257,7 +274,9 @@ class OneWay extends React.Component {
         </Form.Group>
 
         <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="cabin">Cabin class: </Form.Label>
+          <Form.Label htmlFor="cabin" className="mr-1">
+            Cabin class:{" "}
+          </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon4">
@@ -284,7 +303,9 @@ class OneWay extends React.Component {
         </Form.Group>
 
         <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="passengers">No. of Passengers</Form.Label>
+          <Form.Label htmlFor="passengers" className="mr-1">
+            No. of Passengers
+          </Form.Label>
           <InputGroup className="mb-3">
             <InputGroup.Prepend>
               <InputGroup.Text id="addon5">

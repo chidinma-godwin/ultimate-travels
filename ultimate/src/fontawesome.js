@@ -10,7 +10,8 @@ import {
   faPlaneArrival,
   faCalendarAlt,
   faChair,
-  faUsers
+  faUsers,
+  faExchangeAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
 
@@ -25,5 +26,6 @@ library.add(
   faPlaneArrival,
   faCalendarAlt,
   faChair,
-  faUsers
+  faUsers,
+  faExchangeAlt
 );

@@ -27,6 +27,7 @@ const flights = gql`
     OriginPlace: String
     DestinationPlace: String
     OutboundDate: String
+    InboundDate: String
     LocationSchema: String
     CabinClass: String
     GroupPricing: Boolean
@@ -34,6 +35,7 @@ const flights = gql`
 
   type ItinarariesType {
     OutboundLegId: String
+    InboundLegId: String
     PricingOptions: [PricingType]
     BookingDetailsLink: BookingDetailsType
   }
