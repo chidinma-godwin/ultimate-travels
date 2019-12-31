@@ -76,76 +76,124 @@ class ShowQuery extends React.Component {
                 </Col>
               </Row>
 
-              {data.flightDetails.Legs.map(flight => {
-                let outbound = data.flightDetails.Itineraries.filter(
-                  Itinerary => Itinerary.OutboundLegId == flight.Id
+              {data.flightDetails.Itineraries.map(itinerary => {
+                let outbound = data.flightDetails.Legs.filter(
+                  leg => itinerary.OutboundLegId == leg.Id
                 );
 
-                let inbound = data.flightDetails.Itineraries.filter(
-                  Itinerary => Itinerary.InboundLegId == flight.Id
+                let inbound = data.flightDetails.Legs.filter(
+                  leg => itinerary.InboundLegId == leg.Id
                 );
-                console.log(outbound);
-                console.log(inbound);
+
+                let outboundImageId,
+                  outboundDeparture,
+                  outboundArrival,
+                  outboundOriginPlaceId,
+                  outboundDestinationPlaceId;
+                if (outbound[0].Id == itinerary.OutboundLegId) {
+                  outboundImageId = outbound[0].Carriers[0];
+                  outboundDeparture = outbound[0].Departure;
+                  outboundArrival = outbound[0].Arrival;
+                  outboundOriginPlaceId = outbound[0].OriginStation;
+                  outboundDestinationPlaceId = outbound[0].DestinationStation;
+                }
 
                 let outboundImageSrc = data.flightDetails.Carriers.filter(
-                  src => {
-                    console.log(outbound);
-                    return src.Id == outbound[0].Carriers[0];
-                  }
+                  src => src.Id == outboundImageId
                 );
 
+                let inboundImageId,
+                  inboundDeparture,
+                  inboundArrival,
+                  inboundOriginPlaceId,
+                  inboundDestinationPlaceId;
+                if (inbound[0].Id == itinerary.InboundLegId) {
+                  inboundImageId = inbound[0].Carriers[0];
+                  inboundDeparture = inbound[0].Departure;
+                  inboundArrival = inbound[0].Arrival;
+                  inboundOriginPlaceId = inbound[0].OriginStation;
+                  inboundDestinationPlaceId = inbound[0].DestinationStation;
+                }
+
                 let inboundImageSrc = data.flightDetails.Carriers.filter(
-                  src => src.Id == inbound[0].Carriers[0]
+                  src => src.Id == inboundImageId
                 );
 
                 let outboundOriginPlaceCode = data.flightDetails.Places.filter(
-                  place => place.Id == outbound[0].OriginStation
+                  place => place.Id == outboundOriginPlaceId
                 );
 
                 let inboundOriginPlaceCode = data.flightDetails.Places.filter(
-                  place => place.Id == inbound[0].OriginStation
+                  place => place.Id == inboundOriginPlaceId
                 );
 
                 let outboundDestinationPlaceCode = data.flightDetails.Places.filter(
-                  place => place.Id == outbound[0].DestinationStation
+                  place => place.Id == outboundDestinationPlaceId
                 );
 
                 let inboundDestinationPlaceCode = data.flightDetails.Places.filter(
-                  place => place.Id == inbound[0].DestinationStation
+                  place => place.Id == inboundDestinationPlaceId
                 );
 
-                return (
-                  <Row key={flight.id} className="mb-2">
-                    <Col xs={2}>
-                      <img
-                        src={outboundImageSrc[0].ImageUrl}
-                        style={{ maxWidth: "60px" }}
-                        alt="Carrier logo"
-                      />
-                    </Col>
-                    <Col xs={10}>
-                      {`${outboundOriginPlaceCode[0].Code} ${
-                        outbound.Departure.split("T")[1]
-                      } ----------------- ${
-                        outboundDestinationPlaceCode[0].Code
-                      } ${outbound.Arrival.split("T")[1]}`}
-                    </Col>
+                let prices = itinerary.PricingOptions.map(price => price.Price);
 
-                    <Col xs={2}>
-                      <img
-                        src={inboundImageSrc[0].ImageUrl}
-                        style={{ maxWidth: "60px" }}
-                        alt="Carrier logo"
-                      />
-                    </Col>
-                    <Col xs={10}>
-                      {`${inboundOriginPlaceCode[0].Code} ${
-                        inbound.Departure.split("T")[1]
-                      } ----------------- ${
-                        inboundDestinationPlaceCode[0].Code
-                      } ${inbound.Arrival.split("T")[1]}`}
-                    </Col>
-                  </Row>
+                return (
+                  <Card key={itinerary.OutboundLegId}>
+                    <Card.Body>
+                      <Row className="mb-2">
+                        <Col xs={2}>
+                          <img
+                            src={outboundImageSrc[0].ImageUrl}
+                            style={{ maxWidth: "60px" }}
+                            alt="Carrier logo"
+                          />
+                        </Col>
+                        <Col xs={7}>
+                          {`${outboundOriginPlaceCode[0].Code} ${
+                            outboundDeparture.split("T")[1]
+                          } ----------------- ${
+                            outboundDestinationPlaceCode[0].Code
+                          } ${outboundArrival.split("T")[1]}`}
+                        </Col>
+
+                        <Col xs={3}>
+                          {`${prices.length} ${
+                            prices.length > 1 ? "deals" : "deal"
+                          } from`}
+                          <div>
+                            <span>&#8358;</span>
+                            {`${Math.min(...prices)}`}
+                          </div>
+
+                          <div>
+                            <Button>
+                              <a
+                                href={itinerary.PricingOptions[0].DeeplinkUrl}
+                                style={{ color: "white" }}
+                              >
+                                Select
+                              </a>
+                            </Button>
+                          </div>
+                        </Col>
+
+                        <Col xs={2}>
+                          <img
+                            src={inboundImageSrc[0].ImageUrl}
+                            style={{ maxWidth: "60px" }}
+                            alt="Carrier logo"
+                          />
+                        </Col>
+                        <Col xs={7}>
+                          {`${inboundOriginPlaceCode[0].Code} ${
+                            inboundDeparture.split("T")[1]
+                          } ----------------- ${
+                            inboundDestinationPlaceCode[0].Code
+                          } ${inboundArrival.split("T")[1]}`}
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
                 );
               })}
             </Container>
