@@ -11,7 +11,8 @@ import {
   faCalendarAlt,
   faChair,
   faUsers,
-  faExchangeAlt
+  faExchangeAlt,
+  faSortDown
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
 
@@ -27,5 +28,6 @@ library.add(
   faCalendarAlt,
   faChair,
   faUsers,
-  faExchangeAlt
+  faExchangeAlt,
+  faSortDown
 );

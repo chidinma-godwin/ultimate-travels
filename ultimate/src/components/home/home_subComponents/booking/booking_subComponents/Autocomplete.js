@@ -29,7 +29,9 @@ class Autocomplete extends React.Component {
           <AsyncTypeahead
             {...this.state}
             id="from"
-            labelKey="PlaceName" //{option=> `${option.PlaceName} ${option.CityId}`}
+            labelKey={option =>
+              `${option.PlaceName} ${option.PlaceId.split("-")[0]}`
+            }
             isLoading={this.state.isLoading}
             minLength={2}
             selectHintOnEnter
@@ -47,7 +49,7 @@ class Autocomplete extends React.Component {
                     isLoading: false,
                     options: res.data.places.push({
                       PlaceId: "MUR-sky",
-                      PlaceName: "Murtala Mohammed Int'l airport, Lagos",
+                      PlaceName: "Murtala Mohammed Int'l airport, Lagos (LOS)",
                       CityId: "LOSA-sky"
                     })
                       ? res.data.places

@@ -2,7 +2,29 @@ const { gql } = require("apollo-server-express");
 
 const flights = gql`
   extend type Query {
-    flightDetails(sessionKey: String!): PollResultType
+    flightDetails(
+      sessionKey: String!
+      sortType: String
+      sortOrder: String
+      duration: Int
+      includeCarriers: String
+      excludeCarriers: String
+      originAirports: String
+      destinationAirports: String
+      stops: String
+      outboundDepartTime: String
+      outboundDepartStartTime: String
+      outboundDepartEndTime: String
+      outboundArriveStartTime: String
+      outboundArriveEndTime: String
+      inboundDepartTime: String
+      inboundDepartStartTime: String
+      inboundDepartEndTime: String
+      inboundArriveStartTime: String
+      inboundArriveEndTime: String
+      pageIndex: String
+      pageSize: String
+    ): PollResultType
   }
 
   type PollResultType {

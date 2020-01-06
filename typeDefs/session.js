@@ -13,6 +13,7 @@ const session = gql`
       destinationPlace: String!
       outboundDate: String!
       adults: String!
+      groupPricing: Boolean
     ): NullType
   }
 

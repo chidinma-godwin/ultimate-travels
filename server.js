@@ -8,7 +8,7 @@ require("dotenv").config();
 // import required files
 const typeDefs = require("./typeDefs/typeDefs");
 const resolvers = require("./resolvers/resolvers");
-const sessionRoutes = require('./session');
+const sessionRoutes = require("./session");
 //const { resolvers } = require('./schema');
 
 const app = express();
@@ -21,16 +21,12 @@ app.use(express.json());
 
 app.disable("x-powered-by");
 
-app.use('/skyscanner', sessionRoutes);
-
-app.get('/hello', (req,res)=> {
-  res.send('hello world')
-})
+app.use("/skyscanner", sessionRoutes);
 
 // graphql server
 const server = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers
   // context: ({ req, res }) => {
   //   res.set({ "Access-Control-Expose-Headers": "*" });
   // },

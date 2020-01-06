@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  InputGroup,
   FormControl,
   Form,
   Popover,
@@ -11,7 +10,6 @@ import {
   ButtonToolbar,
   OverlayTrigger
 } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -23,18 +21,19 @@ class OneWay extends React.Component {
   constructor() {
     super();
     this.userInfo = {};
+    this.sessionKey = "";
     this.state = {
       from: {},
       destination: {},
       date: new Date(),
-      cabin: "",
+      returnDate: new Date(),
+      cabin: "Economy",
       adults: 1,
       infants: 0,
       children: 0,
       // places: [],
       fromSelectedOption: [],
-      toSelectedOption: [],
-      sessionKey: ""
+      toSelectedOption: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -51,8 +50,9 @@ class OneWay extends React.Component {
       originPlace: this.state.fromSelectedOption[0].CityId,
       destinationPlace: this.state.toSelectedOption[0].CityId,
       outboundDate: this.state.date.toISOString().split("T")[0],
-      inboundDate: "2020-01-30",
-      adults: this.state.adults.toString()
+      inboundDate: this.state.returnDate.toISOString().split("T")[0],
+      adults: this.state.adults.toString(),
+      groupPricing: true
     };
 
     axios
@@ -64,14 +64,12 @@ class OneWay extends React.Component {
       .then(res => {
         console.log(res.data);
         let key = res.data.split("/");
-        this.setState({
-          sessionKey: key[key.length - 1]
-        });
-        console.log(this.state.sessionKey);
+        this.sessionKey = key[key.length - 1];
+        console.log(this.sessionKey);
         const location = {
           pathname: "/flightDetails",
           state: {
-            sessionKey: this.state.sessionKey,
+            sessionKey: this.sessionKey,
             from: this.state.from,
             userInfo: this.userInfo,
             to: this.state.destination
@@ -95,6 +93,12 @@ class OneWay extends React.Component {
   handleDateChange = date => {
     this.setState({
       date: date
+    });
+  };
+
+  handleReturnDateChange = returnDate => {
+    this.setState({
+      returnDate: returnDate
     });
   };
 
@@ -133,8 +137,30 @@ class OneWay extends React.Component {
   };
 
   render() {
+    let travellers =
+      this.state.adults + this.state.children + this.state.infants;
     const popover = (
       <Popover style={{ width: "fitContent", padding: "1em" }}>
+        <Row className="mb-2">
+          <Col>
+            <Form.Label controlId="cabin" className="mr-1">
+              Cabin class:
+            </Form.Label>
+            <FormControl
+              id="cabin"
+              className="form-control-sm"
+              as="select"
+              onChange={this.handleChange}
+              value={this.state.cabin}
+            >
+              <option>--Choose a cabin class--</option>
+              <option>Economy</option>
+              <option>Premium Economy</option>
+              <option>Business</option>
+              <option>First Class</option>
+            </FormControl>
+          </Col>
+        </Row>
         <Row className="mb-2">
           <Form.Group as={Col} xs={12} sm={6}>
             Adults <div>(11+ yrs)</div>
@@ -199,20 +225,12 @@ class OneWay extends React.Component {
       </Popover>
     );
     return (
-      <Form inline onSubmit={this.handleSubmit}>
-        <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="from" className="mr-1">
-            Flying from:
-          </Form.Label>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="basic-addon1">
-                <FontAwesomeIcon
-                  icon={["fas", "plane-departure"]}
-                  style={{ size: "lg" }}
-                />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Row>
+          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
+            <Form.Label controlId="from" className="mr-1">
+              Flying from
+            </Form.Label>
             {/* <Typeahead
             id="fillCity"
               onChange={(selected) => {
@@ -231,90 +249,43 @@ class OneWay extends React.Component {
               value={this.state.from}
             /> */}
             <Autocomplete handleAsyncChange={this.handleFromLocationChange} />
-          </InputGroup>
-        </Form.Group>
+          </Col>
 
-        <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="destination" className="mr-1">
-            Flying to:{" "}
-          </Form.Label>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="addon2">
-                <FontAwesomeIcon
-                  icon={["fas", "plane-arrival"]}
-                  style={{ size: "lg" }}
-                />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
+          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
+            <Form.Label controlId="destination" className="mr-1">
+              Flying to
+            </Form.Label>
             <Autocomplete handleAsyncChange={this.handleToLocationChange} />
-          </InputGroup>
-        </Form.Group>
+          </Col>
 
-        <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="date" className="mr-1">
-            Departure date:{" "}
-          </Form.Label>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="addon3">
-                <FontAwesomeIcon
-                  icon={["fas", "calendar-alt"]}
-                  style={{ size: "lg" }}
-                />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
+          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
+            <Form.Label controlId="date" className="mr-1">
+              Depart
+            </Form.Label>
             <DatePicker
               id="date"
               className="form-control"
               selected={this.state.date}
               onChange={this.handleDateChange}
             />
-          </InputGroup>
-        </Form.Group>
+          </Col>
 
-        <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="cabin" className="mr-1">
-            Cabin class:{" "}
-          </Form.Label>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="addon4">
-                <FontAwesomeIcon
-                  icon={["fas", "chair"]}
-                  style={{ size: "lg" }}
-                />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              id="cabin"
-              className="form-control-sm"
-              as="select"
-              onChange={this.handleChange}
-              value={this.state.cabin}
-            >
-              <option>--Choose a cabin class--</option>
-              <option>Economy</option>
-              <option>Premium Economy</option>
-              <option>Business</option>
-              <option>First Class</option>
-            </FormControl>
-          </InputGroup>
-        </Form.Group>
+          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
+            <Form.Label controlId="date" className="mr-1">
+              Return
+            </Form.Label>
+            <DatePicker
+              id="returnDate"
+              className="form-control"
+              selected={this.state.returnDate}
+              onChange={this.handleReturnDateChange}
+            />
+          </Col>
 
-        <Form.Group as={Col} sm={12} md={6} lg={4}>
-          <Form.Label htmlFor="passengers" className="mr-1">
-            No. of Passengers
-          </Form.Label>
-          <InputGroup className="mb-3">
-            <InputGroup.Prepend>
-              <InputGroup.Text id="addon5">
-                <FontAwesomeIcon
-                  icon={["fas", "users"]}
-                  style={{ size: "lg" }}
-                />
-              </InputGroup.Text>
-            </InputGroup.Prepend>
+          <Col xs={12} sm={6} md={5} lg={2} className="mb-2">
+            <Form.Label controlId="passengers" className="mr-1">
+              Cabin class & Passengers
+            </Form.Label>
             <ButtonToolbar>
               <OverlayTrigger
                 trigger="click"
@@ -325,27 +296,28 @@ class OneWay extends React.Component {
                 <FormControl
                   id="passengers"
                   className="form-control-sm"
-                  value={`${this.state.adults} ${
-                    this.state.adults > 1 ? "adults" : "adult"
-                  }, ${this.state.children} ${
-                    this.state.children > 1 ? "children" : "child"
-                  }, ${this.state.infants} ${
-                    this.state.infants > 1 ? "infants" : "infant"
-                  }`}
+                  value={`${travellers} ${
+                    (travellers === 1) & (this.state.adults === 1)
+                      ? "adult"
+                      : "travellers"
+                  }, ${this.state.cabin}`}
                   readOnly
                 />
               </OverlayTrigger>
             </ButtonToolbar>
-          </InputGroup>
-        </Form.Group>
+          </Col>
 
-        <Form.Group as={Col} sm={12} md={6} lg={4}>
-          {/* <Link to={{pathname: "/flightDetails", state: {userData: this.state}}}> */}
-          <Button variant="primary" type="submit">
-            Search flight
-          </Button>
-          {/* </Link> */}
-        </Form.Group>
+          <Col xs={12} sm={6} md={3} lg={2}>
+            {/* <Link to={{pathname: "/flightDetails", state: {userData: this.state}}}> */}
+            <Form.Label controlId="date" className="mr-1"></Form.Label>
+            <div style={{ width: "fit-content" }}>
+              <Button variant="primary" type="submit">
+                Search flight
+              </Button>
+              {/* </Link> */}
+            </div>
+          </Col>
+        </Form.Row>
       </Form>
     );
   }

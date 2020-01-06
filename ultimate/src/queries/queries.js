@@ -11,8 +11,52 @@ const getPlacesQuery = gql`
 `;
 
 const getFlightDetails = gql`
-  query($sessionKey: String!) {
-    flightDetails(sessionKey: $sessionKey) {
+  query(
+    $sessionKey: String!
+    $sortType: String
+    $sortOrder: String
+    $duration: Int
+    $includeCarriers: String
+    $excludeCarriers: String
+    $originAirports: String
+    $destinationAirports: String
+    $stops: String
+    $outboundDepartTime: String
+    $outboundDepartStartTime: String
+    $outboundDepartEndTime: String
+    $outboundArriveStartTime: String
+    $outboundArriveEndTime: String
+    $inboundDepartTime: String
+    $inboundDepartStartTime: String
+    $inboundDepartEndTime: String
+    $inboundArriveStartTime: String
+    $inboundArriveEndTime: String
+    $pageIndex: String
+    $pageSize: String
+  ) {
+    flightDetails(
+      sessionKey: $sessionKey
+      sortType: $sortType
+      sortOrder: $sortOrder
+      duration: $duration
+      includeCarriers: $includeCarriers
+      excludeCarriers: $excludeCarriers
+      originAirports: $originAirports
+      destinationAirports: $destinationAirports
+      stops: $stops
+      outboundDepartTime: $outboundDepartTime
+      outboundDepartStartTime: $outboundDepartStartTime
+      outboundDepartEndTime: $outboundDepartEndTime
+      outboundArriveStartTime: $outboundArriveStartTime
+      outboundArriveEndTime: $outboundArriveEndTime
+      inboundDepartTime: $inboundDepartTime
+      inboundDepartStartTime: $inboundDepartStartTime
+      inboundDepartEndTime: $inboundDepartEndTime
+      inboundArriveStartTime: $inboundArriveStartTime
+      inboundArriveEndTime: $inboundArriveEndTime
+      pageIndex: $pageIndex
+      pageSize: $pageSize
+    ) {
       Status
       Itineraries {
         OutboundLegId

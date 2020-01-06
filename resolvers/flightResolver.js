@@ -16,8 +16,28 @@ const flightResolver = {
           "x-rapidapi-key": rapidapi.secretKey
         },
         params: {
-          pageIndex: "0",
-          pageSize: "10"
+          pageIndex: "1",
+          pageSize: "10",
+          sortType: args.sortType,
+          sortOrder: "asc",
+          duration: args.duration,
+          includeCarriers: args.includeCarriers,
+          excludeCarriers: args.excludeCarriers,
+          originAirports: args.originAirports,
+          destinationAirports: args.destinationAirports,
+          stops: args.stops,
+          outboundDepartTime: args.outboundDepartTime,
+          outboundDepartStartTime: args.outboundDepartStartTime,
+          outboundDepartEndTime: args.outboundDepartEndTime,
+          outboundArriveStartTime: args.outboundArriveStartTime,
+          outboundArriveEndTime: args.outboundArriveEndTime,
+          inboundDepartTime: args.inboundDepartTime,
+          inboundDepartStartTime: args.inboundDepartStartTime,
+          inboundDepartEndTime: args.inboundDepartEndTime,
+          inboundArriveStartTime: args.inboundArriveStartTime,
+          inboundArriveEndTime: args.inboundArriveEndTime,
+          pageIndex: args.pageIndex,
+          pageSize: args.pageSize
         }
       })
         .then(response => {

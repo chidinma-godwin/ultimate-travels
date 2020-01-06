@@ -14,7 +14,8 @@ router.post("/", (req, res) => {
     originPlace,
     destinationPlace,
     outboundDate,
-    adults
+    adults,
+    groupPricing
   } = req.body;
   axios
     .post(
@@ -30,7 +31,8 @@ router.post("/", (req, res) => {
         originPlace,
         destinationPlace,
         outboundDate,
-        adults
+        adults,
+        groupPricing
       }),
       {
         headers: {
@@ -56,18 +58,18 @@ router.post("/", (req, res) => {
         console.log(error.response.data);
         console.log(error.response.status);
         console.log(error.response.headers);
-    } else if (error.request) {
+      } else if (error.request) {
         /*
          * The request was made but no response was received, `error.request`
          * is an instance of XMLHttpRequest in the browser and an instance
          * of http.ClientRequest in Node.js
          */
         console.log(error.request);
-    } else {
+      } else {
         // Something happened in setting up the request and triggered an Error
-        console.log('Error', error.message);
-    }
-    console.log(error.config);
+        console.log("Error", error.message);
+      }
+      console.log(error.config);
       //res.send(error.request);
     });
 });

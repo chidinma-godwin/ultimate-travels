@@ -1,9 +1,8 @@
 body {
   margin: 0;
   background-color: rgb(240, 245, 247);
-  font-family: "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
@@ -12,7 +11,7 @@ body {
 .top-nav {
   background-color: rgb(252, 235, 213);
   padding: 0.5em;
-} 
+}
 
 .main-nav {
   background-color: rgb(123, 123, 204);
@@ -45,6 +44,27 @@ body {
 .form-inline label {
   justify-content: left;
 }
+
+.filter-btn:hover,
+.filter-btn:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+.noUi-target {
+  margin: 2em;
+}
+
+/* .dropdown-toggle {
+  width: 20em;
+  background-color: #fff;
+  color: black;
+  padding-left: 1em;
+}
+
+.dropdown {
+  padding: 0;
+} */
 
 /* #passengers {
   width: fit-content;
