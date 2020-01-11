@@ -2,6 +2,7 @@ import React from "react";
 import { ApolloConsumer } from "react-apollo";
 import { getPlacesQuery } from "../../../../../queries/queries";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Autocomplete extends React.Component {
   constructor() {
@@ -29,9 +30,7 @@ class Autocomplete extends React.Component {
           <AsyncTypeahead
             {...this.state}
             id="from"
-            labelKey={option =>
-              `${option.PlaceName} ${option.PlaceId.split("-")[0]}`
-            }
+            labelKey={option => `${option.name} (${option.iataCode})`}
             isLoading={this.state.isLoading}
             minLength={2}
             selectHintOnEnter
@@ -42,18 +41,20 @@ class Autocomplete extends React.Component {
               await client
                 .query({
                   query: getPlacesQuery,
-                  variables: { search: value }
+                  variables: { keyword: value }
                 })
                 .then(res => {
+                  console.log(res.data);
                   this.setState({
                     isLoading: false,
-                    options: res.data.places.push({
-                      PlaceId: "MUR-sky",
-                      PlaceName: "Murtala Mohammed Int'l airport, Lagos (LOS)",
-                      CityId: "LOSA-sky"
-                    })
-                      ? res.data.places
-                      : []
+                    options: res.data.places
+                    // options: res.data.places.push({
+                    //   PlaceId: "MUR-sky",
+                    //   PlaceName: "Murtala Mohammed Int'l airport, Lagos (LOS)",
+                    //   CityId: "LOSA-sky"
+                    // })
+                    //   ? res.data.places
+                    //   : []
                   });
                 })
                 .catch(err => {

@@ -1,140 +1,78 @@
 import gql from "graphql-tag";
 
 const getPlacesQuery = gql`
-  query($search: String!) {
-    places(search: $search) {
-      PlaceId
-      PlaceName
-      CityId
+  query($keyword: String!) {
+    places(keyword: $keyword) {
+      subType
+      name
+      id
+      iataCode
+      address {
+        cityName
+        countryName
+      }
     }
   }
 `;
 
 const getFlightDetails = gql`
   query(
-    $sessionKey: String!
-    $sortType: String
-    $sortOrder: String
-    $duration: Int
-    $includeCarriers: String
-    $excludeCarriers: String
-    $originAirports: String
-    $destinationAirports: String
-    $stops: String
-    $outboundDepartTime: String
-    $outboundDepartStartTime: String
-    $outboundDepartEndTime: String
-    $outboundArriveStartTime: String
-    $outboundArriveEndTime: String
-    $inboundDepartTime: String
-    $inboundDepartStartTime: String
-    $inboundDepartEndTime: String
-    $inboundArriveStartTime: String
-    $inboundArriveEndTime: String
-    $pageIndex: String
-    $pageSize: String
+    $originLocationCode: String
+    $destinationLocationCode: String
+    $departureDate: String
+    $returnDate: String
+    $adults: Int
+    $children: Int
+    $infants: Int
+    $travelClass: String
+    $includeAirlineCodes: String
+    $excludeAirlineCodes: String
+    $nonStop: String
+    $currencyCode: String
+    $max: Int
   ) {
     flightDetails(
-      sessionKey: $sessionKey
-      sortType: $sortType
-      sortOrder: $sortOrder
-      duration: $duration
-      includeCarriers: $includeCarriers
-      excludeCarriers: $excludeCarriers
-      originAirports: $originAirports
-      destinationAirports: $destinationAirports
-      stops: $stops
-      outboundDepartTime: $outboundDepartTime
-      outboundDepartStartTime: $outboundDepartStartTime
-      outboundDepartEndTime: $outboundDepartEndTime
-      outboundArriveStartTime: $outboundArriveStartTime
-      outboundArriveEndTime: $outboundArriveEndTime
-      inboundDepartTime: $inboundDepartTime
-      inboundDepartStartTime: $inboundDepartStartTime
-      inboundDepartEndTime: $inboundDepartEndTime
-      inboundArriveStartTime: $inboundArriveStartTime
-      inboundArriveEndTime: $inboundArriveEndTime
-      pageIndex: $pageIndex
-      pageSize: $pageSize
+      originLocationCode: $originLocationCode
+      destinationLocationCode: $destinationLocationCode
+      departureDate: $departureDate
+      returnDate: $returnDate
+      adults: $adults
+      children: $children
+      infants: $infants
+      travelClass: $travelClass
+      includeAirlineCodes: $includeAirlineCodes
+      excludeAirlineCodes: $excludeAirlineCodes
+      nonStop: $nonStop
+      currencyCode: $currencyCode
+      max: $max
     ) {
-      Status
-      Itineraries {
-        OutboundLegId
-        InboundLegId
-        PricingOptions {
-          Agents
-          QuoteAgeInMinutes
-          Price
-          DeeplinkUrl
+      data {
+        id
+        instantTicketingRequired
+        lastTicketingDate
+        numberOfBookableSeats
+        itineraries {
+          duration
+          segments {
+            departure {
+              iataCode
+              at
+            }
+            arrival {
+              iataCode
+              at
+            }
+            id
+            numberOfStops
+            carrierCode
+          }
         }
-        BookingDetailsLink {
-          Uri
-          Body
-          Method
-        }
-      }
-      Legs {
-        Id
-        SegmentIds
-        OriginStation
-        DestinationStation
-        Departure
-        Arrival
-        Duration
-        JourneyMode
-        Stops
-        Carriers
-        OperatingCarriers
-        Directionality
-        FlightNumbers {
-          FlightNumber
-          CarrierId
+        price {
+          total
         }
       }
-      Segments {
-        Id
-        OriginStation
-        DestinationStation
-        DepartureDateTime
-        ArrivalDateTime
-        Carrier
-        OperatingCarrier
-        Duration
-        FlightNumber
-        JourneyMode
-        Directionality
-      }
-      Carriers {
-        Id
-        Code
-        Name
-        ImageUrl
-        DisplayCode
-      }
-      Agents {
-        Id
-        Name
-        ImageUrl
-        Status
-        OptimisedForMobile
-        Type
-      }
-      Places {
-        Id
-        ParentId
-        Code
-        Type
-        Name
-      }
-      Currencies {
-        Code
-        Symbol
-        ThousandsSeparator
-        DecimalSeparator
-        SymbolOnLeft
-        SpaceBetweenAmountAndSymbol
-        RoundingCoefficient
-        DecimalDigits
+      dictionaries {
+        carriers
       }
     }
   }

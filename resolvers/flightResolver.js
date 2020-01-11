@@ -2,49 +2,43 @@
 const axios = require("axios");
 
 // import required files
-const { rapidapi } = require("../config/keys");
+const getToken = require("../amadeusToken");
 
 const flightResolver = {
   Query: {
-    flightDetails: (roots, args, context, info) => {
+    flightDetails: async (roots, args, context, info) => {
+      let token = await getToken();
       return axios({
         method: "GET",
-        url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/pricing/uk2/v1.0/%7B${args.sessionKey}%7D`,
+        url: "https://test.api.amadeus.com/v2/shopping/flight-offers",
         headers: {
-          "content-type": "application/octet-stream",
-          "x-rapidapi-host": rapidapi.host,
-          "x-rapidapi-key": rapidapi.secretKey
+          Authorization: `Bearer ${token}`
         },
         params: {
-          pageIndex: "1",
-          pageSize: "10",
-          sortType: args.sortType,
-          sortOrder: "asc",
-          duration: args.duration,
-          includeCarriers: args.includeCarriers,
-          excludeCarriers: args.excludeCarriers,
-          originAirports: args.originAirports,
-          destinationAirports: args.destinationAirports,
-          stops: args.stops,
-          outboundDepartTime: args.outboundDepartTime,
-          outboundDepartStartTime: args.outboundDepartStartTime,
-          outboundDepartEndTime: args.outboundDepartEndTime,
-          outboundArriveStartTime: args.outboundArriveStartTime,
-          outboundArriveEndTime: args.outboundArriveEndTime,
-          inboundDepartTime: args.inboundDepartTime,
-          inboundDepartStartTime: args.inboundDepartStartTime,
-          inboundDepartEndTime: args.inboundDepartEndTime,
-          inboundArriveStartTime: args.inboundArriveStartTime,
-          inboundArriveEndTime: args.inboundArriveEndTime,
-          pageIndex: args.pageIndex,
-          pageSize: args.pageSize
+          destinationLocationCode: args.destinationLocationCode,
+          originLocationCode: args.originLocationCode,
+          departureDate: args.departureDate,
+          returnDate: args.returnDate,
+          adults: args.adults,
+          children: args.children,
+          infants: args.infants,
+          travelClass: args.travelClass,
+          includeAirlineCodes: args.includeAirlineCodes,
+          excludeAirlineCodes: args.excludeAirlineCodes,
+          nonStop: args.nonStop,
+          currencyCode: args.currencyCode,
+          max: args.max
         }
       })
         .then(response => {
-          console.log(response.data);
+          let carriers = response.data.dictionaries.carriers;
+          let carriersArray = [];
+          for (let i in carriers) carriersArray.push([i, carriers[i]]);
+          response.data.dictionaries.carriers = carriersArray;
           return response.data;
         })
-        .catch(error => {
+        .catch(async error => {
+          token = await getToken();
           if (error.response) {
             /*
              * The request was made and the server responded with a

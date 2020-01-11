@@ -7,7 +7,7 @@ import "nouislider/distribute/nouislider.css";
 class FilterResults extends React.Component {
   constructor(props) {
     super(props);
-    const { flightDetails } = this.props.data;
+    const { flightDetails } = this.props;
     this.state = {
       open: true,
       airlines: true,
@@ -25,20 +25,6 @@ class FilterResults extends React.Component {
     };
   }
 
-  getPrices = () => {
-    let priceArray = [];
-    this.state.flightDetails.Itineraries.map(itinerary => {
-      itinerary.PricingOptions.map(option => priceArray.push(option.Price));
-    });
-    return priceArray;
-  };
-
-  getDuration = () => {
-    let durationArray = [];
-    this.state.flightDetails.Legs.map(leg => durationArray.push(leg.Duration));
-    return durationArray;
-  };
-
   onClick = () => {
     this.setState(prevState => ({
       open: !prevState.open
@@ -52,25 +38,25 @@ class FilterResults extends React.Component {
   };
 
   onClickPrices = () => {
-    let priceArray = this.getPrices();
+    let prices = this.props.priceList;
     this.setState(prevState => ({
       prices: !prevState.prices,
-      value: [Math.min(...priceArray), Math.max(...priceArray)],
+      value: [Math.min(...prices), Math.max(...prices)],
       range: {
-        min: Math.min(...priceArray),
-        max: Math.max(...priceArray)
+        min: Math.min(...prices),
+        max: Math.max(...prices)
       }
     }));
   };
 
   onClickDuration = () => {
-    let durationArray = this.getDuration();
+    let durationList = this.props.durationList;
     this.setState(prevState => ({
       duration: !prevState.duration,
-      durationValue: [Math.min(...durationArray), Math.max(...durationArray)],
+      durationValue: [Math.min(...durationList), Math.max(...durationList)],
       durationRange: {
-        min: Math.min(...durationArray),
-        max: Math.max(...durationArray)
+        min: Math.min(...durationList),
+        max: Math.max(...durationList)
       }
     }));
   };
@@ -91,7 +77,7 @@ class FilterResults extends React.Component {
   onDurationSlide = (render, handle, value, un, percent) => {
     console.log(value);
     this.setState({
-      durationValue: [Math.min(...this.getDuration()), Math.floor(value[0])]
+      durationValue: [Math.min(...this.getDuration()), value[0]]
     });
   };
 
@@ -192,11 +178,12 @@ class FilterResults extends React.Component {
 
           <Collapse in={this.state.airlines}>
             <div id="airlines" style={{ paddingLeft: "3em" }}>
-              {this.state.flightDetails.Carriers.map(airline => (
+              {this.state.flightDetails.dictionaries.carriers.map(airline => (
                 <FormCheck
+                  key={airline[0]}
                   type="checkbox"
-                  label={airline.Name}
-                  id={airline.Name}
+                  label={airline[1]}
+                  id={airline[0]}
                   checked
                 />
               ))}
@@ -276,11 +263,9 @@ class FilterResults extends React.Component {
             <div id="duration">
               <div
                 style={{ marginLeft: "2em", marginRight: "2em" }}
-              >{`${this.displayTime(
-                this.state.durationValue[0]
-              )} hours - ${this.displayTime(
-                this.state.durationValue[1]
-              )} hours`}</div>
+              >{`${this.state.durationValue[0].toFixed(
+                2
+              )} hours - ${this.state.durationValue[1].toFixed(2)} hours`}</div>
               <Nouislider
                 accessibility
                 step={1}

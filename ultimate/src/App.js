@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ApolloClient } from "apollo-client";
-import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 //import { ApolloLink, Observable } from 'apollo-link';
 import Header from "./components/Header";
@@ -14,7 +14,7 @@ import bahrain from "./images/bahrain.jpg";
 import qatar from "./images/doha-qatar.jpg";
 import kuvajt from "./images/kuvajt.jpg";
 import beirut from "./images/beirut-lebanon.jpg";
-import ShowQuery from "./components/flightDetails/ShowQuery";
+import FlightQuery from "./components/flightDetails/FlightQuery";
 
 // const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
 //   return new Observable(observer => {
@@ -122,7 +122,7 @@ class App extends React.Component {
               path="/"
               render={props => <Home {...props} deals={this.state.deals} />}
             />
-            <Route path="/flightDetails" component={ShowQuery} />
+            <Route path="/flightDetails" component={FlightQuery} />
           </Switch>
           <br />
           <br />

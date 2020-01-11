@@ -3,147 +3,135 @@ const { gql } = require("apollo-server-express");
 const flights = gql`
   extend type Query {
     flightDetails(
-      sessionKey: String!
-      sortType: String
-      sortOrder: String
-      duration: Int
-      includeCarriers: String
-      excludeCarriers: String
-      originAirports: String
-      destinationAirports: String
-      stops: String
-      outboundDepartTime: String
-      outboundDepartStartTime: String
-      outboundDepartEndTime: String
-      outboundArriveStartTime: String
-      outboundArriveEndTime: String
-      inboundDepartTime: String
-      inboundDepartStartTime: String
-      inboundDepartEndTime: String
-      inboundArriveStartTime: String
-      inboundArriveEndTime: String
-      pageIndex: String
-      pageSize: String
+      originLocationCode: String
+      destinationLocationCode: String
+      departureDate: String
+      returnDate: String
+      adults: Int
+      children: Int
+      infants: Int
+      travelClass: String
+      includeAirlineCodes: String
+      excludeAirlineCodes: String
+      nonStop: String
+      currencyCode: String
+      max: Int
     ): PollResultType
   }
 
   type PollResultType {
-    Query: PollQueryType
-    Status: String
-    Itineraries: [ItinarariesType]
-    Legs: [LegsType]
-    Segments: [SegmentsType]
-    Carriers: [CarriersType]
-    Agents: [AgentsType]
-    Places: [AirportCityType]
-    Currencies: [CurrencyType]
+    meta: MetaType
+    data: [DataType]
+    dictionaries: DictionaryType
   }
 
-  type PollQueryType {
-    Country: String
-    Currency: String
-    Locale: String
-    Adults: Int
-    Children: Int
-    Infants: Int
-    OriginPlace: String
-    DestinationPlace: String
-    OutboundDate: String
-    InboundDate: String
-    LocationSchema: String
-    CabinClass: String
-    GroupPricing: Boolean
+  type DictionaryType {
+    carriers: [[String]]
   }
 
-  type ItinarariesType {
-    OutboundLegId: String
-    InboundLegId: String
-    PricingOptions: [PricingType]
-    BookingDetailsLink: BookingDetailsType
+  type MetaType {
+    count: Int
+    links: FlightSelfType
   }
 
-  type PricingType {
-    Agents: [Int]
-    QuoteAgeInMinutes: Int
-    Price: Float
-    DeeplinkUrl: String
+  type FlightSelfType {
+    self: String
   }
 
-  type BookingDetailsType {
-    Uri: String
-    Body: String
-    Method: String
+  type DataType {
+    type: String
+    id: ID
+    source: String
+    instantTicketingRequired: Boolean
+    nonHomogeneous: Boolean
+    oneWay: Boolean
+    lastTicketingDate: String
+    numberOfBookableSeats: Int
+    itineraries: [ItinerariesType]
+    price: PriceType
+    pricingOptions: PricingOptionsType
+    validatingAirlineCodes: [String]
+    travelerPricings: [TravelerPricingsType]
   }
 
-  type LegsType {
-    Id: ID
-    SegmentIds: [Int]
-    OriginStation: Int
-    DestinationStation: Int
-    Departure: String
-    Arrival: String
-    Duration: Int
-    JourneyMode: String
-    Stops: [Int]
-    Carriers: [Int]
-    OperatingCarriers: [Int]
-    Directionality: String
-    FlightNumbers: [FlightNumberType]
-  }
-
-  type FlightNumberType {
-    FlightNumber: String
-    CarrierId: Int
+  type ItinerariesType {
+    duration: String
+    segments: [SegmentsType]
   }
 
   type SegmentsType {
-    Id: ID
-    OriginStation: Int
-    DestinationStation: Int
-    DepartureDateTime: String
-    ArrivalDateTime: String
-    Carrier: Int
-    OperatingCarrier: Int
-    Duration: Int
-    FlightNumber: String
-    JourneyMode: String
-    Directionality: String
+    departure: DepartureType
+    arrival: ArrivalType
+    carrierCode: String
+    number: String
+    aircraft: AircraftCodeType
+    operating: CarrierCodeType
+    id: ID
+    numberOfStops: Int
+    blacklistedInEU: Boolean
   }
 
-  type CarriersType {
-    Id: ID
-    Code: String
-    Name: String
-    ImageUrl: String
-    DisplayCode: String
+  type CarrierCodeType {
+    carrierCode: String
   }
 
-  type AgentsType {
-    Id: ID
-    Name: String
-    ImageUrl: String
-    Status: String
-    OptimisedForMobile: Boolean
-    Type: String
+  type AircraftCodeType {
+    code: String
   }
 
-  type AirportCityType {
-    Id: Int
-    ParentId: Int
-    Code: String
-    Type: String
-    Name: String
+  type ArrivalType {
+    iataCode: String
+    at: String
   }
 
-  type CurrencyType {
-    Code: String
-    Symbol: String
-    ThousandsSeparator: String
-    DecimalSeparator: String
-    SymbolOnLeft: Boolean
-    SpaceBetweenAmountAndSymbol: Boolean
-    RoundingCoefficient: Int
-    DecimalDigits: Int
+  type DepartureType {
+    iataCode: String
+    terminal: String
+    at: String
+  }
+
+  type PriceType {
+    currency: String
+    total: String
+    base: String
+    fees: [AmountType]
+  }
+
+  type AmountType {
+    amount: String
+    type: String
+  }
+
+  type PricingOptionsType {
+    fareType: [String]
+    includedCheckedBagsOnly: Boolean
+  }
+
+  type TravelerPricingsType {
+    travelerId: ID
+    fareOption: String
+    travelerType: String
+    price: TravelerPricingPriceType
+    fareDetailsBySegment: [FareDetailsBySegmentType]
+  }
+
+  type TravelerPricingPriceType {
+    currency: String
+    total: String
+    base: String
+  }
+
+  type FareDetailsBySegmentType {
+    segmentId: ID
+    cabin: String
+    fareBasis: String
+    class: String
+    includedCheckedBags: IncludedCheckedBagsType
+  }
+
+  type IncludedCheckedBagsType {
+    weight: Int
+    weightUnit: String
   }
 `;
 

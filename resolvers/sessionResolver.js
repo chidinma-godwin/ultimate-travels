@@ -32,7 +32,7 @@ const sessionResolver = {
       })
         .then(response => {
           console.log(response.headers.location);
-          context.res = response.headers;
+          //context.res = response.headers;
           return response;
         })
         .catch(error => {

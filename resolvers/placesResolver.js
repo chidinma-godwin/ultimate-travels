@@ -1,29 +1,29 @@
 // import required package
 const axios = require("axios");
-
-// import required files
-const { rapidapi } = require("../config/keys");
+const getToken = require("../amadeusToken");
 
 const placesResolver = {
   Query: {
-    places: (root, args) => {
+    places: async (root, args, context, info) => {
+      let token = await getToken();
       return axios({
         method: "GET",
-        url:
-          "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/NG/NGN/en-GB/",
+        url: "https://test.api.amadeus.com/v1/reference-data/locations",
         headers: {
-          "content-type": "application/octet-stream",
-          "x-rapidapi-host": rapidapi.host,
-          "x-rapidapi-key": rapidapi.secretKey
+          //   "content-type": "application/vnd.amadeus+json",
+          Authorization: `Bearer ${token}`
         },
         params: {
-          query: args.search
+          subType: "AIRPORT,CITY",
+          keyword: args.keyword,
+          view: "LIGHT"
         }
       })
         .then(res => {
-          return res.data.Places;
+          return res.data.data;
         })
-        .catch(error => {
+        .catch(async error => {
+          token = await getToken();
           if (error.response) {
             /*
              * The request was made and the server responded with a

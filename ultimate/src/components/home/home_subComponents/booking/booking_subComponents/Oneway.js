@@ -41,47 +41,27 @@ class OneWay extends React.Component {
   handleSubmit = evt => {
     evt.preventDefault();
     this.userInfo = {
-      cabinClass: this.state.cabin,
-      children: this.state.children.toString(),
-      infants: this.state.infants.toString(),
-      country: "NG",
-      currency: "NGN",
-      locale: "en-GB",
-      originPlace: this.state.fromSelectedOption[0].CityId,
-      destinationPlace: this.state.toSelectedOption[0].CityId,
-      outboundDate: this.state.date.toISOString().split("T")[0],
-      inboundDate: this.state.returnDate.toISOString().split("T")[0],
-      adults: this.state.adults.toString(),
-      groupPricing: true
+      travelClass: this.state.cabin,
+      children: this.state.children,
+      infants: this.state.infants,
+      currencyCode: "USD",
+      originLocationCode: this.state.fromSelectedOption[0].iataCode,
+      destinationLocationCode: this.state.toSelectedOption[0].iataCode,
+      departureDate: this.state.date.toISOString().split("T")[0],
+      returnDate: this.state.returnDate.toISOString().split("T")[0],
+      adults: this.state.adults,
+      from: this.state.from,
+      to: this.state.destination
     };
-
-    axios
-      .post("http://localhost:5000/skyscanner/", qs.stringify(this.userInfo), {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
-      .then(res => {
-        console.log(res.data);
-        let key = res.data.split("/");
-        this.sessionKey = key[key.length - 1];
-        console.log(this.sessionKey);
-        const location = {
-          pathname: "/flightDetails",
-          state: {
-            sessionKey: this.sessionKey,
-            from: this.state.from,
-            userInfo: this.userInfo,
-            to: this.state.destination
-          }
-        };
-        console.log(this.userInfo);
-        console.log(location.state);
-        this.props.history.push(location);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    console.log(this.userInfo);
+    const location = {
+      pathname: "/flightDetails",
+      state: {
+        userInfo: this.userInfo
+      }
+    };
+    console.log(location.state);
+    this.props.history.push(location);
   };
 
   handleChange = evt => {
@@ -154,9 +134,9 @@ class OneWay extends React.Component {
               value={this.state.cabin}
             >
               <option>--Choose a cabin class--</option>
-              <option>Economy</option>
+              <option>ECONOMY</option>
               <option>Premium Economy</option>
-              <option>Business</option>
+              <option>BUSINESS</option>
               <option>First Class</option>
             </FormControl>
           </Col>
@@ -231,23 +211,6 @@ class OneWay extends React.Component {
             <Form.Label controlId="from" className="mr-1">
               Flying from
             </Form.Label>
-            {/* <Typeahead
-            id="fillCity"
-              onChange={(selected) => {
-                this.setState({ selected });
-              }}
-              options={this.state.places}
-              selected={this.state.selected}
-            /> */}
-            {/* <FormControl
-              id="from"
-              className="form-control-sm"
-              placeholder="Enter city name or airport"
-              aria-Form.Label="city or airport"
-              aria-describedby="basic-addon1"
-              onChange={this.handleChange}
-              value={this.state.from}
-            /> */}
             <Autocomplete handleAsyncChange={this.handleFromLocationChange} />
           </Col>
 
