@@ -7,21 +7,19 @@ import "nouislider/distribute/nouislider.css";
 class FilterResults extends React.Component {
   constructor(props) {
     super(props);
-    const { flightDetails } = this.props;
     this.state = {
       open: true,
       airlines: true,
       prices: false,
       flightTimes: true,
-      value: [0, 100],
-      range: { min: 0, max: 100 },
+      priceValue: [0, 100],
+      priceRange: { min: 0, max: 100 },
       durationValue: [0, 100],
       durationRange: { min: 0, max: 100 },
       outboundTime: [0, 1440],
       outboundTimeRange: { min: 0, max: 1440 },
       inboundTime: [0, 1440],
-      inboundTimeRange: { min: 0, max: 1440 },
-      flightDetails
+      inboundTimeRange: { min: 0, max: 1440 }
     };
   }
 
@@ -41,8 +39,8 @@ class FilterResults extends React.Component {
     let prices = this.props.priceList;
     this.setState(prevState => ({
       prices: !prevState.prices,
-      value: [Math.min(...prices), Math.max(...prices)],
-      range: {
+      priceValue: [Math.min(...prices), Math.max(...prices)],
+      priceRange: {
         min: Math.min(...prices),
         max: Math.max(...prices)
       }
@@ -53,7 +51,10 @@ class FilterResults extends React.Component {
     let durationList = this.props.durationList;
     this.setState(prevState => ({
       duration: !prevState.duration,
-      durationValue: [Math.min(...durationList), Math.max(...durationList)],
+      durationValue: [
+        Math.round(Math.min(...durationList)),
+        Math.round(Math.max(...durationList))
+      ],
       durationRange: {
         min: Math.min(...durationList),
         max: Math.max(...durationList)
@@ -67,24 +68,28 @@ class FilterResults extends React.Component {
     }));
   };
 
-  onSlide = (render, handle, value, un, percent) => {
-    console.log(value);
+  onPriceSlide = (render, handle, value, un, percent) => {
+    console.log(render);
+    console.log(handle);
+    console.log(un);
     this.setState({
-      value: [value[0].toFixed(2), value[1].toFixed(2)]
+      priceValue: [value[0].toFixed(2), value[1].toFixed(2)]
     });
   };
 
   onDurationSlide = (render, handle, value, un, percent) => {
-    console.log(value);
     this.setState({
-      durationValue: [Math.min(...this.getDuration()), value[0]]
+      durationValue: [
+        Math.min(...this.props.durationList),
+        Math.round(value[0])
+      ]
     });
   };
 
   onOutboundTimeSlide = (render, handle, value, un, percent) => {
     console.log(value);
     this.setState({
-      outboundTime: [Math.floor(value[0]), Math.floor(value[1])]
+      outboundTime: [Math.round(value[0]), Math.round(value[1])]
     });
   };
 
@@ -100,9 +105,9 @@ class FilterResults extends React.Component {
     let min = number % 60;
     let calcTime;
     if (min < 10) {
-      calcTime = `${hour} : 0${min}`;
+      calcTime = `${hour}.0${min}`;
     } else {
-      calcTime = `${hour} : ${min}`;
+      calcTime = `${hour}.${min}`;
     }
     return calcTime;
   };
@@ -178,7 +183,7 @@ class FilterResults extends React.Component {
 
           <Collapse in={this.state.airlines}>
             <div id="airlines" style={{ paddingLeft: "3em" }}>
-              {this.state.flightDetails.dictionaries.carriers.map(airline => (
+              {this.props.flightDetails.dictionaries.carriers.map(airline => (
                 <FormCheck
                   key={airline[0]}
                   type="checkbox"
@@ -212,7 +217,6 @@ class FilterResults extends React.Component {
               size="lg"
             />
           </Button>
-
           <Collapse in={this.state.prices}>
             <div id="prices">
               <div
@@ -223,14 +227,16 @@ class FilterResults extends React.Component {
                   marginRight: "2em"
                 }}
               >
-                <span>{this.state.value[0]}</span>
-                <span>{this.state.value[1]}</span>
+                <span>{this.state.priceValue[0]}</span>
+                <span>{this.state.priceValue[1]}</span>
               </div>
               <Nouislider
                 accessibility
-                start={this.state.value}
-                range={this.state.range}
-                onSlide={this.onSlide}
+                start={this.state.priceValue}
+                range={this.state.priceRange}
+                onSlide={this.onPriceSlide}
+                // onChange={this.props.onChangePrice}
+                // pips={{ mode: "count", values: 5 }}
                 connect
               />
             </div>
@@ -263,12 +269,14 @@ class FilterResults extends React.Component {
             <div id="duration">
               <div
                 style={{ marginLeft: "2em", marginRight: "2em" }}
-              >{`${this.state.durationValue[0].toFixed(
-                2
-              )} hours - ${this.state.durationValue[1].toFixed(2)} hours`}</div>
+              >{`${this.displayTime(
+                this.state.durationValue[0]
+              )} hours - ${this.displayTime(
+                this.state.durationValue[1]
+              )} hours`}</div>
               <Nouislider
                 accessibility
-                step={1}
+                // step={1}
                 start={this.state.durationValue[1]}
                 range={this.state.durationRange}
                 onSlide={this.onDurationSlide}

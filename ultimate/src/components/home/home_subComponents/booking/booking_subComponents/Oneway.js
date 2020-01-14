@@ -2,20 +2,17 @@ import React from "react";
 import {
   FormControl,
   Form,
-  Popover,
-  Table,
   Col,
-  Row,
   Button,
   ButtonToolbar,
-  OverlayTrigger
+  OverlayTrigger,
+  Popover
 } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
-import qs from "qs";
 import { withRouter } from "react-router-dom";
 import Autocomplete from "./Autocomplete";
+import PassengersCabinPopover from "./PassengersCabinPopover";
 
 class OneWay extends React.Component {
   constructor() {
@@ -27,7 +24,7 @@ class OneWay extends React.Component {
       destination: {},
       date: new Date(),
       returnDate: new Date(),
-      cabin: "Economy",
+      cabin: "ECONOMY",
       adults: 1,
       infants: 0,
       children: 0,
@@ -121,87 +118,15 @@ class OneWay extends React.Component {
       this.state.adults + this.state.children + this.state.infants;
     const popover = (
       <Popover style={{ width: "fitContent", padding: "1em" }}>
-        <Row className="mb-2">
-          <Col>
-            <Form.Label controlId="cabin" className="mr-1">
-              Cabin class:
-            </Form.Label>
-            <FormControl
-              id="cabin"
-              className="form-control-sm"
-              as="select"
-              onChange={this.handleChange}
-              value={this.state.cabin}
-            >
-              <option>--Choose a cabin class--</option>
-              <option>ECONOMY</option>
-              <option>Premium Economy</option>
-              <option>BUSINESS</option>
-              <option>First Class</option>
-            </FormControl>
-          </Col>
-        </Row>
-        <Row className="mb-2">
-          <Form.Group as={Col} xs={12} sm={6}>
-            Adults <div>(11+ yrs)</div>
-          </Form.Group>
-          <Form.Group as={Col} xs={12} sm={6}>
-            <Table bordered>
-              <tbody>
-                <tr>
-                  <td className="adults custom-btn" onClick={this.decrement}>
-                    -
-                  </td>
-                  <td>{this.state.adults}</td>
-                  <td className="adults custom-btn" onClick={this.increment}>
-                    +
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Form.Group>
-        </Row>
-        <Row className="mb-2">
-          <Form.Group as={Col} xs={12} sm={6}>
-            Children <div>(2-11 yrs)</div>
-          </Form.Group>
-          <Form.Group as={Col} xs={12} sm={6}>
-            <Table bordered>
-              <tbody>
-                <tr>
-                  <td className="children custom-btn" onClick={this.decrement}>
-                    -
-                  </td>
-                  <td>{this.state.children}</td>
-                  <td className="children custom-btn" onClick={this.increment}>
-                    +
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Form.Group>
-        </Row>
-        <Row className="mb-2">
-          <Form.Group as={Col} xs={12} sm={6}>
-            Infants <div>(below 2 yrs)</div>
-          </Form.Group>
-          <Form.Group as={Col} xs={12} sm={6}>
-            <Table bordered>
-              <tbody>
-                <tr>
-                  <td className="infants custom-btn" onClick={this.decrement}>
-                    -
-                  </td>
-                  <td>{this.state.infants}</td>
-                  <td className="infants custom-btn" onClick={this.increment}>
-                    +
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </Form.Group>
-        </Row>
-        <Button onClick={() => document.body.click()}>Done</Button>
+        <PassengersCabinPopover
+          handleChange={this.handleChange}
+          increment={this.increment}
+          decrement={this.decrement}
+          cabin={this.state.cabin}
+          adults={this.state.adults}
+          children={this.state.children}
+          infants={this.state.infants}
+        />
       </Popover>
     );
     return (

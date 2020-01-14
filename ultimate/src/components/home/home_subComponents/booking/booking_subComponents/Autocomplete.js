@@ -2,7 +2,6 @@ import React from "react";
 import { ApolloConsumer } from "react-apollo";
 import { getPlacesQuery } from "../../../../../queries/queries";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Autocomplete extends React.Component {
   constructor() {

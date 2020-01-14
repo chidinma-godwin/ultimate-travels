@@ -55,6 +55,14 @@ body {
   margin: 2em;
 }
 
+.sort-btn {
+  background-color: green;
+  color: white;
+  border-color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 15%;
+}
+
 /* .dropdown-toggle {
   width: 20em;
   background-color: #fff;
