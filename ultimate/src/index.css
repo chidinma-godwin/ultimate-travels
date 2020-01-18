@@ -63,6 +63,10 @@ body {
   border-radius: 15%;
 }
 
+.stops {
+  width: 20%;
+}
+
 /* .dropdown-toggle {
   width: 20em;
   background-color: #fff;

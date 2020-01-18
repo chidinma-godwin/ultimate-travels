@@ -3,6 +3,7 @@ import { Collapse, Button, FormCheck } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
+import CheckBox from "../CheckBox";
 
 class FilterResults extends React.Component {
   constructor(props) {
@@ -16,10 +17,10 @@ class FilterResults extends React.Component {
       priceRange: { min: 0, max: 100 },
       durationValue: [0, 100],
       durationRange: { min: 0, max: 100 },
-      outboundTime: [0, 1440],
-      outboundTimeRange: { min: 0, max: 1440 },
-      inboundTime: [0, 1440],
-      inboundTimeRange: { min: 0, max: 1440 }
+      outboundTime: [0, 1439],
+      outboundTimeRange: { min: 0, max: 1439 },
+      inboundTime: [0, 1439],
+      inboundTimeRange: { min: 0, max: 1439 }
     };
   }
 
@@ -52,12 +53,12 @@ class FilterResults extends React.Component {
     this.setState(prevState => ({
       duration: !prevState.duration,
       durationValue: [
-        Math.round(Math.min(...durationList)),
-        Math.round(Math.max(...durationList))
+        Math.round(Math.min(...durationList.map(item => item[1]))),
+        Math.round(Math.max(...durationList.map(item => item[1])))
       ],
       durationRange: {
-        min: Math.min(...durationList),
-        max: Math.max(...durationList)
+        min: Math.min(...durationList.map(item => item[1])),
+        max: Math.max(...durationList.map(item => item[1]))
       }
     }));
   };
@@ -80,7 +81,7 @@ class FilterResults extends React.Component {
   onDurationSlide = (render, handle, value, un, percent) => {
     this.setState({
       durationValue: [
-        Math.min(...this.props.durationList),
+        Math.min(Math.round(...this.props.durationList.map(item => item[1]))),
         Math.round(value[0])
       ]
     });
@@ -152,9 +153,21 @@ class FilterResults extends React.Component {
 
           <Collapse in={this.state.open}>
             <div id="stops" style={{ paddingLeft: "3em" }}>
-              <FormCheck type="checkbox" label="None" id="none" />
-              <FormCheck type="checkbox" label="1 Stop" id="one-stop" />
-              <FormCheck type="checkbox" label="2+ Stops" id="two-more-stops" />
+              {[
+                ["1", "None"],
+                ["2", "1 Stop"],
+                ["3", "2+ Stops"]
+              ].map(stop => (
+                <CheckBox
+                  key={stop[0]}
+                  type="checkbox"
+                  label={stop[1]}
+                  id={stop[0]}
+                  name={stop[0]}
+                  checked={this.props.checkedStops.get(stop[0])}
+                  onChange={this.props.onChangeStops}
+                />
+              ))}
             </div>
           </Collapse>
 
@@ -184,14 +197,26 @@ class FilterResults extends React.Component {
           <Collapse in={this.state.airlines}>
             <div id="airlines" style={{ paddingLeft: "3em" }}>
               {this.props.flightDetails.dictionaries.carriers.map(airline => (
+                <CheckBox
+                  key={airline[0]}
+                  type="checkbox"
+                  label={airline[1]}
+                  name={airline[0]}
+                  id={airline[1]}
+                  checked={this.props.checkedAirlines.get(airline[0])}
+                  onChange={this.props.onChangeAirline}
+                />
+              ))}
+              {/* {this.props.flightDetails.dictionaries.carriers.map(airline => (
                 <FormCheck
                   key={airline[0]}
                   type="checkbox"
                   label={airline[1]}
                   id={airline[0]}
-                  checked
+                  checked={this.state.airlineChecked}
+                  onChange={()=> this.props.onChangeAirline()}
                 />
-              ))}
+              ))} */}
             </div>
           </Collapse>
 
@@ -235,7 +260,7 @@ class FilterResults extends React.Component {
                 start={this.state.priceValue}
                 range={this.state.priceRange}
                 onSlide={this.onPriceSlide}
-                // onChange={this.props.onChangePrice}
+                onChange={this.props.onChangePrice}
                 // pips={{ mode: "count", values: 5 }}
                 connect
               />
@@ -281,6 +306,7 @@ class FilterResults extends React.Component {
                 range={this.state.durationRange}
                 onSlide={this.onDurationSlide}
                 connect="lower"
+                onChange={this.props.onChangeDuration}
               />
             </div>
           </Collapse>
@@ -329,6 +355,7 @@ class FilterResults extends React.Component {
                 start={this.state.outboundTime}
                 range={this.state.outboundTimeRange}
                 onSlide={this.onOutboundTimeSlide}
+                onChange={this.props.onChangeDepartureTime}
                 connect
               />
 
@@ -350,6 +377,7 @@ class FilterResults extends React.Component {
                 start={this.state.inboundTime}
                 range={this.state.inboundTimeRange}
                 onSlide={this.onInboundTimeSlide}
+                onChange={this.props.onChangeArrivalTime}
                 connect
               />
             </div>
