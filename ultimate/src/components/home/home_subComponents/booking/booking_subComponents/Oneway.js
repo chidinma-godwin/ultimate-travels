@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { withRouter } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Autocomplete from "./Autocomplete";
 import PassengersCabinPopover from "./PassengersCabinPopover";
 
@@ -30,7 +30,8 @@ class OneWay extends React.Component {
       children: 0,
       // places: [],
       fromSelectedOption: [],
-      toSelectedOption: []
+      toSelectedOption: [],
+      redirect: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -51,14 +52,15 @@ class OneWay extends React.Component {
       to: this.state.destination
     };
     console.log(this.userInfo);
-    const location = {
-      pathname: "/flightDetails",
-      state: {
-        userInfo: this.userInfo
-      }
-    };
-    console.log(location.state);
-    this.props.history.push(location);
+    this.setState({ redirect: "/flightDetails" });
+    // const location = {
+    //   pathname: "/flightDetails",
+    //   state: {
+    //     userInfo: this.userInfo
+    //   }
+    // };
+    // console.log(location.state);
+    // this.props.history.push(location);
   };
 
   handleChange = evt => {
@@ -114,6 +116,17 @@ class OneWay extends React.Component {
   };
 
   render() {
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: this.state.redirect,
+            state: { userInfo: this.userInfo }
+          }}
+        />
+      );
+    }
     let travellers =
       this.state.adults + this.state.children + this.state.infants;
     const popover = (
@@ -211,4 +224,4 @@ class OneWay extends React.Component {
   }
 }
 
-export default withRouter(OneWay);
+export default OneWay;

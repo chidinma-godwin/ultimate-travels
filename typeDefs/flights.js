@@ -81,17 +81,18 @@ const flights = gql`
 
   type ArrivalType {
     iataCode: String
+    terminal: String
     at: String
   }
 
   type DepartureType {
     iataCode: String
-    terminal: String
     at: String
   }
 
   type PriceType {
     currency: String
+    grandTotal: String
     total: String
     base: String
     fees: [AmountType]
@@ -130,6 +131,7 @@ const flights = gql`
   }
 
   type IncludedCheckedBagsType {
+    quantity: Int
     weight: Int
     weightUnit: String
   }

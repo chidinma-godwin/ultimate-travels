@@ -15,6 +15,7 @@ import qatar from "./images/doha-qatar.jpg";
 import kuvajt from "./images/kuvajt.jpg";
 import beirut from "./images/beirut-lebanon.jpg";
 import FlightQuery from "./components/flightDetails/FlightQuery";
+import checkOfferAvailability from "./components/flightDetails/checkOfferAvailability";
 
 // const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
 //   return new Observable(observer => {
@@ -33,13 +34,15 @@ import FlightQuery from "./components/flightDetails/FlightQuery";
 // });
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:5000/graphql",
-  includeExtensions: true
+  uri: "http://localhost:5000/graphql"
+  //includeExtensions: true
 });
 
 const client = new ApolloClient({
   link: httpLink,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({
+    addTypename: false
+  })
 });
 
 class App extends React.Component {
@@ -123,6 +126,10 @@ class App extends React.Component {
               render={props => <Home {...props} deals={this.state.deals} />}
             />
             <Route path="/flightDetails" component={FlightQuery} />
+            <Route
+              path="/checkOfferAvailability"
+              component={checkOfferAvailability}
+            />
           </Switch>
           <br />
           <br />

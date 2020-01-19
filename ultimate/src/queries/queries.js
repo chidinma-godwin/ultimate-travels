@@ -47,8 +47,12 @@ const getFlightDetails = gql`
       max: $max
     ) {
       data {
+        type
         id
+        source
         instantTicketingRequired
+        nonHomogeneous
+        oneWay
         lastTicketingDate
         numberOfBookableSeats
         itineraries {
@@ -60,15 +64,55 @@ const getFlightDetails = gql`
             }
             arrival {
               iataCode
+              terminal
               at
+            }
+            carrierCode
+            number
+            aircraft {
+              code
+            }
+            operating {
+              carrierCode
             }
             id
             numberOfStops
-            carrierCode
+            blacklistedInEU
           }
         }
         price {
+          currency
+          grandTotal
           total
+          base
+          fees {
+            amount
+            type
+          }
+        }
+        pricingOptions {
+          fareType
+          includedCheckedBagsOnly
+        }
+        validatingAirlineCodes
+        travelerPricings {
+          travelerId
+          fareOption
+          travelerType
+          price {
+            currency
+            total
+            base
+          }
+          fareDetailsBySegment {
+            segmentId
+            cabin
+            fareBasis
+            class
+            includedCheckedBags {
+              quantity
+            }
+          }
         }
       }
       dictionaries {
@@ -78,4 +122,58 @@ const getFlightDetails = gql`
   }
 `;
 
-export { getPlacesQuery, getFlightDetails };
+const checkOfferQuery = gql`
+  query($input: OfferInput) {
+    checkOffer(input: $input) {
+      data {
+        flightOffers {
+          id
+          instantTicketingRequired
+          lastTicketingDate
+          itineraries {
+            segments {
+              departure {
+                iataCode
+                at
+              }
+              arrival {
+                iataCode
+                at
+              }
+              id
+              numberOfStops
+              carrierCode
+              duration
+            }
+          }
+          price {
+            currency
+            total
+            base
+            fees {
+              amount
+              type
+            }
+            grandTotal
+            billingCurrency
+          }
+          travelerPricings {
+            travelerId
+            fareOption
+            travelerType
+            price {
+              currency
+              total
+              base
+              taxes {
+                amount
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export { getPlacesQuery, getFlightDetails, checkOfferQuery };
