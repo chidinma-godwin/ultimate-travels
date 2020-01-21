@@ -1,6 +1,5 @@
 import React from "react";
-import { Card, Form } from "react-bootstrap";
-import DatePicker from "react-datepicker";
+import { Card, Form, Col } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -52,7 +51,25 @@ class TravelersInfo extends React.Component {
   };
 
   render() {
-    let { flightOffer, DOB, handleDateChange, handleChange } = this.props;
+    let {
+      flightOffer,
+      DateOfBirth,
+      firstName,
+      middleName,
+      lastName,
+      title,
+      email,
+      phone
+    } = this.props.data;
+    let {
+      handleDateChange,
+      handleEmailChange,
+      handleChangeFirstName,
+      handleChangeMiddleName,
+      handleChangeLastName,
+      handleChangeTitle,
+      onChangePhone
+    } = this.props;
     flightOffer.countAdult = 0;
     flightOffer.countChildren = 0;
     flightOffer.countInfant = 0;
@@ -67,7 +84,7 @@ class TravelersInfo extends React.Component {
         >
           TRAVELLER'S INFORMATION
         </Card.Header>
-        <Card.Body key={traveler.travelerId} className="mb-3">
+        <Card.Body className="mb-3">
           <Form>
             {flightOffer.travelerPricings.map(traveler => {
               let type = "";
@@ -94,123 +111,103 @@ class TravelersInfo extends React.Component {
                 );
               }
               return (
-                <React.Fragment>
+                <div key={traveler.travelerId} className="mb-4">
                   <Card.Title>
                     {traveler.travelerId === "1"
                       ? "Adult (Primary Contact)"
                       : `${passengerPosition} ${type}`}
                   </Card.Title>
                   <Form.Row>
-                    <Form.Group
+                    <CustomForm
                       controlId={`firstname${traveler.travelerId}`}
-                      as={Col}
-                    >
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
-                        placeholder="First name"
-                        value={}
-                        onChange={handleChange}
-                      ></Form.Control>
-                    </Form.Group>
+                      label="First Name"
+                      name={`firstName${traveler.travelerId}`}
+                      placeholder="Enter First Name"
+                      value={firstName.get(`firstName${traveler.travelerId}`)}
+                      onChange={handleChangeFirstName}
+                    />
 
-                    <Form.Group
+                    <CustomForm
                       controlId={`middlename${traveler.travelerId}`}
-                      as={Col}
-                    >
-                      <Form.Label>Middle Name</Form.Label>
-                      <Form.Control
-                        placeholder="Middle name"
-                        onChange={handleChange}
-                      ></Form.Control>
-                    </Form.Group>
+                      label="Middle Name"
+                      name={`middleName${traveler.travelerId}`}
+                      placeholder="Enter Middle Name"
+                      value={middleName.get(`middleName${traveler.travelerId}`)}
+                      onChange={handleChangeMiddleName}
+                    />
 
-                    <Form.Group
+                    <CustomForm
                       controlId={`lastname${traveler.travelerId}`}
-                      as={Col}
-                    >
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
-                        placeholder="Last name"
-                        onChange={handleChange}
-                      ></Form.Control>
-                    </Form.Group>
+                      label="Last Name"
+                      name={`lastName${traveler.travelerId}`}
+                      placeholder="Enter Last Name"
+                      value={lastName.get(`lastName${traveler.travelerId}`)}
+                      onChange={handleChangeLastName}
+                    />
                   </Form.Row>
 
                   <Form.Row>
-                    <Form.Group
+                    <CustomForm
                       controlId={`title${traveler.travelerId}`}
-                      as={Col}
-                    >
-                      <Form.Label>Title</Form.Label>
-                      <Form.Control
-                        size="sm"
-                        as="select"
-                        onChange={handleChange}
-                        value={""}
-                      >
-                        <option>MR</option>
-                        <option>MRS</option>
-                        <option>MISSS</option>
-                      </Form.Control>
-                    </Form.Group>
+                      label="Title"
+                      name={`title${traveler.travelerId}`}
+                      elementType="select"
+                      value={title.get(`title${traveler.travelerId}`)}
+                      onChange={handleChangeTitle}
+                    />
 
-                    <Form.Group
+                    <CustomForm
                       controlId={`date-of-birth${traveler.travelerId}`}
-                      as={Col}
-                    >
-                      {/* <Col xs={12} sm={6} md={4} lg={2} className="mb-2"> */}
-                      <Form.Label>Date Of Birth</Form.Label>
-                      <Form.Control
-                        size="sm"
-                        as="div"
-                        style={{ border: "none", padding: "0" }}
+                      elementType="div"
+                      label="Date of Birth"
+                      name={`dateOfBirth${traveler.travelerId}`}
+                      //   value={DOB.get(`DOB${traveler.travelerId}`)}
+                      id="date"
+                      className="date"
+                      calendarClassName="date"
+                      onChange={handleDateChange}
+                      placeholderText="YYYY/DD/MM"
+                      DOB={DateOfBirth.get(`dateOfBirth${traveler.travelerId}`)}
+                    />
+                  </Form.Row>
+
+                  {traveler.travelerId === "1" ? (
+                    <Form.Row>
+                      <Form.Group
+                        controlId={`email${traveler.travelerId}`}
+                        as={Col}
                       >
-                        <DatePicker
-                          selected={DOB}
-                          onChange={handleDateChange}
-                          peekNextMonth
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                          type="email"
+                          value={email}
+                          placeholder="Enter Email"
+                          onChange={handleEmailChange}
+                        ></Form.Control>
+                      </Form.Group>
+
+                      <Form.Group
+                        controlId={`phonenumber${traveler.travelerId}`}
+                        as={Col}
+                      >
+                        <Form.Label>Phone Number</Form.Label>
+                        <PhoneInput
+                          inputProps={{
+                            id: `phonenumber${traveler.travelerId}`,
+                            className: "form-control phone-form-control",
+                            required: true,
+                            autoFocus: true
+                          }}
+                          country={"ng"}
+                          value={phone}
+                          onChange={phone => onChangePhone(phone)}
                         />
-                      </Form.Control>
-                    </Form.Group>
-                  </Form.Row>
-
-                  <Form.Row>
-                    <Form.Group
-                      controlId={`email${traveler.travelerId}`}
-                      as={Col}
-                    >
-                      <Form.Label>Email</Form.Label>
-                      <Form.Control
-                        type="email"
-                        placeholder="Enter Email"
-                        onChange={handleChange}
-                      ></Form.Control>
-                    </Form.Group>
-
-                    <Form.Group
-                      controlId={`phonenumber${traveler.travelerId}`}
-                      as={Col}
-                    >
-                      <Form.Label>Phone Number</Form.Label>
-                      <PhoneInput
-                        inputProps={{
-                          id: `phonenumber${traveler.travelerId}`,
-                          className: "form-control phone-form-control",
-                          required: true,
-                          autoFocus: true
-                        }}
-                        country={"ng"}
-                        value={this.state.phone}
-                        onChange={phone => {
-                          this.setState({ phone });
-                        }}
-                      />
-                    </Form.Group>
-                  </Form.Row>
-                </React.Fragment>
+                      </Form.Group>
+                    </Form.Row>
+                  ) : (
+                    ""
+                  )}
+                </div>
               );
             })}
           </Form>

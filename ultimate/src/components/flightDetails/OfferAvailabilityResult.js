@@ -2,55 +2,85 @@ import React from "react";
 import { Container, Row, Col, Card, Alert, Form } from "react-bootstrap";
 import TravelersInfo from "./TravelersInfo";
 import SelectedFlightInfo from "./SelectedFlightInfo";
+import { Map } from "immutable";
 
 class OfferAvailabilityResult extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      DOB: new Map(["date", new Date()]),
+      flightOffer: this.props.data.checkOffer.data.flightOffers[0],
+      DateOfBirth: new Map(),
       showAlert: true,
       firstName: new Map(),
       middleName: new Map(),
       lastName: new Map(),
       title: new Map(),
-      email: new Map(),
-      phone: new Map()
+      email: "",
+      phone: ""
     };
   }
 
-  handleChange = evt => {
+  handleChangeFirstName = evt => {
     const item = evt.target.name;
-    //const isChecked = evt.target.checked;
-    //const queryData = this.props.data.flightDetails.data;
-    let mapValues = [];
-    this.setState(prevState => {
-      prevState.checkedStops.set(item, isChecked);
-      for (let entry of this.state.checkedStops) {
-        if (entry[1] === false) {
-          mapValues.push(entry[0] * 1);
-        }
-      }
-      console.log(mapValues);
-      console.log(this.state.checkedStops);
-      return {
-        checkedStops: prevState.checkedStops
-      };
-    });
-    // this.setState({
-    //   [evt.target.id]: evt.target.value
-    // });
+    const value = evt.target.value;
+    this.setState(prevState => ({
+      firstName: prevState.firstName.set(item, value)
+    }));
   };
 
-  handleDateChange = date => {
-    this.setState({
-      DOB: date
-    });
+  handleChangeMiddleName = evt => {
+    const item = evt.target.name;
+    const value = evt.target.value;
+    this.setState(prevState => ({
+      middleName: prevState.middleName.set(item, value)
+    }));
+  };
+
+  handleChangeLastName = evt => {
+    const item = evt.target.name;
+    const value = evt.target.value;
+    this.setState(prevState => ({
+      lastName: prevState.lastName.set(item, value)
+    }));
+  };
+
+  handleChangeTitle = evt => {
+    const item = evt.target.name;
+    const value = evt.target.value;
+    this.setState(prevState => ({
+      title: prevState.title.set(item, value)
+    }));
+  };
+
+  handleEmailChange = evt => {
+    this.setState({ email: evt.target.value });
+    console.log(this.state);
+  };
+
+  onChangePhone = phone => {
+    {
+      this.setState({ phone });
+    }
+    console.log(this.state);
+  };
+
+  handleDateChange = (date, evt) => {
+    console.log(evt.target);
+    console.log(date);
+    const item = evt.target.name;
+    const value = date;
+    console.log(item);
+    console.log(value);
+    this.setState(prevState => ({
+      DateOfBirth: prevState.DateOfBirth.set(item, value)
+    }));
   };
 
   render() {
-    const flightOffer = this.props.data.checkOffer.data.flightOffers[0];
+    const flightOffer = this.state.flightOffer;
     const warnings = this.props.data.checkOffer.warnings;
     const userInfo = this.props.userInfo;
+    console.log(this.state);
 
     return (
       <Container
@@ -91,10 +121,14 @@ class OfferAvailabilityResult extends React.Component {
 
           <Col lg={9}>
             <TravelersInfo
-              flightOffer={flightOffer}
-              DOB={this.state.DOB}
+              data={this.state}
               handleDateChange={this.handleDateChange}
-              handleChange={this.handleChange}
+              handleEmailChange={this.handleEmailChange}
+              handleChangeFirstName={this.handleChangeFirstName}
+              handleChangeMiddleName={this.handleChangeMiddleName}
+              handleChangeLastName={this.handleChangeLastName}
+              handleChangeTitle={this.handleChangeTitle}
+              onChangePhone={this.onChangePhone}
             />
           </Col>
         </Row>

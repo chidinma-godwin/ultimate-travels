@@ -1,8 +1,8 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-SelectedFlightInfo = props => {
-  const { userInfo, flightOffer } = props.flightOffer;
+function SelectedFlightInfo(props) {
+  const { userInfo, flightOffer } = props;
 
   // Get the number of adults, children and infants
   let countAdult = 1;
@@ -153,6 +153,6 @@ SelectedFlightInfo = props => {
       </Card.Body>
     </Card>
   );
-};
+}
 
 export default SelectedFlightInfo;
