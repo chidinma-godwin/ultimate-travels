@@ -99,6 +99,7 @@ const getFlightDetails = gql`
           travelerId
           fareOption
           travelerType
+          associatedAdultId
           price {
             currency
             total
@@ -125,6 +126,12 @@ const getFlightDetails = gql`
 const checkOfferQuery = gql`
   query($input: OfferInput) {
     checkOffer(input: $input) {
+      warnings {
+        code
+        title
+        detail
+        status
+      }
       data {
         flightOffers {
           id
@@ -168,6 +175,7 @@ const checkOfferQuery = gql`
               taxes {
                 amount
               }
+              refundableTaxes
             }
           }
         }

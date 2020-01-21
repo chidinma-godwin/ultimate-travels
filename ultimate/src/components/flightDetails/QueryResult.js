@@ -11,7 +11,6 @@ class QueryResult extends React.Component {
     this.state = {
       queryData: this.props.data.flightDetails,
       flightData: this.props.data.flightDetails.data,
-      userInfo: this.props.userInfo,
       showAllResultBtn: false,
       checkedStops: new Map(),
       checkedAirlines: new Map()
@@ -296,7 +295,7 @@ class QueryResult extends React.Component {
         }}
       >
         {/* Component showing result heading */}
-        <FlightResultHeading userInfo={this.state.userInfo} />
+        <FlightResultHeading userInfo={this.props.userInfo} />
 
         <Row>
           <Col lg={3}>
@@ -342,7 +341,10 @@ class QueryResult extends React.Component {
             )}
 
             {/* Component displaying flight results */}
-            <FlightResultList flightData={flightData} />
+            <FlightResultList
+              flightData={flightData}
+              userInfo={this.props.userInfo}
+            />
           </Col>
         </Row>
       </Container>

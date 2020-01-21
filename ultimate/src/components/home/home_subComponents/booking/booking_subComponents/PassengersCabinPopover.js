@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, Form, Table, Col, Row, Button } from "react-bootstrap";
+import { Form, Table, Col, Row, Button } from "react-bootstrap";
 
 function PassengersCabinPopover(props) {
   let {
@@ -15,12 +15,13 @@ function PassengersCabinPopover(props) {
     <React.Fragment>
       <Row className="mb-2">
         <Col>
-          <Form.Label controlId="cabin" className="mr-1">
+          <Form.Group controlId="cabin"></Form.Group>
+          <Form.Label id="cabin" className="mr-1">
             Cabin class:
           </Form.Label>
-          <FormControl
+          <Form.Control
             id="cabin"
-            className="form-control-sm"
+            size="sm"
             as="select"
             onChange={handleChange}
             value={cabin}
@@ -30,7 +31,7 @@ function PassengersCabinPopover(props) {
             <option>Premium Economy</option>
             <option>BUSINESS</option>
             <option>First Class</option>
-          </FormControl>
+          </Form.Control>
         </Col>
       </Row>
       <Row className="mb-2">

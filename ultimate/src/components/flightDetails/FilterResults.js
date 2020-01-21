@@ -1,5 +1,5 @@
 import React from "react";
-import { Collapse, Button, FormCheck } from "react-bootstrap";
+import { Collapse, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";

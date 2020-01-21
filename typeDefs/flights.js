@@ -112,6 +112,7 @@ const flights = gql`
     travelerId: ID
     fareOption: String
     travelerType: String
+    associatedAdultId: String
     price: TravelerPricingPriceType
     fareDetailsBySegment: [FareDetailsBySegmentType]
   }
@@ -132,8 +133,6 @@ const flights = gql`
 
   type IncludedCheckedBagsType {
     quantity: Int
-    weight: Int
-    weightUnit: String
   }
 `;
 

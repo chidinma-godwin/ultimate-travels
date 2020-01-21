@@ -22,6 +22,8 @@ class FlightResultList extends React.Component {
       selectedData.map(data => {
         delete data.averageDuration;
         data.itineraries.map(itinerary => delete itinerary.durationMins);
+        if (data.numStops) delete data.numStops;
+        if (data.uniqueAirlinesList) delete data.uniqueAirlinesList;
       });
 
       let queryVariable = {};
@@ -45,7 +47,10 @@ class FlightResultList extends React.Component {
             push
             to={{
               pathname: this.state.redirect,
-              state: { queryVariable: this.state.queryVariable }
+              state: {
+                queryVariable: this.state.queryVariable,
+                userInfo: this.props.userInfo
+              }
             }}
           />
         );

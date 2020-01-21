@@ -1,5 +1,6 @@
 const axios = require("axios");
 const qs = require("qs");
+const util = require("util");
 
 const getToken = require("../amadeusToken");
 
@@ -17,7 +18,7 @@ const checkOfferResolver = {
         data: args.input
       })
         .then(res => {
-          console.log(res.data);
+          console.log(res.data, util.inspect(res.data, { depth: 10 }));
           return res.data;
         })
         .catch(error => {

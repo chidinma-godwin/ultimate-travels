@@ -14,6 +14,7 @@ class checkOfferAvailability extends React.Component {
   }
 
   render() {
+    const userInfo = this.props.location.state.userInfo;
     return (
       <Query
         query={checkOfferQuery}
@@ -28,7 +29,7 @@ class checkOfferAvailability extends React.Component {
 
           console.log(data);
 
-          return <OfferAvailabilityResult data={data} />;
+          return <OfferAvailabilityResult data={data} userInfo={userInfo} />;
         }}
       </Query>
     );

@@ -89,6 +89,7 @@ const checkOffer = gql`
     travelerId: ID
     fareOption: String
     travelerType: String
+    associatedAdultId: String
     price: TravelerPriceInputType
     fareDetailsBySegment: [FareDetailsBySegmentInput]
   }
@@ -113,7 +114,15 @@ const checkOffer = gql`
 
   # Response schema
   type OfferResponseType {
+    warnings: [WarningType]
     data: OfferDataType
+  }
+
+  type WarningType {
+    code: Int
+    title: String
+    detail: String
+    status: Int
   }
 
   type OfferDataType {
@@ -204,6 +213,7 @@ const checkOffer = gql`
     total: String
     base: String
     taxes: [OfferTaxesType]
+    refundableTaxes: String
   }
 
   type OfferTaxesType {

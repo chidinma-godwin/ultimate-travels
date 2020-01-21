@@ -1,5 +1,6 @@
 // import required package
 const axios = require("axios");
+const util = require("util");
 
 // import required files
 const getToken = require("../amadeusToken");
@@ -35,16 +36,10 @@ const flightResolver = {
           let carriersArray = [];
           for (let i in carriers) carriersArray.push([i, carriers[i]]);
           response.data.dictionaries.carriers = carriersArray;
-
-          response.data.data.map(flight => {
-            flight.travelerPricings.map(pricing => {
-              pricing.fareDetailsBySegment.map(item => {
-                console.log(item.includedCheckedBags);
-                // item.includedCheckedBags.quantity =
-                //   item.includedCheckedBags.weight;
-              });
-            });
-          });
+          console.log(
+            response.data,
+            util.inspect(response.data, { depth: 10 })
+          );
           return response.data;
         })
         .catch(error => {

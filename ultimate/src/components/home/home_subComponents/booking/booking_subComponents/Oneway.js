@@ -45,6 +45,8 @@ class OneWay extends React.Component {
       currencyCode: "USD",
       originLocationCode: this.state.fromSelectedOption[0].iataCode,
       destinationLocationCode: this.state.toSelectedOption[0].iataCode,
+      originCity: this.state.fromSelectedOption[0].address.cityName,
+      destinationCity: this.state.toSelectedOption[0].address.cityName,
       departureDate: this.state.date.toISOString().split("T")[0],
       returnDate: this.state.returnDate.toISOString().split("T")[0],
       adults: this.state.adults,
@@ -160,33 +162,41 @@ class OneWay extends React.Component {
           </Col>
 
           <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label controlId="date" className="mr-1">
-              Depart
-            </Form.Label>
-            <DatePicker
-              id="date"
-              className="form-control"
-              selected={this.state.date}
-              onChange={this.handleDateChange}
-            />
+            <Form.Label className="mr-1">Depart</Form.Label>
+            <Form.Control
+              size="sm"
+              as="div"
+              style={{ border: "none", padding: "0" }}
+            >
+              <DatePicker
+                calenderClassName="form-control"
+                selected={this.state.date}
+                onChange={this.handleDateChange}
+                minDate={new Date()}
+                showDisabledMonthNavigation
+              />
+            </Form.Control>
           </Col>
 
           <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label controlId="date" className="mr-1">
-              Return
-            </Form.Label>
-            <DatePicker
-              id="returnDate"
-              className="form-control"
-              selected={this.state.returnDate}
-              onChange={this.handleReturnDateChange}
-            />
+            <Form.Label className="mr-1">Return</Form.Label>
+            <Form.Control
+              size="sm"
+              as="div"
+              style={{ border: "none", padding: "0" }}
+            >
+              <DatePicker
+                calenderClassName="form-control"
+                selected={this.state.returnDate}
+                onChange={this.handleReturnDateChange}
+                minDate={new Date()}
+                showDisabledMonthNavigation
+              />
+            </Form.Control>
           </Col>
 
           <Col xs={12} sm={6} md={5} lg={2} className="mb-2">
-            <Form.Label controlId="passengers" className="mr-1">
-              Cabin class & Passengers
-            </Form.Label>
+            <Form.Label className="mr-1">Cabin & Passengers</Form.Label>
             <ButtonToolbar>
               <OverlayTrigger
                 trigger="click"
@@ -209,13 +219,11 @@ class OneWay extends React.Component {
           </Col>
 
           <Col xs={12} sm={6} md={3} lg={2}>
-            {/* <Link to={{pathname: "/flightDetails", state: {userData: this.state}}}> */}
-            <Form.Label controlId="date" className="mr-1"></Form.Label>
+            <Form.Label className="mr-1"></Form.Label>
             <div style={{ width: "fit-content" }}>
               <Button variant="primary" type="submit">
                 Search flight
               </Button>
-              {/* </Link> */}
             </div>
           </Col>
         </Form.Row>
