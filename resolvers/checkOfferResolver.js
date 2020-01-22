@@ -15,6 +15,7 @@ const checkOfferResolver = {
           authorization: `Bearer ${token}`
           // "content-type": "application/json"
         },
+        params: { include: "bags,credit-card-fees,other-services" },
         data: args.input
       })
         .then(res => {
@@ -33,7 +34,7 @@ const checkOfferResolver = {
             };
             if (error.response.status == 401) checkToken();
 
-            console.log(error.response.data);
+            console.log(util.inspect(response.data, { depth: 10 }));
             console.log(error.response.status);
             console.log(error.response.headers);
           } else if (error.request) {

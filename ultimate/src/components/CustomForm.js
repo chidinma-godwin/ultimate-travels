@@ -7,11 +7,12 @@ const CustomForm = ({
   controlId,
   elementType,
   placeholder,
+  placeholderText,
   label,
   value = "",
   name,
   onChange,
-  DOB
+  DOB = ""
 }) => {
   if (elementType === "select") {
     return (
@@ -36,20 +37,19 @@ const CustomForm = ({
         <Form.Label>{label}</Form.Label>
         <Form.Control
           as={elementType}
-          //   placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          name={name}
           size="sm"
           style={{ border: "none", padding: "0" }}
         >
           <DatePicker
             selected={DOB}
-            onChange={onChange}
+            dateFormat="dd/MM/yyyy"
+            name={name}
+            placeholderText={placeholderText}
             peekNextMonth
             showMonthDropdown
             showYearDropdown
             dropdownMode="select"
+            onChange={onChange}
           />
         </Form.Control>
       </Form.Group>
@@ -74,9 +74,9 @@ CustomForm.propTypes = {
   controlId: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.any,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   elementType: PropTypes.string
 };
 

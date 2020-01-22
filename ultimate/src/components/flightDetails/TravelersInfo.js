@@ -53,7 +53,7 @@ class TravelersInfo extends React.Component {
   render() {
     let {
       flightOffer,
-      DateOfBirth,
+      dateOfBirth,
       firstName,
       middleName,
       lastName,
@@ -161,13 +161,16 @@ class TravelersInfo extends React.Component {
                       elementType="div"
                       label="Date of Birth"
                       name={`dateOfBirth${traveler.travelerId}`}
-                      //   value={DOB.get(`DOB${traveler.travelerId}`)}
+                      value={dateOfBirth.get(
+                        `dateOfBirth${traveler.travelerId}`
+                      )}
                       id="date"
-                      className="date"
-                      calendarClassName="date"
-                      onChange={handleDateChange}
+                      onChange={handleDateChange.bind(
+                        this,
+                        `dateOfBirth${traveler.travelerId}`
+                      )}
                       placeholderText="YYYY/DD/MM"
-                      DOB={DateOfBirth.get(`dateOfBirth${traveler.travelerId}`)}
+                      DOB={dateOfBirth.get(`dateOfBirth${traveler.travelerId}`)}
                     />
                   </Form.Row>
 

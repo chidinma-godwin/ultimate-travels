@@ -5,7 +5,7 @@ function SelectedFlightInfo(props) {
   const { userInfo, flightOffer } = props;
 
   // Get the number of adults, children and infants
-  let countAdult = 1;
+  let countAdult = 0;
   let countChildren = 0;
   let countInfant = 0;
   flightOffer.travelerPricings.map(traveler => {
@@ -68,10 +68,8 @@ function SelectedFlightInfo(props) {
                   marginBottom: "1em"
                 }}
               >
-                <span>
-                  {traveler.travelerType} &times; {numTravelerType}
-                </span>
-                <span>{traveler.price.base * numTravelerType}</span>
+                <span>{` Price per ${traveler.travelerType.toLowerCase()}`}</span>
+                <span>{traveler.price.base}</span>
               </div>
 
               <div
@@ -81,19 +79,18 @@ function SelectedFlightInfo(props) {
                   marginBottom: "1em"
                 }}
               >
-                <span>{`${traveler.travelerType} TAXES AND FEES`}</span>
+                <span>{`Taxes and fees per ${traveler.travelerType.toLowerCase()}`}</span>
                 <span>
                   {/* {traveler.price.taxes
                             .reduce((total, tax) => total + tax.amount * 1, 0)
                             .toFixed(2)} */}
                   {(
-                    (traveler.price.total * 1 -
-                      traveler.price.base * 1 +
-                      flightOffer.price.fees.reduce(
-                        (total, fee) => total + fee.amount * 1,
-                        0
-                      )) *
-                    numTravelerType
+                    traveler.price.total * 1 -
+                    traveler.price.base * 1 +
+                    flightOffer.price.fees.reduce(
+                      (total, fee) => total + fee.amount * 1,
+                      0
+                    )
                   ).toFixed(2)}
                 </span>
               </div>
@@ -106,10 +103,8 @@ function SelectedFlightInfo(props) {
                     marginBottom: "1em"
                   }}
                 >
-                  <span>Refundable taxes</span>
-                  <span>
-                    {traveler.price.refundableTaxes * numTravelerType}
-                  </span>
+                  <span>{`Refundable taxes per ${traveler.travelerType.toLowerCase()}`}</span>
+                  <span>{traveler.price.refundableTaxes}</span>
                 </div>
               ) : (
                 ""

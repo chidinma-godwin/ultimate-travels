@@ -9,7 +9,7 @@ class OfferAvailabilityResult extends React.Component {
     super(props);
     this.state = {
       flightOffer: this.props.data.checkOffer.data.flightOffers[0],
-      DateOfBirth: new Map(),
+      dateOfBirth: new Map(),
       showAlert: true,
       firstName: new Map(),
       middleName: new Map(),
@@ -64,15 +64,14 @@ class OfferAvailabilityResult extends React.Component {
     console.log(this.state);
   };
 
-  handleDateChange = (date, evt) => {
-    console.log(evt.target);
-    console.log(date);
-    const item = evt.target.name;
+  handleDateChange = (name, date) => {
+    console.log(name);
+    const item = name;
     const value = date;
     console.log(item);
     console.log(value);
     this.setState(prevState => ({
-      DateOfBirth: prevState.DateOfBirth.set(item, value)
+      dateOfBirth: prevState.dateOfBirth.set(item, value)
     }));
   };
 

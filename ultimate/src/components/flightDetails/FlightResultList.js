@@ -119,6 +119,17 @@ class FlightResultList extends React.Component {
                           {`${flight.price.total}`}
                         </div>
 
+                        <div
+                          className="mt-2 mb-2"
+                          style={{
+                            border: "1px solid green",
+                            width: "fit-content",
+                            padding: "0.5em"
+                          }}
+                        >
+                          {`${flight.numberOfBookableSeats} seats left`}
+                        </div>
+
                         <div>
                           <Button
                             onClick={() => this.handleCheckOffer(flight.id)}
