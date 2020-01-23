@@ -1,8 +1,8 @@
 import React from "react";
-import MainImage from "./home_subComponents/MainImage";
-import HolidayPackages from "./home_subComponents/HolidayPackages";
-import FlightDeals from "./home_subComponents/FlightDeals";
-import Booking from "./home_subComponents/booking/Booking";
+import MainImage from "./homeSubs/MainImage";
+import HolidayPackages from "./homeSubs/HolidayPackages";
+import Booking from "./homeSubs/booking/Booking";
+import FlightDealsQuery from "./homeSubs/FlightDealsQuery";
 
 const Home = props => {
   const { deals } = props;
@@ -13,7 +13,7 @@ const Home = props => {
         <Booking />
         <br />
         <h2 className="text-center">Top flight Deals</h2>
-        <FlightDeals />
+        <FlightDealsQuery />
         <br />
         <h2 className="text-center">Top Holiday Packages</h2>
         <HolidayPackages deals={deals} />

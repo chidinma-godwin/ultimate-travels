@@ -2,16 +2,9 @@ import React from "react";
 import logo from "../images/logo.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NavLink } from "react-router-dom";
-import {
-  Navbar,
-  Nav,
-  Container,
-  Form,
-  FormControl,
-  Button
-} from "react-bootstrap";
+import { Navbar, Nav, Container, ButtonGroup, Dropdown } from "react-bootstrap";
 
-const Header = () => {
+const Header = props => {
   return (
     <React.Fragment>
       <header>
@@ -83,16 +76,46 @@ const Header = () => {
                   Contact
                 </Nav.Link>
               </Nav>
-              <Form inline>
-                <FormControl
-                  type="text"
-                  placeholder="Search"
-                  className="mr-sm-2"
-                />
-                <Button variant="outline-success" style={{ color: "white" }}>
-                  Search
-                </Button>
-              </Form>
+
+              <Dropdown as={ButtonGroup}>
+                <Dropdown.Toggle
+                  id="currency"
+                  variant="default"
+                  className="text-light p-0"
+                >
+                  {props.currency}
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="currency-btn">
+                  <Dropdown.Item
+                    onClick={evt =>
+                      props.handleCurrencyToggle(evt.target.textContent)
+                    }
+                  >
+                    USD
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={evt =>
+                      props.handleCurrencyToggle(evt.target.textContent)
+                    }
+                  >
+                    GBP
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={evt =>
+                      props.handleCurrencyToggle(evt.target.textContent)
+                    }
+                  >
+                    EUR
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={evt =>
+                      props.handleCurrencyToggle(evt.target.textContent)
+                    }
+                  >
+                    CAD
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Navbar.Collapse>
           </Container>
         </Navbar>

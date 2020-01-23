@@ -1,6 +1,5 @@
 import React from "react";
 import Oneway from "./booking_subComponents/Oneway";
-import Roundtrip from "./booking_subComponents/Roundtrip";
 import { Tabs, Tab, Card, FormCheck } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -8,11 +7,21 @@ class Booking extends React.Component {
   constructor() {
     super();
     this.state = {
-      oneway: true,
-      roundtrip: false,
-      multipletrip: false
+      oneway: false,
+      roundtrip: true,
+      multipletrip: false,
+      tripCount: 1
     };
   }
+
+  handleAddTrip = () => {
+    this.setState({ tripCount: this.state.tripCount + 1 });
+  };
+
+  handleRemoveTrip = () => {
+    this.setState({ tripCount: Math.max(this.state.tripCount - 1, 2) });
+  };
+
   handleOnewayChange = () => {
     this.setState(prevState => ({
       oneway: !prevState.oneway,
@@ -32,12 +41,25 @@ class Booking extends React.Component {
   handleMultipleTripChange = () => {
     this.setState(prevState => ({
       multipletrip: !prevState.multipletrip,
+      tripCount: 2,
       roundtrip: false,
       oneway: false
     }));
   };
 
   render() {
+    let trips = [];
+
+    for (let i = 0; i < this.state.tripCount; i++) {
+      trips.push(
+        <Oneway
+          key={i}
+          oneway={this.state.oneway}
+          multipletrip={this.state.multipletrip}
+        />
+      );
+    }
+
     return (
       <React.Fragment>
         <Card>
@@ -61,13 +83,15 @@ class Booking extends React.Component {
               <Tab
                 title={
                   <div>
-                    <FontAwesomeIcon
-                      icon={["fas", "bed"]}
-                      className="mr-2"
-                      style={{ color: "blue" }}
-                      size="lg"
-                    />
-                    <span>Hotels</span>
+                    <span>
+                      <FontAwesomeIcon
+                        icon={["fas", "bed"]}
+                        className="mr-2"
+                        style={{ color: "blue" }}
+                        size="lg"
+                      />
+                      Hotels
+                    </span>
                   </div>
                 }
                 eventKey="hotel"
@@ -135,32 +159,41 @@ class Booking extends React.Component {
               onChange={this.handleMultipleTripChange}
             />
             <br />
-            <br />
-            {this.state.oneway ? (
-              <Oneway />
-            ) : this.state.roundtrip ? (
-              <Roundtrip />
-            ) : this.state.multipletrip ? (
-              "This is the multiple trip component"
+            {this.state.multipletrip ? (
+              <div style={{ width: "fit-content", marginLeft: "auto" }}>
+                {this.state.tripCount < 6 ? (
+                  <span className="mr-4" onClick={this.handleAddTrip}>
+                    <FontAwesomeIcon
+                      icon={["fas", "plus"]}
+                      className="mr-2"
+                      style={{ color: "white" }}
+                      size="lg"
+                    />
+                    Add Trip
+                  </span>
+                ) : (
+                  ""
+                )}
+                {this.state.tripCount > 2 ? (
+                  <span onClick={this.handleRemoveTrip}>
+                    <FontAwesomeIcon
+                      icon={["fas", "minus"]}
+                      className="mr-2"
+                      style={{ color: "white" }}
+                      size="lg"
+                    />
+                    Remove
+                  </span>
+                ) : (
+                  ""
+                )}
+              </div>
             ) : (
-              <Oneway />
+              ""
             )}
-            {/* <Tabs defaultActiveKey="oneway" variant="pills">
-              <Tab title="One way" eventKey="oneway">
-                <br />
-                <Oneway />
-              </Tab>
+            <br />
 
-              <Tab title="Round Trip" eventKey="roundtrip">
-                  <br />
-                    <Roundtrip />
-                </Tab> 
-
-              <Tab title="Multiple Destinations" eventKey="multiple">
-                <br />
-                <Container>This is for multiple destinations</Container>
-              </Tab>
-            </Tabs> */}
+            {trips}
           </Card.Body>
         </Card>
       </React.Fragment>

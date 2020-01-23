@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Button, Card, Image } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class FlightResultList extends React.Component {
   constructor(props) {
@@ -74,38 +75,67 @@ class FlightResultList extends React.Component {
                 ].arrival;
 
               // declare inbound flight variables
-              let inboundTime = flight.itineraries[1].duration
-                .slice(2)
-                .split("H");
-              let inboundItineraryDeparture =
-                flight.itineraries[1].segments[0].departure;
-              let inboundStops = flight.itineraries[1].segments.length - 1;
-              let inboundItineraryArrival =
-                flight.itineraries[1].segments[
-                  flight.itineraries[1].segments.length - 1
-                ].arrival;
+              let inboundTime,
+                inboundItineraryDeparture,
+                inboundItineraryArrival,
+                inboundStops;
+              if (flight.itineraries.length > 1) {
+                inboundTime = flight.itineraries[1].duration
+                  .slice(2)
+                  .split("H");
+                inboundItineraryDeparture =
+                  flight.itineraries[1].segments[0].departure;
+                inboundStops = flight.itineraries[1].segments.length - 1;
+                inboundItineraryArrival =
+                  flight.itineraries[1].segments[
+                    flight.itineraries[1].segments.length - 1
+                  ].arrival;
+              }
+              let length = flight.itineraries.length;
+
               return (
                 <Card
                   key={flight.id}
                   className="mb-3"
+                  style={{ fontWeight: "bold" }}
                   // style={{ width: "68%", marginLeft: "auto" }}
                 >
                   <Card.Body>
                     <Row className="mb-2">
-                      <Col xs={2}>
+                      <Col
+                        xs={2}
+                        className={length === 1 ? "align-self-center" : ""}
+                      >
                         <Image
                           src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${flight.itineraries[0].segments[0].carrierCode}`}
                           fluid
                         />
                       </Col>
-                      <Col xs={7}>
+                      <Col
+                        xs={7}
+                        className={length === 1 ? "align-self-center" : ""}
+                      >
                         {`${outboundItineraryDeparture.iataCode} ${
                           outboundItineraryDeparture.at.split("T")[1]
-                        }  ----${outboundTime[0]}H ${
+                        }`}
+                        <FontAwesomeIcon
+                          icon={["fas", "long-arrow-alt-right"]}
+                          className="mr-3 ml-3"
+                          style={{ color: "blue" }}
+                          size="lg"
+                        />
+                        {`${outboundTime[0]}H ${
                           outboundTime[1]
                         }  |  ${outboundStops} ${
                           outboundStops > 1 ? "stops" : "stop"
-                        } ---- ${outboundItineraryArrival.iataCode} ${
+                        }`}
+                        <FontAwesomeIcon
+                          icon={["fas", "long-arrow-alt-right"]}
+                          className="mr-3 ml-3"
+                          style={{ color: "blue" }}
+                          size="lg"
+                        />{" "}
+                        {`${outboundItineraryArrival.iataCode} ${
                           outboundItineraryArrival.at.split("T")[1]
                         }`}
                       </Col>
@@ -142,28 +172,49 @@ class FlightResultList extends React.Component {
                       </Col>
                       <br />
                       <br />
-                      <Col xs={2}>
-                        <Image
-                          src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${
-                            flight.itineraries[1].segments[
-                              flight.itineraries[1].segments.length - 1
-                            ].carrierCode
-                          }`}
-                          fluid
-                        />
-                      </Col>
 
-                      <Col xs={7}>
-                        {`${inboundItineraryDeparture.iataCode} ${
-                          inboundItineraryDeparture.at.split("T")[1]
-                        }  ----${inboundTime[0]}H ${
-                          inboundTime[1]
-                        }  |  ${inboundStops} ${
-                          inboundStops > 1 ? "stops" : "stop"
-                        } ---- ${inboundItineraryArrival.iataCode} ${
-                          inboundItineraryArrival.at.split("T")[1]
-                        }`}
-                      </Col>
+                      {flight.itineraries.length > 1 ? (
+                        <React.Fragment>
+                          <Col xs={2}>
+                            <Image
+                              src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${
+                                flight.itineraries[1].segments[
+                                  flight.itineraries[1].segments.length - 1
+                                ].carrierCode
+                              }`}
+                              fluid
+                            />
+                          </Col>
+
+                          <Col xs={7}>
+                            {`${inboundItineraryDeparture.iataCode} ${
+                              inboundItineraryDeparture.at.split("T")[1]
+                            }`}{" "}
+                            <FontAwesomeIcon
+                              icon={["fas", "long-arrow-alt-right"]}
+                              className="mr-3 ml-3"
+                              style={{ color: "blue" }}
+                              size="lg"
+                            />
+                            {`${inboundTime[0]}H ${
+                              inboundTime[1]
+                            }  |  ${inboundStops} ${
+                              inboundStops > 1 ? "stops" : "stop"
+                            }`}{" "}
+                            <FontAwesomeIcon
+                              icon={["fas", "long-arrow-alt-right"]}
+                              className="mr-3 ml-3"
+                              style={{ color: "blue" }}
+                              size="lg"
+                            />{" "}
+                            {`${inboundItineraryArrival.iataCode} ${
+                              inboundItineraryArrival.at.split("T")[1]
+                            }`}
+                          </Col>
+                        </React.Fragment>
+                      ) : (
+                        ""
+                      )}
                     </Row>
                   </Card.Body>
                 </Card>

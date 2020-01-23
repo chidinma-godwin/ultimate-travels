@@ -110,14 +110,24 @@ class App extends React.Component {
           city: "qatar",
           id: 6
         }
-      ]
+      ],
+      currency: "USD"
     };
   }
+
+  handleCurrencyToggle = selected => {
+    console.log(selected);
+    this.setState({ currency: selected });
+  };
+
   render() {
     return (
       <ApolloProvider client={client}>
         <Router>
-          <Header />
+          <Header
+            handleCurrencyToggle={this.handleCurrencyToggle}
+            currency={this.state.currency}
+          />
 
           <Switch>
             <Route
@@ -125,7 +135,12 @@ class App extends React.Component {
               path="/"
               render={props => <Home {...props} deals={this.state.deals} />}
             />
-            <Route path="/flightDetails" component={FlightQuery} />
+            <Route
+              path="/flightDetails"
+              render={props => (
+                <FlightQuery {...props} currency={this.state.currency} />
+              )}
+            />
             <Route
               path="/checkOfferAvailability"
               component={checkOfferAvailability}

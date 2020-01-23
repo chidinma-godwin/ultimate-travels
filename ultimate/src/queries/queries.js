@@ -184,4 +184,41 @@ const checkOfferQuery = gql`
   }
 `;
 
-export { getPlacesQuery, getFlightDetails, checkOfferQuery };
+const getInspirationPlaces = gql`
+  query($origin: String, $departureDate: String, $viewBy: String) {
+    flightInspiration(
+      origin: $origin
+      departureDate: $departureDate
+      viewBy: $viewBy
+    ) {
+      meta {
+        currency
+        defaults {
+          departureDate
+          viewBy
+        }
+      }
+      data {
+        type
+        origin
+        destination
+        departureDate
+        returnDate
+        price {
+          total
+        }
+        links {
+          flightDates
+          flightOffers
+        }
+      }
+    }
+  }
+`;
+
+export {
+  getPlacesQuery,
+  getFlightDetails,
+  checkOfferQuery,
+  getInspirationPlaces
+};

@@ -169,9 +169,25 @@ class QueryResult extends React.Component {
   onChangeArrivalTime = (render, handle, value, un, percent) => {
     let queryData = this.props.data.flightDetails.data;
     this.getPrices(queryData);
-    let array = queryData.filter(
-      flight => flight.itineraries[1].durationMins <= value[1]
-    );
+    let array = queryData.filter(flight => {
+      if ((flight.itineraries.length = 1)) {
+        let arrivalTime =
+          flight.itineraries[0].segments[
+            flight.itineraries[0].segments.length - 1
+          ].arrival.at;
+        let formattedArrivalTimeArray = arrivalTime.split("T")[1].split(":");
+        let formattedArrivalTime =
+          formattedArrivalTimeArray[0] * 60 + formattedArrivalTimeArray[1] * 1;
+        return (
+          formattedArrivalTime >= value[0] && formattedArrivalTime <= value[1]
+        );
+      } else {
+        return (
+          flight.itineraries[1].durationMins >= value[0] &&
+          flight.itineraries[1].durationMins <= value[1]
+        );
+      }
+    });
     this.setState({
       flightData: array,
       showAllResultBtn: true

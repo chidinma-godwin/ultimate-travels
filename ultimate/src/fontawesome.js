@@ -13,7 +13,12 @@ import {
   faSortDown,
   faCity,
   faPlane,
-  faPlaneDeparture
+  faPlaneDeparture,
+  faPlaneArrival,
+  faPlus,
+  faMinus,
+  faLongArrowAltLeft,
+  faLongArrowAltRight
 } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
 
@@ -31,5 +36,10 @@ library.add(
   faSortDown,
   faCity,
   faPlane,
-  faPlaneDeparture
+  faPlaneDeparture,
+  faPlaneArrival,
+  faPlus,
+  faMinus,
+  faLongArrowAltLeft,
+  faLongArrowAltRight
 );

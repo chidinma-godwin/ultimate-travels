@@ -10,15 +10,14 @@ import {
 } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Redirect } from "react-router-dom";
 import Autocomplete from "./Autocomplete";
 import PassengersCabinPopover from "./PassengersCabinPopover";
+import { Redirect } from "react-router-dom";
 
 class OneWay extends React.Component {
   constructor() {
     super();
     this.userInfo = {};
-    this.sessionKey = "";
     this.state = {
       from: {},
       destination: {},
@@ -28,48 +27,11 @@ class OneWay extends React.Component {
       adults: 1,
       infants: 0,
       children: 0,
-      // places: [],
       fromSelectedOption: [],
       toSelectedOption: [],
       redirect: null
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  handleSubmit = evt => {
-    evt.preventDefault();
-    this.userInfo = {
-      travelClass: this.state.cabin,
-      children: this.state.children,
-      infants: this.state.infants,
-      currencyCode: "USD",
-      originLocationCode: this.state.fromSelectedOption[0].iataCode,
-      destinationLocationCode: this.state.toSelectedOption[0].iataCode,
-      originCity: this.state.fromSelectedOption[0].address.cityName,
-      destinationCity: this.state.toSelectedOption[0].address.cityName,
-      departureDate: this.state.date.toISOString().split("T")[0],
-      returnDate: this.state.returnDate.toISOString().split("T")[0],
-      adults: this.state.adults,
-      from: this.state.from,
-      to: this.state.destination
-    };
-    console.log(this.userInfo);
-    this.setState({ redirect: "/flightDetails" });
-    // const location = {
-    //   pathname: "/flightDetails",
-    //   state: {
-    //     userInfo: this.userInfo
-    //   }
-    // };
-    // console.log(location.state);
-    // this.props.history.push(location);
-  };
-
-  handleChange = evt => {
-    this.setState({
-      [evt.target.id]: evt.target.value
-    });
-  };
 
   handleDateChange = date => {
     this.setState({
@@ -117,6 +79,35 @@ class OneWay extends React.Component {
     }
   };
 
+  handleChange = evt => {
+    this.setState({
+      [evt.target.id]: evt.target.value
+    });
+  };
+
+  handleSubmit = evt => {
+    evt.preventDefault();
+    this.userInfo = {
+      travelClass: this.state.cabin,
+      children: this.state.children,
+      infants: this.state.infants,
+      currencyCode: "USD",
+      originLocationCode: this.state.fromSelectedOption[0].iataCode,
+      destinationLocationCode: this.state.toSelectedOption[0].iataCode,
+      originCity: this.state.fromSelectedOption[0].address.cityName,
+      destinationCity: this.state.toSelectedOption[0].address.cityName,
+      departureDate: this.state.date.toISOString().split("T")[0],
+      returnDate: this.props.oneway
+        ? undefined
+        : this.state.returnDate.toISOString().split("T")[0],
+      adults: this.state.adults,
+      from: this.state.from,
+      to: this.state.destination
+    };
+    console.log(this.userInfo);
+    this.setState({ redirect: "/flightDetails" });
+  };
+
   render() {
     if (this.state.redirect) {
       return (
@@ -129,6 +120,7 @@ class OneWay extends React.Component {
         />
       );
     }
+
     let travellers =
       this.state.adults + this.state.children + this.state.infants;
     const popover = (
@@ -148,16 +140,12 @@ class OneWay extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <Form.Row>
           <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label controlId="from" className="mr-1">
-              Flying from
-            </Form.Label>
+            <Form.Label className="mr-1">Flying from</Form.Label>
             <Autocomplete handleAsyncChange={this.handleFromLocationChange} />
           </Col>
 
           <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label controlId="destination" className="mr-1">
-              Flying to
-            </Form.Label>
+            <Form.Label className="mr-1">Flying to</Form.Label>
             <Autocomplete handleAsyncChange={this.handleToLocationChange} />
           </Col>
 
@@ -178,22 +166,28 @@ class OneWay extends React.Component {
             </Form.Control>
           </Col>
 
-          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label className="mr-1">Return</Form.Label>
-            <Form.Control
-              size="sm"
-              as="div"
-              style={{ border: "none", padding: "0" }}
-            >
-              <DatePicker
-                calenderClassName="form-control"
-                selected={this.state.returnDate}
-                onChange={this.handleReturnDateChange}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-              />
-            </Form.Control>
-          </Col>
+          {this.props.multipletrip === false ? (
+            <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
+              <Form.Label className="mr-1">Return</Form.Label>
+              <Form.Control
+                size="sm"
+                as="div"
+                style={{ border: "none", padding: "0" }}
+              >
+                <DatePicker
+                  calenderClassName="form-control"
+                  selected={this.props.oneway ? null : this.state.returnDate}
+                  onChange={this.handleReturnDateChange}
+                  minDate={new Date()}
+                  showDisabledMonthNavigation
+                  placeholderText="(oneway)"
+                  disabled={this.props.oneway}
+                />
+              </Form.Control>
+            </Col>
+          ) : (
+            ""
+          )}
 
           <Col xs={12} sm={6} md={5} lg={2} className="mb-2">
             <Form.Label className="mr-1">Cabin & Passengers</Form.Label>

@@ -6,6 +6,7 @@ import QueryResult from "./QueryResult";
 
 function FlightQuery(props) {
   let { userInfo } = props.location.state;
+  let { currency } = props;
   return (
     <Query
       query={getFlightDetails}
@@ -18,7 +19,7 @@ function FlightQuery(props) {
         children: userInfo.children,
         infants: userInfo.infants,
         travelClass: userInfo.travelClass,
-        currencyCode: "USD"
+        currencyCode: currency
       }}
     >
       {({ error, loading, data }) => {

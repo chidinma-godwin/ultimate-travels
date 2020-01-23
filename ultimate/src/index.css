@@ -69,12 +69,8 @@ body {
   margin: 2em;
 }
 
-.sort-btn {
-  background-color: green;
-  color: white;
-  border-color: white;
-  padding: 0.4rem 1rem;
-  border-radius: 15%;
+button#currency.dropdown-toggle.btn.btn-default {
+  color: "white";
 }
 
 .stops {
