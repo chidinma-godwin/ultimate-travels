@@ -15,10 +15,10 @@ function FlightQuery(props) {
         destinationLocationCode: userInfo.destinationLocationCode,
         departureDate: userInfo.departureDate,
         returnDate: userInfo.returnDate,
-        adults: userInfo.adults,
-        children: userInfo.children,
-        infants: userInfo.infants,
-        travelClass: userInfo.travelClass,
+        adults: userInfo.adults * 1,
+        children: userInfo.children ? userInfo.children * 1 : undefined,
+        infants: userInfo.infants ? userInfo.infants * 1 : undefined,
+        travelClass: userInfo.travelClass ? userInfo.travelClass : undefined,
         currencyCode: currency
       }}
     >

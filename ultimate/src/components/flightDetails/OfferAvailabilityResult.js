@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, Alert, Form } from "react-bootstrap";
+import { Container, Row, Col, Alert } from "react-bootstrap";
 import TravelersInfo from "./TravelersInfo";
 import SelectedFlightInfo from "./SelectedFlightInfo";
 import { Map } from "immutable";
@@ -65,14 +65,38 @@ class OfferAvailabilityResult extends React.Component {
   };
 
   handleDateChange = (name, date) => {
-    console.log(name);
     const item = name;
     const value = date;
-    console.log(item);
-    console.log(value);
     this.setState(prevState => ({
       dateOfBirth: prevState.dateOfBirth.set(item, value)
     }));
+  };
+
+  handleSubmit = evt => {
+    evt.preventDefault();
+    console.log("it worked");
+    let firstName = {};
+    let middleName = {};
+    let lastName = {};
+    let dateOfBirth = {};
+    let title = {};
+    this.state.firstName.forEach((val, key) => (firstName[key] = val));
+    this.state.lastName.forEach((val, key) => (lastName[key] = val));
+    this.state.middleName.forEach((val, key) => (middleName[key] = val));
+    this.state.dateOfBirth.forEach(
+      (val, key) => (dateOfBirth[key] = val.toIsoString().split("T")[0])
+    );
+    this.state.title.forEach((val, key) => (title[key] = val));
+    console.log(firstName, middleName, lastName, dateOfBirth, title);
+    return [
+      firstName,
+      middleName,
+      lastName,
+      dateOfBirth,
+      title,
+      this.state.email,
+      this.state.phone
+    ];
   };
 
   render() {
@@ -128,6 +152,7 @@ class OfferAvailabilityResult extends React.Component {
               handleChangeLastName={this.handleChangeLastName}
               handleChangeTitle={this.handleChangeTitle}
               onChangePhone={this.onChangePhone}
+              handleSubmit={this.handleSubmit}
             />
           </Col>
         </Row>

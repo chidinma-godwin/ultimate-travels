@@ -2,8 +2,7 @@
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
-const axios = require("axios");
-const qs = require("qs");
+const mongoose = require("mongoose");
 //const bodyParser = require('body-parser');
 require("dotenv").config();
 
@@ -14,6 +13,16 @@ const sessionRoutes = require("./session");
 //const { resolvers } = require('./schema');
 
 const app = express();
+
+// Setup the database
+mongoose.connect(
+  "mongodb+srv://chidex:chidi2SUWA@ultimate-ojdty.mongodb.net/test?retryWrites=true&w=majority"
+);
+mongoose.connection
+  .once("open", () =>
+    console.log("Mongoose connected to database successfully")
+  )
+  .on("error", () => console.log("Mongoose connection error"));
 
 // middlewares
 app.use(cors());

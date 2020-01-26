@@ -15,8 +15,8 @@ body {
 body {
   margin: 0;
   background-color: rgb(240, 245, 247);
-  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", "sans-serif", "Arial";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
@@ -51,8 +51,30 @@ body {
   cursor: pointer;
 }
 
-.booking-container {
-  border: blue 2px;
+.booking-tabs.nav-tabs {
+  margin-right: 1em;
+}
+
+/* Inactive tab */
+.booking-tabs a {
+  background-color: rgb(41, 60, 77);
+  color: white;
+  margin-right: 1em;
+}
+.booking-tabs a:hover {
+  background-color: rgb(123, 123, 204);
+}
+
+/* Active tab */
+.booking-tabs a.nav-link-active,
+.booking-tabs a.nav-link-active:hover,
+.booking-tabs a.nav-link-active:focus {
+  background-color: whitesmoke;
+  color: black;
+}
+
+.booking-tabs.card-header-tabs {
+  margin-bottom: 0;
 }
 
 .form-inline label {
@@ -63,6 +85,10 @@ body {
 .filter-btn:focus {
   text-decoration: none;
   outline: none;
+}
+
+input#phone.phone-form-control {
+  width: inherit;
 }
 
 .noUi-target {

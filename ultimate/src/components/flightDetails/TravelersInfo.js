@@ -1,17 +1,12 @@
 import React from "react";
-import { Card, Form, Col } from "react-bootstrap";
+import { Card, Form, Col, Button } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import CustomForm from "../CustomForm";
 
-class TravelersInfo extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  stringifyNumber = n => {
+const TravelersInfo = props => {
+  const stringifyNumber = n => {
     let special = [
       "Zeroth",
       "First",
@@ -50,135 +45,151 @@ class TravelersInfo extends React.Component {
     return deca[Math.floor(n / 10) - 2] + "y-" + special[n % 10];
   };
 
-  render() {
-    let {
-      flightOffer,
-      dateOfBirth,
-      firstName,
-      middleName,
-      lastName,
-      title,
-      email,
-      phone
-    } = this.props.data;
-    let {
-      handleDateChange,
-      handleEmailChange,
-      handleChangeFirstName,
-      handleChangeMiddleName,
-      handleChangeLastName,
-      handleChangeTitle,
-      onChangePhone
-    } = this.props;
-    flightOffer.countAdult = 0;
-    flightOffer.countChildren = 0;
-    flightOffer.countInfant = 0;
-    return (
-      <Card>
-        <Card.Header
-          style={{
-            fontSize: "1.5em",
-            backgroundColor: "lightslategrey",
-            color: "white"
-          }}
-        >
-          TRAVELLER'S INFORMATION
-        </Card.Header>
-        <Card.Body className="mb-3">
-          <Form>
-            {flightOffer.travelerPricings.map(traveler => {
-              let type = "";
-              let passengerPosition = 0;
-              if (traveler.travelerType === "ADULT") {
-                flightOffer.countAdult += 1;
-                type = "Adult";
-                passengerPosition = this.stringifyNumber(
-                  flightOffer.countAdult
-                );
-              }
-              if (traveler.travelerType === "CHILD") {
-                flightOffer.countChildren += 1;
-                type = "Child";
-                passengerPosition = this.stringifyNumber(
-                  flightOffer.countChildren
-                );
-              }
-              if (traveler.travelerType === "INFANT") {
-                flightOffer.countInfant += 1;
-                type = "Infant";
-                passengerPosition = this.stringifyNumber(
-                  flightOffer.countInfant
-                );
-              }
-              return (
-                <div key={traveler.travelerId} className="mb-4">
-                  <Card.Title>
-                    {traveler.travelerId === "1"
-                      ? "Adult (Primary Contact)"
-                      : `${passengerPosition} ${type}`}
-                  </Card.Title>
-                  <Form.Row>
-                    <CustomForm
-                      controlId={`firstname${traveler.travelerId}`}
-                      label="First Name"
-                      name={`firstName${traveler.travelerId}`}
-                      placeholder="Enter First Name"
-                      value={firstName.get(`firstName${traveler.travelerId}`)}
-                      onChange={handleChangeFirstName}
-                    />
+  let {
+    flightOffer,
+    dateOfBirth,
+    firstName,
+    middleName,
+    lastName,
+    title,
+    email,
+    phone
+  } = props.data;
+  let {
+    handleDateChange,
+    handleEmailChange,
+    handleChangeFirstName,
+    handleChangeMiddleName,
+    handleChangeLastName,
+    handleChangeTitle,
+    onChangePhone,
+    handleSubmit
+  } = props;
+  flightOffer.countAdult = 0;
+  flightOffer.countChildren = 0;
+  flightOffer.countInfant = 0;
+  return (
+    <Card>
+      <Card.Header
+        style={{
+          fontSize: "1.5em",
+          backgroundColor: "lightslategrey",
+          color: "white"
+        }}
+      >
+        TRAVELLER'S INFORMATION
+      </Card.Header>
+      <Card.Body className="mb-3">
+        <Form>
+          {flightOffer.travelerPricings.map(traveler => {
+            let type = "";
+            let passengerPosition = 0;
+            if (traveler.travelerType === "ADULT") {
+              flightOffer.countAdult += 1;
+              type = "Adult";
+              passengerPosition = stringifyNumber(flightOffer.countAdult);
+            }
+            if (traveler.travelerType === "CHILD") {
+              flightOffer.countChildren += 1;
+              type = "Child";
+              passengerPosition = stringifyNumber(flightOffer.countChildren);
+            }
+            if (traveler.travelerType === "INFANT") {
+              flightOffer.countInfant += 1;
+              type = "Infant";
+              passengerPosition = stringifyNumber(flightOffer.countInfant);
+            }
+            return (
+              <div key={traveler.travelerId} className="mb-4">
+                <Card.Title>
+                  {traveler.travelerId === "1"
+                    ? "Adult (Primary Contact)"
+                    : `${passengerPosition} ${type}`}
+                </Card.Title>
+                <Form.Row>
+                  <CustomForm
+                    controlId={`firstname${traveler.travelerId}`}
+                    label="First Name"
+                    name={`firstName${traveler.travelerId}`}
+                    placeholder="Enter First Name"
+                    value={firstName.get(`firstName${traveler.travelerId}`)}
+                    onChange={handleChangeFirstName}
+                    lg="4"
+                    md="6"
+                    sm="12"
+                  />
 
-                    <CustomForm
-                      controlId={`middlename${traveler.travelerId}`}
-                      label="Middle Name"
-                      name={`middleName${traveler.travelerId}`}
-                      placeholder="Enter Middle Name"
-                      value={middleName.get(`middleName${traveler.travelerId}`)}
-                      onChange={handleChangeMiddleName}
-                    />
+                  <CustomForm
+                    controlId={`middlename${traveler.travelerId}`}
+                    label="Middle Name"
+                    name={`middleName${traveler.travelerId}`}
+                    placeholder="Enter Middle Name"
+                    value={middleName.get(`middleName${traveler.travelerId}`)}
+                    onChange={handleChangeMiddleName}
+                    lg="4"
+                    md="6"
+                    sm="12"
+                  />
 
-                    <CustomForm
-                      controlId={`lastname${traveler.travelerId}`}
-                      label="Last Name"
-                      name={`lastName${traveler.travelerId}`}
-                      placeholder="Enter Last Name"
-                      value={lastName.get(`lastName${traveler.travelerId}`)}
-                      onChange={handleChangeLastName}
-                    />
-                  </Form.Row>
+                  <CustomForm
+                    controlId={`lastname${traveler.travelerId}`}
+                    label="Last Name"
+                    name={`lastName${traveler.travelerId}`}
+                    placeholder="Enter Last Name"
+                    value={lastName.get(`lastName${traveler.travelerId}`)}
+                    onChange={handleChangeLastName}
+                    lg="4"
+                    md="6"
+                    sm="12"
+                  />
 
-                  <Form.Row>
-                    <CustomForm
-                      controlId={`title${traveler.travelerId}`}
-                      label="Title"
-                      name={`title${traveler.travelerId}`}
-                      elementType="select"
-                      value={title.get(`title${traveler.travelerId}`)}
-                      onChange={handleChangeTitle}
-                    />
+                  <CustomForm
+                    controlId={`title${traveler.travelerId}`}
+                    label="Title"
+                    name={`title${traveler.travelerId}`}
+                    elementType="select"
+                    value={title.get(`title${traveler.travelerId}`)}
+                    onChange={handleChangeTitle}
+                    option={
+                      <>
+                        <option>Mr</option>
+                        <option>Mrs</option>
+                        <option>Miss</option>
+                      </>
+                    }
+                    lg="6"
+                    md="6"
+                    sm="12"
+                  />
 
-                    <CustomForm
-                      controlId={`date-of-birth${traveler.travelerId}`}
-                      elementType="div"
-                      label="Date of Birth"
-                      name={`dateOfBirth${traveler.travelerId}`}
-                      value={dateOfBirth.get(
-                        `dateOfBirth${traveler.travelerId}`
-                      )}
-                      id="date"
-                      onChange={handleDateChange.bind(
-                        this,
-                        `dateOfBirth${traveler.travelerId}`
-                      )}
-                      placeholderText="YYYY/DD/MM"
-                      DOB={dateOfBirth.get(`dateOfBirth${traveler.travelerId}`)}
-                    />
-                  </Form.Row>
+                  <CustomForm
+                    controlId={`date-of-birth${traveler.travelerId}`}
+                    elementType="div"
+                    label="Date of Birth"
+                    name={`dateOfBirth${traveler.travelerId}`}
+                    value={dateOfBirth.get(`dateOfBirth${traveler.travelerId}`)}
+                    id="date"
+                    onChange={handleDateChange.bind(
+                      this,
+                      `dateOfBirth${traveler.travelerId}`
+                    )}
+                    placeholderText="DD/MM/YYYY"
+                    selected={dateOfBirth.get(
+                      `dateOfBirth${traveler.travelerId}`
+                    )}
+                    lg="6"
+                    md="6"
+                    sm="12"
+                  />
 
                   {traveler.travelerId === "1" ? (
-                    <Form.Row>
+                    <>
                       <Form.Group
                         controlId={`email${traveler.travelerId}`}
                         as={Col}
+                        lg="6"
+                        md="6"
+                        sm="12"
                       >
                         <Form.Label>Email</Form.Label>
                         <Form.Control
@@ -192,6 +203,9 @@ class TravelersInfo extends React.Component {
                       <Form.Group
                         controlId={`phonenumber${traveler.travelerId}`}
                         as={Col}
+                        lg="6"
+                        md="6"
+                        sm="12"
                       >
                         <Form.Label>Phone Number</Form.Label>
                         <PhoneInput
@@ -206,18 +220,22 @@ class TravelersInfo extends React.Component {
                           onChange={phone => onChangePhone(phone)}
                         />
                       </Form.Group>
-                    </Form.Row>
+                    </>
                   ) : (
                     ""
                   )}
-                </div>
-              );
-            })}
-          </Form>
-        </Card.Body>
-      </Card>
-    );
-  }
-}
+                </Form.Row>
+              </div>
+            );
+          })}
+
+          <Button type="submit" onClick={handleSubmit}>
+            Continue
+          </Button>
+        </Form>
+      </Card.Body>
+    </Card>
+  );
+};
 
 export default TravelersInfo;

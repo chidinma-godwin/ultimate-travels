@@ -16,6 +16,7 @@ import kuvajt from "./images/kuvajt.jpg";
 import beirut from "./images/beirut-lebanon.jpg";
 import FlightQuery from "./components/flightDetails/FlightQuery";
 import checkOfferAvailability from "./components/flightDetails/checkOfferAvailability";
+import VisaForm from "./components/visa/VisaForm";
 
 // const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
 //   return new Observable(observer => {
@@ -145,6 +146,7 @@ class App extends React.Component {
               path="/checkOfferAvailability"
               component={checkOfferAvailability}
             />
+            <Route path="/visaApplicationForm" component={VisaForm} />
           </Switch>
           <br />
           <br />

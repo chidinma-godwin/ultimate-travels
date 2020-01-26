@@ -32,7 +32,11 @@ const flightInspirationResolver = {
           // format the location data from the api to an array
           let locations = response.data.dictionaries.locations;
           let locationsArray = [];
-          for (let i in locations) locationsArray.push([i, locations[i]]);
+          let locationsObject = {};
+          for (let i in locations) {
+            locationsObject = { id: i, details: locations[i] };
+            locationsArray.push(locationsObject);
+          }
           response.data.dictionaries.locations = locationsArray;
           console.log(
             response.data,

@@ -25,14 +25,14 @@ class FlightResultHeading extends React.Component {
       >
         <Col xs={9}>
           <div className="text-center">
-            {`${info.from["address"].cityName} (${info.originLocationCode})`}
+            {`${info.originCity} (${info.originLocationCode})`}
             <FontAwesomeIcon
               icon={["fas", "exchange-alt"]}
               className="mr-3 ml-3"
               style={{ color: "white" }}
               size="lg"
             />
-            {`${info.to["address"].cityName} (${info.destinationLocationCode})`}
+            {`${info.destinationCity} (${info.destinationLocationCode})`}
           </div>
           <div className="text-center">{`${info.departureDate} - ${
             info.returnDate

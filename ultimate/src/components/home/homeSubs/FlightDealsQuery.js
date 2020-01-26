@@ -1,30 +1,30 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { getInspirationPlaces } from "../../../queries/queries";
-import { FlightDeals } from "./FlightDeals";
+import TopFlightDeals from "./TopFlightDeals";
 
-const FlightDealsQuery = () => {
+function FlightDealsQuery() {
   return (
     <Query
       query={getInspirationPlaces}
       variables={{
-        origin: "abq",
+        origin: "fra",
         //   departureDate: String
         viewBy: "COUNTRY"
       }}
     >
       {({ error, loading, data }) => {
-        if (loading) "loading...";
+        if (loading) return "loading...";
         if (error) {
           console.log(error);
-          return "Please fill the flight form";
+          return "No deals available presently";
         }
 
         console.log(data);
-        return <FlightDeals data={data} />;
+        return <TopFlightDeals data={data} />;
       }}
     </Query>
   );
-};
+}
 
 export default FlightDealsQuery;

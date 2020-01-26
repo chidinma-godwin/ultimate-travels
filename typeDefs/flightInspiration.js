@@ -53,7 +53,17 @@ const flightInspiration = gql`
 
   type InspirationPlacesDictionary {
     currencies: [[String]]
-    locations: [[String]]
+    locations: [InspirationLocationType]
+  }
+
+  type InspirationLocationType {
+    id: String
+    details: LocationDetailsType
+  }
+
+  type LocationDetailsType {
+    subType: String
+    detailedName: String
   }
 
   # "dictionaries": {

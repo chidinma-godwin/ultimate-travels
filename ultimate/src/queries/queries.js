@@ -212,6 +212,16 @@ const getInspirationPlaces = gql`
           flightOffers
         }
       }
+      dictionaries {
+        currencies
+        locations {
+          id
+          details {
+            subType
+            detailedName
+          }
+        }
+      }
     }
   }
 `;
