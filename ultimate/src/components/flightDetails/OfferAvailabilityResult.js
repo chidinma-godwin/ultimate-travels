@@ -18,6 +18,7 @@ class OfferAvailabilityResult extends React.Component {
       email: "",
       phone: ""
     };
+    this.traveler = {};
   }
 
   handleChangeFirstName = evt => {
@@ -72,31 +73,32 @@ class OfferAvailabilityResult extends React.Component {
     }));
   };
 
-  handleSubmit = evt => {
-    evt.preventDefault();
+  handleSubmit = () => {
     console.log("it worked");
-    let firstName = {};
-    let middleName = {};
-    let lastName = {};
-    let dateOfBirth = {};
-    let title = {};
-    this.state.firstName.forEach((val, key) => (firstName[key] = val));
-    this.state.lastName.forEach((val, key) => (lastName[key] = val));
-    this.state.middleName.forEach((val, key) => (middleName[key] = val));
-    this.state.dateOfBirth.forEach(
-      (val, key) => (dateOfBirth[key] = val.toIsoString().split("T")[0])
-    );
-    this.state.title.forEach((val, key) => (title[key] = val));
-    console.log(firstName, middleName, lastName, dateOfBirth, title);
-    return [
-      firstName,
-      middleName,
-      lastName,
-      dateOfBirth,
-      title,
-      this.state.email,
-      this.state.phone
-    ];
+    // Declare variables to store the inputted traveler info
+    let firstName = [];
+    let middleName = [];
+    let lastName = [];
+    let dateOfBirth = [];
+    let title = [];
+
+    // Push the key value pair of traveler details to the variables declared above
+    this.state.firstName.forEach((val, key) => firstName.push([key, val]));
+    this.state.lastName.forEach((val, key) => lastName.push([key, val]));
+    this.state.middleName.forEach((val, key) => middleName.push([key, val]));
+    this.state.dateOfBirth.forEach((val, key) => dateOfBirth.push([key, val]));
+    this.state.title.forEach((val, key) => title.push([key, val]));
+
+    // Store the formatted variable in an objectthis.
+    this.traveler.firstName = firstName;
+    this.traveler.middleName = middleName;
+    this.traveler.lastName = lastName;
+    this.traveler.dateOfBirth = dateOfBirth;
+    this.traveler.title = title;
+    this.traveler.email = this.state.email;
+    this.traveler.phoneNum = this.state.phone;
+    console.log(this.traveler);
+    return this.traveler;
   };
 
   render() {
@@ -138,11 +140,11 @@ class OfferAvailabilityResult extends React.Component {
           : ""}
 
         <Row>
-          <Col lg={3} className="mb-5">
+          <Col md={12} lg={4} className="mb-5">
             <SelectedFlightInfo userInfo={userInfo} flightOffer={flightOffer} />
           </Col>
 
-          <Col lg={9}>
+          <Col md={12} lg={8}>
             <TravelersInfo
               data={this.state}
               handleDateChange={this.handleDateChange}
@@ -153,6 +155,7 @@ class OfferAvailabilityResult extends React.Component {
               handleChangeTitle={this.handleChangeTitle}
               onChangePhone={this.onChangePhone}
               handleSubmit={this.handleSubmit}
+              traveler={this.traveler}
             />
           </Col>
         </Row>

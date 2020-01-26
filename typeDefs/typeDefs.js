@@ -4,6 +4,8 @@ const session = require("./session");
 const flightDetails = require("./flights");
 const checkOffer = require("./checkOffer");
 const flightInspiration = require("./flightInspiration");
+const traveler = require("./traveler");
+const visaProcessing = require("./visaProcessing");
 
 module.exports = [
   root,
@@ -11,5 +13,7 @@ module.exports = [
   session,
   flightDetails,
   checkOffer,
-  flightInspiration
+  flightInspiration,
+  traveler,
+  visaProcessing
 ];

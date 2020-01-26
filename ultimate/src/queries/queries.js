@@ -226,9 +226,98 @@ const getInspirationPlaces = gql`
   }
 `;
 
+const getTravelers = gql`
+  query {
+    allTravelers {
+      id
+      firstName
+      middleName
+      lastName
+      dateOfBirth
+      title
+      email
+      phone
+      createdAt
+    }
+  }
+`;
+
+const addTraveler = gql`
+  mutation addTraveler($input: TravelerInfo!) {
+    addTraveler(input: $input) {
+      id
+      firstName
+      middleName
+      lastName
+      dateOfBirth
+      title
+      email
+      phoneNum
+      createdAt
+    }
+  }
+`;
+
+const getVisaRequests = gql`
+  query {
+    allVisaRequest {
+      id
+      firstName
+      middleName
+      lastName
+      title
+      gender
+      dateOfBirth
+      status
+      phone
+      nationality
+      employmentStatus
+      address
+      departureDate
+      returnDate
+      travelHistory
+      destination
+      passportExpiryDate
+      passportNum
+      createdAt
+    }
+  }
+`;
+
+const addVisaRequest = gql`
+  mutation addVisaRequest($input: VisaRequestInfo!) {
+    addVisaRequest(input: $input) {
+      id
+      firstName
+      middleName
+      lastName
+      title
+      gender
+      dateOfBirth
+      status
+      phoneNum
+      email
+      nationality
+      employmentStatus
+      address
+      departureDate
+      returnDate
+      travelHistory
+      destination
+      passportExpiryDate
+      passportNum
+      createdAt
+    }
+  }
+`;
+
 export {
   getPlacesQuery,
   getFlightDetails,
   checkOfferQuery,
-  getInspirationPlaces
+  getInspirationPlaces,
+  getTravelers,
+  addTraveler,
+  addVisaRequest,
+  getVisaRequests
 };

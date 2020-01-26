@@ -160,6 +160,21 @@ const PersonalInfo = props => {
       </Form.Group>
 
       <CustomForm
+        labelClassName="font-weight-bold"
+        controlId="email"
+        formGroupClassName="mb-3"
+        label="Email"
+        name="email"
+        placeholder="Enter Email"
+        value={props.email}
+        onChange={props.handleChange}
+        type="email"
+        lg="4"
+        md="6"
+        sm="12"
+      />
+
+      <CustomForm
         controlId="nationality"
         labelClassName="font-weight-bold"
         formGroupClassName="mb-3"

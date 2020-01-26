@@ -16,7 +16,8 @@ const app = express();
 
 // Setup the database
 mongoose.connect(
-  "mongodb+srv://chidex:chidi2SUWA@ultimate-ojdty.mongodb.net/test?retryWrites=true&w=majority"
+  "mongodb+srv://chidex:chidi2SUWA@ultimate-ojdty.mongodb.net/test?retryWrites=true&w=majority",
+  { useNewUrlParser: true, useUnifiedTopology: true }
 );
 mongoose.connection
   .once("open", () =>

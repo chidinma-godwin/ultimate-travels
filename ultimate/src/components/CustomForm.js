@@ -22,7 +22,8 @@ const CustomForm = ({
   formGroupClassName,
   showMore = true,
   minDate = undefined,
-  plaintext = false
+  plaintext = false,
+  type = "text"
 }) => {
   if (elementType === "select") {
     return (
@@ -96,6 +97,7 @@ const CustomForm = ({
           onChange={onChange}
           name={name}
           size="sm"
+          type={type}
           plaintext={plaintext}
         ></Form.Control>
       </Form.Group>
@@ -107,6 +109,7 @@ CustomForm.propTypes = {
   controlId: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  type: PropTypes.string,
   value: PropTypes.any,
   placeholder: PropTypes.string,
   onChange: PropTypes.func.isRequired,

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/chidinma-godwin/ultimate-travels#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.0",
     "apollo-server-express": "^2.9.14",
     "axios": "^0.19.0",
     "cors": "^2.8.5",
@@ -27,6 +28,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^14.5.8",
+    "joi-phone-number": "^4.0.0",
     "mongoose": "^5.8.9",
     "multer": "^1.4.2",
     "qs": "^6.9.1"

@@ -15,7 +15,7 @@ const TravelInfo = props => {
         value={props.departureDate}
         id="departureDate"
         onChange={props.handleDateChange.bind(this, "departureDate")}
-        selected={props.departureDate}
+        // selected={props.departureDate}
         minDate={new Date()}
         showMore={false}
         lg="4"
@@ -106,7 +106,7 @@ const TravelInfo = props => {
         sm="12"
       />
 
-      <Form.Group
+      {/* <Form.Group
         controlId="phone"
         className="mb-3"
         as={Col}
@@ -116,7 +116,7 @@ const TravelInfo = props => {
       >
         <Form.Label className="font-weight-bold">Passport Data Page</Form.Label>
         <Form.Control type="file" onChange={props.onChangeFile} />
-      </Form.Group>
+      </Form.Group> */}
 
       <CustomForm
         labelClassName="font-weight-bold"
