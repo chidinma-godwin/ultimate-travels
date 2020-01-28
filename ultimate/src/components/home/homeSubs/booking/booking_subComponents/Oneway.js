@@ -133,6 +133,9 @@ class OneWay extends React.Component {
           adults={this.state.adults}
           children={this.state.children}
           infants={this.state.infants}
+          numAdults={6}
+          numChildren={4}
+          show={true}
         />
       </Popover>
     );

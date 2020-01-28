@@ -5,6 +5,7 @@ const checkOfferResolver = require("./checkOfferResolver");
 const flightInspirationResolver = require("./flightInspirationResolver");
 const travelerResolver = require("./travelerResolver");
 const visaProcessingResolver = require("./visaProcessingResolver");
+const hotelsResolver = require("./hotelsResolver");
 
 module.exports = [
   placesResolver,
@@ -13,5 +14,6 @@ module.exports = [
   checkOfferResolver,
   flightInspirationResolver,
   travelerResolver,
-  visaProcessingResolver
+  visaProcessingResolver,
+  hotelsResolver
 ];

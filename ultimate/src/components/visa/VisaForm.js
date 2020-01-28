@@ -124,6 +124,7 @@ class VisaForm extends React.Component {
                       handleChange={this.handleChange}
                       handleDateChange={this.handleDateChange}
                       onChangePhone={this.onChangePhone}
+                      // onChangeFile={this.onChangeFile}
                     />
 
                     <Button

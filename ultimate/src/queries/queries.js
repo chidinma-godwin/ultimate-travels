@@ -277,6 +277,7 @@ const getVisaRequests = gql`
       returnDate
       travelHistory
       destination
+      # selectedFile
       passportExpiryDate
       passportNum
       createdAt
@@ -307,6 +308,111 @@ const addVisaRequest = gql`
       passportExpiryDate
       passportNum
       createdAt
+      # selectedFile
+    }
+  }
+`;
+
+const getHotels = gql`
+  query(
+    $cityCode: String!
+    $checkInDate: String
+    $checkOutDate: String
+    $roomQuantity: Int
+    $adults: Int
+    $hotelName: String
+  ) {
+    hotels(
+      cityCode: $cityCode
+      checkInDate: $checkInDate
+      checkOutDate: $checkOutDate
+      roomQuantity: $roomQuantity
+      adults: $adults
+      hotelName: $hotelName
+    ) {
+      data {
+        type
+        hotel {
+          name
+          rating
+          hotelDistance {
+            distance
+            distanceUnit
+          }
+          address {
+            lines
+            cityName
+          }
+          contact {
+            phone
+            fax
+            email
+          }
+          description {
+            lang
+            text
+          }
+          amenities
+          media {
+            uri
+            category
+          }
+        }
+        available
+        offers {
+          id
+          rateCode
+          description {
+            lang
+            text
+          }
+          boardType
+          room {
+            type
+            typeEstimated {
+              category
+            }
+            description {
+              lang
+              text
+            }
+          }
+          guests {
+            adults
+          }
+          price {
+            currency
+            total
+            variations {
+              average {
+                total
+              }
+            }
+            changes {
+              startDate
+              endDate
+              total
+            }
+          }
+          # policies{
+          #   guarantee{
+          #     creditCards
+          #     methods
+          #   }
+          #   paymentType
+          #   cancellation{
+          #     numberOfNights
+          #     deadline
+          #   }
+          # }
+        }
+        self
+      }
+      meta {
+        links {
+          next
+        }
+      }
     }
   }
 `;
@@ -319,5 +425,6 @@ export {
   getTravelers,
   addTraveler,
   addVisaRequest,
-  getVisaRequests
+  getVisaRequests,
+  getHotels
 };

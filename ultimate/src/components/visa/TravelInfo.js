@@ -15,7 +15,7 @@ const TravelInfo = props => {
         value={props.departureDate}
         id="departureDate"
         onChange={props.handleDateChange.bind(this, "departureDate")}
-        // selected={props.departureDate}
+        selected={props.departureDate}
         minDate={new Date()}
         showMore={false}
         lg="4"

@@ -21,6 +21,7 @@ const visaSchema = new Schema(
     destination: String,
     passportExpiryDate: String,
     passportNum: String
+    // selectedFile: String
   },
   {
     timestamps: true

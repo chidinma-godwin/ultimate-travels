@@ -32,6 +32,7 @@ const visaProcessing = gql`
     destination: String!
     passportExpiryDate: String!
     passportNum: String!
+    # selectedFile: String!
   }
 
   type VisaDetails {
@@ -55,6 +56,13 @@ const visaProcessing = gql`
     passportExpiryDate: String!
     passportNum: String!
     createdAt: String!
+    # selectedFile: File!
+  }
+
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
   }
 `;
 

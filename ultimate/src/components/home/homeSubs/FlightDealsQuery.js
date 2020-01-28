@@ -2,6 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import { getInspirationPlaces } from "../../../queries/queries";
 import TopFlightDeals from "./TopFlightDeals";
+import ErrorBoundary from "../../ErrorBoundary";
 
 function FlightDealsQuery() {
   return (
@@ -21,7 +22,11 @@ function FlightDealsQuery() {
         }
 
         console.log(data);
-        return <TopFlightDeals data={data} />;
+        return (
+          <ErrorBoundary>
+            <TopFlightDeals data={data} />
+          </ErrorBoundary>
+        );
       }}
     </Query>
   );

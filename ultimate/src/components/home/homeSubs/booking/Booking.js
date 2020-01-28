@@ -4,6 +4,7 @@ import { Tabs, Tab, Card, FormCheck, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bahrain from "../../../../images/bahrain.jpg";
 import { Redirect } from "react-router-dom";
+import HotelForm from "../../../hotel/HotelForm";
 
 class Booking extends React.Component {
   constructor() {
@@ -194,7 +195,15 @@ class Booking extends React.Component {
               }
               eventKey="Hotel"
             >
-              Search for hotels here
+              <div
+                style={{
+                  padding: "1em",
+                  color: "white",
+                  backgroundColor: "rgba(0,0,0,0.7)"
+                }}
+              >
+                <HotelForm />
+              </div>
             </Tab>
 
             <Tab

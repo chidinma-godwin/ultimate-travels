@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ApolloClient } from "apollo-client";
-import { createHttpLink } from "apollo-link-http";
+import { createUploadLink } from "apollo-upload-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 //import { ApolloLink, Observable } from 'apollo-link';
@@ -17,6 +17,7 @@ import beirut from "./images/beirut-lebanon.jpg";
 import FlightQuery from "./components/flightDetails/FlightQuery";
 import checkOfferAvailability from "./components/flightDetails/checkOfferAvailability";
 import VisaForm from "./components/visa/VisaForm";
+import HotelQuery from "./components/hotel/HotelQuery";
 
 // const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
 //   return new Observable(observer => {
@@ -34,13 +35,13 @@ import VisaForm from "./components/visa/VisaForm";
 //   })
 // });
 
-const httpLink = createHttpLink({
+const uploadLink = createUploadLink({
   uri: "http://localhost:5000/graphql"
   //includeExtensions: true
 });
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: uploadLink,
   cache: new InMemoryCache({
     addTypename: false
   })
@@ -147,6 +148,13 @@ class App extends React.Component {
               component={checkOfferAvailability}
             />
             <Route path="/visaApplicationForm" component={VisaForm} />
+
+            <Route
+              path="/hotels"
+              render={props => (
+                <HotelQuery {...props} currency={this.state.currency} />
+              )}
+            />
           </Switch>
           <br />
           <br />
