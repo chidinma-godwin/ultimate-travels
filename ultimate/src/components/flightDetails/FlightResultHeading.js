@@ -13,7 +13,17 @@ class FlightResultHeading extends React.Component {
 
   render() {
     let info = this.state.info;
-
+    let originCity = info.from[0][1].address.cityName;
+    let originLocationCode = info.from[0][1].iataCode;
+    let destinationCity = info.to[info.to.length - 1][1].address.cityName;
+    let destinationLocationCode = info.to[info.to.length - 1][1].iataCode;
+    let departureDate = info.departureDate[0][1].toISOString().split("T")[0];
+    let lastDepartureDate =
+      info.departureDate.length > 1
+        ? info.departureDate[info.departureDate.length - 1][1]
+            .toISOString()
+            .split("T")[0]
+        : "";
     return (
       <Row
         style={{
@@ -25,17 +35,17 @@ class FlightResultHeading extends React.Component {
       >
         <Col xs={9}>
           <div className="text-center">
-            {`${info.originCity} (${info.originLocationCode})`}
+            {`${originCity} (${originLocationCode})`}
             <FontAwesomeIcon
               icon={["fas", "exchange-alt"]}
               className="mr-3 ml-3"
               style={{ color: "white" }}
               size="lg"
             />
-            {`${info.destinationCity} (${info.destinationLocationCode})`}
+            {`${destinationCity} (${destinationLocationCode})`}
           </div>
-          <div className="text-center">{`${info.departureDate} - ${
-            info.returnDate
+          <div className="text-center">{`${departureDate} - ${
+            info.returnDate ? info.returnDate : lastDepartureDate
           }  |  ${info.adults} 
                   ${info.adults === "1" ? "Adult" : "Adults"}  | ${
             info.children > 1

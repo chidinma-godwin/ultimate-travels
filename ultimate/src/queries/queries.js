@@ -333,6 +333,7 @@ const getHotels = gql`
       data {
         type
         hotel {
+          hotelId
           name
           rating
           hotelDistance {
@@ -417,6 +418,94 @@ const getHotels = gql`
   }
 `;
 
+const getHotelOffers = gql`
+  query(
+    $hotelId: String!
+    $checkInDate: String
+    $checkOutDate: String
+    $roomQuantity: Int
+    $adults: Int
+  ) {
+    hotelOffers(
+      hotelId: $hotelId
+      checkInDate: $checkInDate
+      checkOutDate: $checkOutDate
+      roomQuantity: $roomQuantity
+      adults: $adults
+    ) {
+      data {
+        type
+        hotel {
+          hotelId
+          name
+          rating
+          hotelDistance {
+            distance
+            distanceUnit
+          }
+          address {
+            postalCode
+            lines
+            cityName
+          }
+          contact {
+            phone
+            fax
+            email
+          }
+          description {
+            lang
+            text
+          }
+          amenities
+          media {
+            uri
+            category
+          }
+        }
+        available
+        offers {
+          id
+          rateCode
+          description {
+            lang
+            text
+          }
+          boardType
+          room {
+            type
+            typeEstimated {
+              category
+            }
+            description {
+              lang
+              text
+            }
+          }
+          guests {
+            adults
+          }
+          price {
+            currency
+            total
+            variations {
+              average {
+                total
+              }
+            }
+            changes {
+              startDate
+              endDate
+              total
+            }
+          }
+          self
+        }
+      }
+    }
+  }
+`;
+
 export {
   getPlacesQuery,
   getFlightDetails,
@@ -426,5 +515,6 @@ export {
   addTraveler,
   addVisaRequest,
   getVisaRequests,
-  getHotels
+  getHotels,
+  getHotelOffers
 };

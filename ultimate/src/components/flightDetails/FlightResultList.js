@@ -58,21 +58,38 @@ class FlightResultList extends React.Component {
       }
     }
     return (
-      <React.Fragment>
+      <Row>
         {/* present the flight result in an array of cards */}
-        {this.props.flightData.length > 0
-          ? this.props.flightData.map(flight => {
+        {/* a[0].map((b,c)=> {let k=[]; k.push(b); for(let i=1; i<a.length; i++){k.push(a[i][c])}; w.push(k)}) */}
+        {this.props.flightData[0].length > 0
+          ? this.props.flightData[0].map((flight, index) => {
+              let joinedData = [];
+              joinedData.push(flight);
+              for (let i = 1; i < this.props.flightData.length; i++) {
+                joinedData.push(this.props.flightData[i][index]);
+              }
               // declare outbound flight variables
-              let outboundTime = flight.itineraries[0].duration
-                .slice(2)
-                .split("H");
-              let outboundItineraryDeparture =
-                flight.itineraries[0].segments[0].departure;
-              let outboundStops = flight.itineraries[0].segments.length - 1;
-              let outboundItineraryArrival =
-                flight.itineraries[0].segments[
-                  flight.itineraries[0].segments.length - 1
-                ].arrival;
+              let outboundTime = joinedData.map(flight =>
+                flight.itineraries[0].duration.slice(2).split("H")
+              );
+              let outboundItineraryDeparture = joinedData.map(
+                flight => flight.itineraries[0].segments[0].departure
+              );
+              let outboundStops = joinedData.map(
+                flight => flight.itineraries[0].segments.length - 1
+              );
+              let outboundItineraryArrival = joinedData.map(
+                flight =>
+                  flight.itineraries[0].segments[
+                    flight.itineraries[0].segments.length - 1
+                  ].arrival
+              );
+              // console.log(
+              //   outboundItineraryArrival,
+              //   outboundItineraryDeparture,
+              //   outboundStops,
+              //   outboundStops
+              // );
 
               // declare inbound flight variables
               let inboundTime,
@@ -102,42 +119,97 @@ class FlightResultList extends React.Component {
                 >
                   <Card.Body>
                     <Row className="mb-2">
-                      <Col
-                        xs={2}
-                        className={length === 1 ? "align-self-center" : ""}
-                      >
-                        <Image
-                          src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${flight.itineraries[0].segments[0].carrierCode}`}
-                          fluid
-                        />
-                      </Col>
-                      <Col
-                        xs={7}
-                        className={length === 1 ? "align-self-center" : ""}
-                      >
-                        {`${outboundItineraryDeparture.iataCode} ${
-                          outboundItineraryDeparture.at.split("T")[1]
-                        }`}
-                        <FontAwesomeIcon
-                          icon={["fas", "long-arrow-alt-right"]}
-                          className="mr-3 ml-3"
-                          style={{ color: "blue" }}
-                          size="lg"
-                        />
-                        {`${outboundTime[0]}H ${
-                          outboundTime[1]
-                        }  |  ${outboundStops} ${
-                          outboundStops > 1 ? "stops" : "stop"
-                        }`}
-                        <FontAwesomeIcon
-                          icon={["fas", "long-arrow-alt-right"]}
-                          className="mr-3 ml-3"
-                          style={{ color: "blue" }}
-                          size="lg"
-                        />{" "}
-                        {`${outboundItineraryArrival.iataCode} ${
-                          outboundItineraryArrival.at.split("T")[1]
-                        }`}
+                      <Col xs={9}>
+                        {joinedData.map((flight, i) => {
+                          return (
+                            <Row key={i}>
+                              <Col
+                                xs={3}
+                                className={
+                                  length === 1 ? "align-self-center" : ""
+                                }
+                              >
+                                <Image
+                                  src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${flight.itineraries[0].segments[0].carrierCode}`}
+                                  fluid
+                                />
+                              </Col>
+                              <Col
+                                xs={9}
+                                className={
+                                  length === 1 ? "align-self-center" : ""
+                                }
+                              >
+                                {`${outboundItineraryDeparture[i].iataCode} ${
+                                  outboundItineraryDeparture[i].at.split("T")[1]
+                                }`}
+                                <FontAwesomeIcon
+                                  icon={["fas", "long-arrow-alt-right"]}
+                                  className="mr-1 ml-1"
+                                  style={{ color: "blue" }}
+                                  size="lg"
+                                />
+                                {`${outboundTime[i][0]}H ${
+                                  outboundTime[i][1]
+                                }  |  ${outboundStops[i]} ${
+                                  outboundStops[i] > 1 ? "stops" : "stop"
+                                }`}
+                                <FontAwesomeIcon
+                                  icon={["fas", "long-arrow-alt-right"]}
+                                  className="mr-1 ml-1"
+                                  style={{ color: "blue" }}
+                                  size="lg"
+                                />{" "}
+                                {`${outboundItineraryArrival[i].iataCode} ${
+                                  outboundItineraryArrival[i].at.split("T")[1]
+                                }`}
+                              </Col>
+                            </Row>
+                          );
+                        })}
+
+                        {flight.itineraries.length > 1 ? (
+                          <Row>
+                            <Col xs={3}>
+                              <Image
+                                src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${
+                                  flight.itineraries[1].segments[
+                                    flight.itineraries[1].segments.length - 1
+                                  ].carrierCode
+                                }`}
+                                fluid
+                              />
+                            </Col>
+
+                            <Col xs={9}>
+                              {`${inboundItineraryDeparture.iataCode} ${
+                                inboundItineraryDeparture.at.split("T")[1]
+                              }`}{" "}
+                              <FontAwesomeIcon
+                                icon={["fas", "long-arrow-alt-right"]}
+                                className="mr-1 ml-1"
+                                style={{ color: "blue" }}
+                                size="lg"
+                              />
+                              {`${inboundTime[0]}H ${
+                                inboundTime[1]
+                              }  |  ${inboundStops} ${
+                                inboundStops > 1 ? "stops" : "stop"
+                              }`}{" "}
+                              <FontAwesomeIcon
+                                icon={["fas", "long-arrow-alt-right"]}
+                                className="mr-1 ml-1"
+                                style={{ color: "blue" }}
+                                size="lg"
+                              />{" "}
+                              {`${inboundItineraryArrival.iataCode} ${
+                                inboundItineraryArrival.at.split("T")[1]
+                              }`}
+                            </Col>
+                          </Row>
+                        ) : (
+                          ""
+                        )}
                       </Col>
 
                       <Col xs={3}>
@@ -146,19 +218,30 @@ class FlightResultList extends React.Component {
                               } from`} */}
                         <div>
                           <span>&#8358;</span>
-                          {`${flight.price.total}`}
+                          {`${joinedData
+                            .reduce(
+                              (total, tripData) =>
+                                total + tripData.price.total * 1,
+                              0
+                            )
+                            .toFixed(2)}`}
+                          {/* {`${flight.price.total}`} */}
                         </div>
 
-                        <div
-                          className="mt-2 mb-2"
-                          style={{
-                            border: "1px solid green",
-                            width: "fit-content",
-                            padding: "0.5em"
-                          }}
-                        >
-                          {`${flight.numberOfBookableSeats} seats left`}
-                        </div>
+                        {this.props.flightData.length === 1 ? (
+                          <div
+                            className="mt-2 mb-2"
+                            style={{
+                              border: "1px solid green",
+                              width: "fit-content",
+                              padding: "0.5em"
+                            }}
+                          >
+                            {`${flight.numberOfBookableSeats} seats left`}
+                          </div>
+                        ) : (
+                          ""
+                        )}
 
                         <div>
                           <Button
@@ -172,56 +255,13 @@ class FlightResultList extends React.Component {
                       </Col>
                       <br />
                       <br />
-
-                      {flight.itineraries.length > 1 ? (
-                        <React.Fragment>
-                          <Col xs={2}>
-                            <Image
-                              src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${
-                                flight.itineraries[1].segments[
-                                  flight.itineraries[1].segments.length - 1
-                                ].carrierCode
-                              }`}
-                              fluid
-                            />
-                          </Col>
-
-                          <Col xs={7}>
-                            {`${inboundItineraryDeparture.iataCode} ${
-                              inboundItineraryDeparture.at.split("T")[1]
-                            }`}{" "}
-                            <FontAwesomeIcon
-                              icon={["fas", "long-arrow-alt-right"]}
-                              className="mr-3 ml-3"
-                              style={{ color: "blue" }}
-                              size="lg"
-                            />
-                            {`${inboundTime[0]}H ${
-                              inboundTime[1]
-                            }  |  ${inboundStops} ${
-                              inboundStops > 1 ? "stops" : "stop"
-                            }`}{" "}
-                            <FontAwesomeIcon
-                              icon={["fas", "long-arrow-alt-right"]}
-                              className="mr-3 ml-3"
-                              style={{ color: "blue" }}
-                              size="lg"
-                            />{" "}
-                            {`${inboundItineraryArrival.iataCode} ${
-                              inboundItineraryArrival.at.split("T")[1]
-                            }`}
-                          </Col>
-                        </React.Fragment>
-                      ) : (
-                        ""
-                      )}
                     </Row>
                   </Card.Body>
                 </Card>
               );
             })
           : "No result matches your search"}
-      </React.Fragment>
+      </Row>
     );
   }
 }

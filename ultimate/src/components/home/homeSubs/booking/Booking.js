@@ -1,5 +1,5 @@
 import React from "react";
-import Oneway from "./booking_subComponents/Oneway";
+import Trip from "./booking_subComponents/Trip";
 import { Tabs, Tab, Card, FormCheck, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import bahrain from "../../../../images/bahrain.jpg";
@@ -10,7 +10,7 @@ class Booking extends React.Component {
   constructor() {
     super();
     this.state = {
-      oneway: false,
+      singleTrip: false,
       roundtrip: true,
       multipletrip: false,
       tripCount: 1,
@@ -20,16 +20,22 @@ class Booking extends React.Component {
   }
 
   handleAddTrip = () => {
-    this.setState({ tripCount: this.state.tripCount + 1 });
+    this.setState(prevState => {
+      // this.selectedCityOptions.push(this.cityArray[prevState.tripCount]);
+      return { tripCount: prevState.tripCount + 1 };
+    });
   };
 
   handleRemoveTrip = () => {
-    this.setState({ tripCount: Math.max(this.state.tripCount - 1, 1) });
+    this.setState(prevState => {
+      //this.selectedCityOptions.pop();
+      return { tripCount: Math.max(prevState.tripCount - 1, 1) };
+    });
   };
 
-  handleOnewayChange = () => {
+  handleSingleTripChange = () => {
     this.setState(prevState => ({
-      oneway: !prevState.oneway,
+      singleTrip: !prevState.one,
       tripCount: 1,
       roundtrip: false,
       multipletrip: false
@@ -40,17 +46,18 @@ class Booking extends React.Component {
     this.setState(prevState => ({
       roundtrip: !prevState.roundtrip,
       tripCount: 1,
-      oneway: false,
+      singleTrip: false,
       multipletrip: false
     }));
   };
 
   handleMultipleTripChange = () => {
+    //this.selectedCityOptions.push(this.cityArray[1]);
     this.setState(prevState => ({
       multipletrip: !prevState.multipletrip,
       tripCount: 2,
       roundtrip: false,
-      oneway: false
+      singleTrip: false
     }));
   };
 
@@ -67,16 +74,19 @@ class Booking extends React.Component {
     if (this.state.redirect) {
       return <Redirect push to={this.state.redirect} />;
     }
-    let trips = [];
+
+    let cityArray = [
+      "firstCity",
+      "secondCity",
+      "thirdCity",
+      "fourthCity",
+      "fifthCity",
+      "sixthCity"
+    ];
+    let selectedCityOptions = [];
 
     for (let i = 0; i < this.state.tripCount; i++) {
-      trips.push(
-        <Oneway
-          key={i}
-          oneway={this.state.oneway}
-          multipletrip={this.state.multipletrip}
-        />
-      );
+      selectedCityOptions.push(cityArray[i]);
     }
 
     return (
@@ -119,9 +129,9 @@ class Booking extends React.Component {
                   label="One Way"
                   type="radio"
                   name="trip"
-                  id="oneway"
-                  checked={this.state.oneway}
-                  onChange={this.handleOnewayChange}
+                  id="one"
+                  checked={this.state.singleTrip}
+                  onChange={this.handleSingleTripChange}
                 />
                 <FormCheck
                   inline
@@ -176,7 +186,13 @@ class Booking extends React.Component {
                 )}
                 <br />
 
-                {trips}
+                {/* {trips} */}
+                <Trip
+                  currency={this.props.currency}
+                  selectedCityOptions={selectedCityOptions}
+                  singleTrip={this.state.singleTrip}
+                  multipletrip={this.state.multipletrip}
+                />
               </div>
             </Tab>
 

@@ -7,6 +7,8 @@ const flightInspiration = require("./flightInspiration");
 const traveler = require("./traveler");
 const visaProcessing = require("./visaProcessing");
 const hotels = require("./hotels");
+const hotelBooking = require("./hotelBooking");
+const tour = require("./tour");
 
 module.exports = [
   root,
@@ -17,5 +19,7 @@ module.exports = [
   flightInspiration,
   traveler,
   visaProcessing,
-  hotels
+  hotels,
+  hotelBooking,
+  tour
 ];

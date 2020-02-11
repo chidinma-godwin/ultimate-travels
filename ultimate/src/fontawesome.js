@@ -18,8 +18,11 @@ import {
   faPlus,
   faMinus,
   faLongArrowAltLeft,
-  faLongArrowAltRight
+  faLongArrowAltRight,
+  faStar,
+  faMapMarkerAlt
 } from "@fortawesome/free-solid-svg-icons";
+import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import { faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
 
 library.add(
@@ -41,5 +44,8 @@ library.add(
   faPlus,
   faMinus,
   faLongArrowAltLeft,
-  faLongArrowAltRight
+  faLongArrowAltRight,
+  faStar,
+  faStarRegular,
+  faMapMarkerAlt
 );

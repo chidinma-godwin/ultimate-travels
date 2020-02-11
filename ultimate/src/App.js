@@ -18,6 +18,10 @@ import FlightQuery from "./components/flightDetails/FlightQuery";
 import checkOfferAvailability from "./components/flightDetails/checkOfferAvailability";
 import VisaForm from "./components/visa/VisaForm";
 import HotelQuery from "./components/hotel/HotelQuery";
+import AdminPanel from "./components/admin/AdminPanel";
+import ShowMore from "./components/hotel/ShowMore";
+import GuestInfo from "./components/hotel/GuestInfo";
+import NetplusPayment from "./components/NetplusPayment";
 
 // const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
 //   return new Observable(observer => {
@@ -135,7 +139,13 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              render={props => <Home {...props} deals={this.state.deals} />}
+              render={props => (
+                <Home
+                  {...props}
+                  deals={this.state.deals}
+                  currency={this.state.currency}
+                />
+              )}
             />
             <Route
               path="/flightDetails"
@@ -155,6 +165,11 @@ class App extends React.Component {
                 <HotelQuery {...props} currency={this.state.currency} />
               )}
             />
+
+            <Route path="/admin" component={AdminPanel} />
+            <Route path="/showMore" component={ShowMore} />
+            <Route path="/guestInfo" component={GuestInfo} />
+            <Route path="/netplusPayment" component={NetplusPayment} />
           </Switch>
           <br />
           <br />

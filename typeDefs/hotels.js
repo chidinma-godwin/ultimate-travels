@@ -13,6 +13,22 @@ const hotels = gql`
     ): HotelsListType
   }
 
+  extend type Query {
+    hotelOffers(
+      hotelId: String!
+      checkInDate: String
+      checkOutDate: String
+      roomQuantity: Int
+      adults: Int
+      hotelName: String
+      currency: String
+    ): HotelOfferListType
+  }
+
+  type HotelOfferListType {
+    data: HotelOfferType
+  }
+
   type HotelsListType {
     data: [HotelOfferType]
     meta: HotelMetaType
@@ -55,6 +71,7 @@ const hotels = gql`
 
   type HotelAddressType {
     lines: [String]
+    postalCode: String
     cityName: String
     countryCode: String
   }
@@ -78,6 +95,7 @@ const hotels = gql`
     room: HotelRoomType
     guests: GuestsType
     price: HotelPriceType
+    self: String
   }
 
   type HotelRoomType {

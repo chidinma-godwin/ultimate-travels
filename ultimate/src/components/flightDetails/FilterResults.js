@@ -6,8 +6,8 @@ import "nouislider/distribute/nouislider.css";
 import CheckBox from "../CheckBox";
 
 class FilterResults extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       open: true,
       airlines: true,
@@ -196,17 +196,19 @@ class FilterResults extends React.Component {
 
           <Collapse in={this.state.airlines}>
             <div id="airlines" style={{ paddingLeft: "3em" }}>
-              {this.props.flightDetails.dictionaries.carriers.map(airline => (
-                <CheckBox
-                  key={airline[0]}
-                  type="checkbox"
-                  label={airline[1]}
-                  name={airline[0]}
-                  id={airline[1]}
-                  checked={this.props.checkedAirlines.get(airline[0])}
-                  onChange={this.props.onChangeAirline}
-                />
-              ))}
+              {this.props.dictionaryData.map(dictionary =>
+                dictionary.map(airline => (
+                  <CheckBox
+                    key={airline[0]}
+                    type="checkbox"
+                    label={airline[1]}
+                    name={airline[0]}
+                    id={airline[1]}
+                    checked={this.props.checkedAirlines.get(airline[0])}
+                    onChange={this.props.onChangeAirline}
+                  />
+                ))
+              )}
               {/* {this.props.flightDetails.dictionaries.carriers.map(airline => (
                 <FormCheck
                   key={airline[0]}

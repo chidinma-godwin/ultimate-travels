@@ -59,9 +59,7 @@ class OfferAvailabilityResult extends React.Component {
   };
 
   onChangePhone = phone => {
-    {
-      this.setState({ phone });
-    }
+    this.setState({ phone });
     console.log(this.state);
   };
 
@@ -74,7 +72,6 @@ class OfferAvailabilityResult extends React.Component {
   };
 
   handleSubmit = () => {
-    console.log("it worked");
     // Declare variables to store the inputted traveler info
     let firstName = [];
     let middleName = [];

@@ -10,7 +10,7 @@ import bahrain from "../../../images/bahrain.jpg";
 // import { Carousel, Modal, Image, Container } from "react-bootstrap";
 import Booking from "../homeSubs/booking/Booking";
 
-const MainImage = () => {
+const MainImage = props => {
   return (
     <div className="d-flex flex-column justify-content-center position-relative align-items-center p-0">
       <img
@@ -19,7 +19,7 @@ const MainImage = () => {
         alt="Dubai water park"
         className="d-block w-100"
       />
-      <Booking />
+      <Booking currency={props.currency} />
     </div>
     // <Carousel interval={7000}>
     //   <Carousel.Item>

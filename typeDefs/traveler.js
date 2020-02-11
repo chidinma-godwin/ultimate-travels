@@ -2,7 +2,7 @@ const { gql } = require("apollo-server-express");
 
 const traveler = gql`
   extend type Query {
-    traveler(id: ID!): TravelerDetails
+    Traveler(id: ID!): TravelerDetails
   }
 
   extend type Query {

@@ -6,7 +6,7 @@ const Traveler = require("../models/travelers");
 
 const travelerResolver = {
   Query: {
-    traveler: (root, args, context, info) => {
+    Traveler: (root, args, context, info) => {
       return Traveler.findById(args.id);
     },
 

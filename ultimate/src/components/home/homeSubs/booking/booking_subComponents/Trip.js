@@ -13,30 +13,31 @@ import "react-datepicker/dist/react-datepicker.css";
 import Autocomplete from "./Autocomplete";
 import PassengersCabinPopover from "./PassengersCabinPopover";
 import { Redirect } from "react-router-dom";
+import { Map } from "immutable";
 
-class OneWay extends React.Component {
+class Trip extends React.Component {
   constructor() {
     super();
     this.userInfo = {};
     this.state = {
-      from: {},
-      destination: {},
-      date: new Date(),
+      from: new Map(),
+      destination: new Map(),
+      date: new Map([["firstCity", new Date()]]),
       returnDate: new Date(),
       cabin: "ECONOMY",
       adults: 1,
       infants: 0,
       children: 0,
-      fromSelectedOption: [],
-      toSelectedOption: [],
       redirect: null
     };
   }
 
-  handleDateChange = date => {
-    this.setState({
-      date: date
-    });
+  handleDateChange = (name, date) => {
+    const item = name;
+    const value = date;
+    this.setState(prevState => ({
+      date: prevState.date.set(item, value)
+    }));
   };
 
   handleReturnDateChange = returnDate => {
@@ -45,18 +46,20 @@ class OneWay extends React.Component {
     });
   };
 
-  handleFromLocationChange = selected => {
-    this.setState({
-      fromSelectedOption: selected,
-      from: selected[0]
-    });
+  handleFromLocationChange = (name, selected) => {
+    const item = name;
+    const value = selected[0];
+    this.setState(prevState => ({
+      from: prevState.from.set(item, value)
+    }));
   };
 
-  handleToLocationChange = selected => {
-    this.setState({
-      toSelectedOption: selected,
-      destination: selected[0]
-    });
+  handleToLocationChange = (name, selected) => {
+    const item = name;
+    const value = selected[0];
+    this.setState(prevState => ({
+      destination: prevState.destination.set(item, value)
+    }));
   };
 
   increment = evt => {
@@ -87,22 +90,35 @@ class OneWay extends React.Component {
 
   handleSubmit = evt => {
     evt.preventDefault();
+
+    // Declare variables to store the inputted traveler info
+    let origin = [];
+    let destination = [];
+    let departureDate = [];
+
+    // Push the key value pair of traveler details to the variables declared above
+    this.state.from.forEach((val, key) => origin.push([key, val]));
+    this.state.destination.forEach((val, key) => destination.push([key, val]));
+    this.state.date.forEach((val, key) => departureDate.push([key, val]));
+
     this.userInfo = {
       travelClass: this.state.cabin,
       children: this.state.children,
       infants: this.state.infants,
-      currencyCode: "USD",
-      originLocationCode: this.state.fromSelectedOption[0].iataCode,
-      destinationLocationCode: this.state.toSelectedOption[0].iataCode,
-      originCity: this.state.fromSelectedOption[0].address.cityName,
-      destinationCity: this.state.toSelectedOption[0].address.cityName,
-      departureDate: this.state.date.toISOString().split("T")[0],
-      returnDate: this.props.oneway
+      currencyCode: this.props.currency,
+      // originLocationCode: this.state.from,
+      // destinationLocationCode: this.state.destination,
+      // originCity: this.state.from.address.cityName,
+      // destinationCity: this.state.destination.address.cityName,
+      departureDate: departureDate,
+      returnDate: this.props.singleTrip
+        ? undefined
+        : this.props.multipletrip
         ? undefined
         : this.state.returnDate.toISOString().split("T")[0],
       adults: this.state.adults,
-      from: this.state.from,
-      to: this.state.destination
+      from: origin,
+      to: destination
     };
     console.log(this.userInfo);
     this.setState({ redirect: "/flightDetails" });
@@ -139,35 +155,72 @@ class OneWay extends React.Component {
         />
       </Popover>
     );
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Row>
-          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label className="mr-1">Flying from</Form.Label>
-            <Autocomplete handleAsyncChange={this.handleFromLocationChange} />
-          </Col>
+          {this.props.selectedCityOptions.map((city, i) => {
+            return (
+              <React.Fragment key={i}>
+                <Col
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={this.props.multipletrip ? 4 : 2}
+                  className="mb-2"
+                >
+                  <Form.Label className="mr-1">Flying from</Form.Label>
+                  <Autocomplete
+                    handleAsyncChange={this.handleFromLocationChange.bind(
+                      this,
+                      city
+                    )}
+                  />
+                </Col>
 
-          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label className="mr-1">Flying to</Form.Label>
-            <Autocomplete handleAsyncChange={this.handleToLocationChange} />
-          </Col>
+                <Col
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={this.props.multipletrip ? 4 : 2}
+                  className="mb-2"
+                >
+                  <Form.Label className="mr-1">Flying to</Form.Label>
+                  <Autocomplete
+                    handleAsyncChange={this.handleToLocationChange.bind(
+                      this,
+                      city
+                    )}
+                  />
+                </Col>
 
-          <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
-            <Form.Label className="mr-1">Depart</Form.Label>
-            <Form.Control
-              size="sm"
-              as="div"
-              style={{ border: "none", padding: "0" }}
-            >
-              <DatePicker
-                calenderClassName="form-control"
-                selected={this.state.date}
-                onChange={this.handleDateChange}
-                minDate={new Date()}
-                showDisabledMonthNavigation
-              />
-            </Form.Control>
-          </Col>
+                <Col
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={this.props.multipletrip ? 4 : 2}
+                  className="mb-2"
+                >
+                  <Form.Label className="mr-1">Depart</Form.Label>
+                  <Form.Control
+                    size="sm"
+                    as="div"
+                    style={{ border: "none", padding: "0" }}
+                  >
+                    <DatePicker
+                      calenderClassName="form-control"
+                      selected={this.state.date.get(city)}
+                      value={this.state.date.get(city)}
+                      name={city}
+                      onChange={this.handleDateChange.bind(this, city)}
+                      minDate={new Date()}
+                      showDisabledMonthNavigation
+                    />
+                  </Form.Control>
+                </Col>
+              </React.Fragment>
+            );
+          })}
 
           {this.props.multipletrip === false ? (
             <Col xs={12} sm={6} md={4} lg={2} className="mb-2">
@@ -179,12 +232,14 @@ class OneWay extends React.Component {
               >
                 <DatePicker
                   calenderClassName="form-control"
-                  selected={this.props.oneway ? null : this.state.returnDate}
+                  selected={
+                    this.props.singleTrip ? null : this.state.returnDate
+                  }
                   onChange={this.handleReturnDateChange}
                   minDate={new Date()}
                   showDisabledMonthNavigation
                   placeholderText="(oneway)"
-                  disabled={this.props.oneway}
+                  disabled={this.props.singleTrip}
                 />
               </Form.Control>
             </Col>
@@ -192,7 +247,13 @@ class OneWay extends React.Component {
             ""
           )}
 
-          <Col xs={12} sm={6} md={5} lg={2} className="mb-2">
+          <Col
+            xs={12}
+            sm={6}
+            md={5}
+            lg={this.props.multipletrip ? 4 : 2}
+            className="mb-2"
+          >
             <Form.Label className="mr-1">Cabin & Passengers</Form.Label>
             <ButtonToolbar>
               <OverlayTrigger
@@ -215,7 +276,7 @@ class OneWay extends React.Component {
             </ButtonToolbar>
           </Col>
 
-          <Col xs={12} sm={6} md={3} lg={2}>
+          <Col xs={12} sm={6} md={3} lg={this.props.multipletrip ? 4 : 2}>
             <Form.Label className="mr-1"></Form.Label>
             <div style={{ width: "fit-content" }}>
               <Button variant="primary" type="submit">
@@ -229,4 +290,4 @@ class OneWay extends React.Component {
   }
 }
 
-export default OneWay;
+export default Trip;

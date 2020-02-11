@@ -5,10 +5,10 @@ import FlightDealsQuery from "./homeSubs/FlightDealsQuery";
 import { Container } from "react-bootstrap";
 
 const Home = props => {
-  const { deals } = props;
+  const { deals, currency } = props;
   return (
     <React.Fragment>
-      <MainImage />
+      <MainImage currency={currency} />
       <Container>
         {/* <Booking /> */}
         <br />

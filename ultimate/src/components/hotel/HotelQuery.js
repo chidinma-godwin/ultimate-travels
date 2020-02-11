@@ -2,6 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import { getHotels } from "../../queries/queries";
 import { ProgressBar } from "react-bootstrap";
+import HotelResult from "./HotelResult";
 
 const HotelQuery = props => {
   let {
@@ -35,8 +36,12 @@ const HotelQuery = props => {
 
         console.log(data);
 
-        // return <HotelResult data={data} userInfo={userInfo} />;
-        return "Make your query here";
+        return (
+          <HotelResult
+            data={data}
+            userInfo={props.location.state.searchParams}
+          />
+        );
       }}
     </Query>
   );
