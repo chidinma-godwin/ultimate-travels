@@ -10,19 +10,32 @@ class QueryResult extends React.Component {
   constructor(props) {
     super(props);
 
-    // Add computed number of stops to the flightData
+    // Add computed number of stops and unique airline list to the flightData
     this.formattedData = this.props.allData
       .map(tripData => tripData.flightDetails.data)
       .map(trip =>
         trip.map(flight => {
+          // Declare variables for airlines and number of stops
           let stopList = [];
+          let airlineList = [];
+          let uniqueAirlinesList = [];
+
           flight.itineraries.map(itinerary => {
+            // Push airlines to the list declared above
+            itinerary.segments.map(segment =>
+              airlineList.push(segment.carrierCode)
+            );
+
             // Set number of stops greater than 2 to 3 for simplicity and push the nums to an array
             if (itinerary.segments.length > 2) itinerary.segments.length = 3;
             stopList.push(itinerary.segments.length);
           });
-          console.log(stopList);
+
+          // Add the unique airline list and computed number of stops to the data
+          uniqueAirlinesList = [...new Set(airlineList)];
+          flight.uniqueAirlinesList = uniqueAirlinesList;
           flight.numStops = stopList;
+
           return flight;
         })
       );
@@ -38,6 +51,8 @@ class QueryResult extends React.Component {
     };
     this.priceList = this.getPrices(this.state.flightData);
     this.durationList = this.getDuration(this.state.flightData);
+    this.unCheckedStops = [];
+    this.unCheckedAirlines = [];
   }
 
   // Function to put all flight prices in an array
@@ -151,6 +166,8 @@ class QueryResult extends React.Component {
   };
 
   handleShowAll = () => {
+    this.unCheckedStops = [];
+    this.unCheckedAirlines = [];
     this.setState({
       flightData: this.formattedData,
       showAllResultBtn: false
@@ -309,19 +326,19 @@ class QueryResult extends React.Component {
     const item = e.target.name;
     const isChecked = e.target.checked;
     let flightData = this.formattedData;
-    let unChecked = [];
+    // this.unCheckedStops = [];
     this.setState(prevState => {
-      console.log(prevState.flightData);
       return {
         checkedStops: prevState.checkedStops.set(item, isChecked)
       };
     });
-    console.log(this.formattedData);
+
+    console.log(this.unCheckedStops);
 
     let arrayUnchecked = [];
     let arrayChecked = [];
     let uniqueArrayChecked = [];
-    // let filteredArray = [];
+    let resizedArrayUnchecked = [];
     this.setState(prevState => {
       // return an array of flights in which no itinerary contains segments with the given number of stops
       if (!isChecked) {
@@ -331,120 +348,167 @@ class QueryResult extends React.Component {
             return !flight.numStops.includes(item * 1);
           })
         );
-        unChecked.push(item);
+        this.unCheckedStops.push(item);
+        this.unCheckedStops = [...new Set(this.unCheckedStops)];
+
+        resizedArrayUnchecked = this.resizeData(arrayUnchecked);
       }
 
       // return an array of flights which contains segments with the given number of stops
       if (isChecked) {
-        unChecked.filter(stop => stop !== item);
+        this.unCheckedStops = this.unCheckedStops.filter(stop => stop !== item);
         console.log(flightData);
         arrayChecked = flightData.map(trip =>
           trip.filter(flight => {
-            console.log(flight);
-            console.log(flight.numStops);
             return (
               flight.numStops.includes(item * 1) &&
-              !flight.numStops.some(item => unChecked.includes(item))
+              !flight.numStops.some(item =>
+                this.unCheckedStops.includes(item)
+              ) &&
+              !flight.uniqueAirlinesList.some(item =>
+                this.unCheckedAirlines.includes(item)
+              )
             );
           })
         );
-      }
-      let resizedArrayUnchecked = this.resizeData(arrayUnchecked);
-      let newArrayChecked = prevState.flightData.map(trip =>
-        trip.concat(...this.resizeData(arrayChecked))
-      );
-      console.log(this.resizeData(arrayChecked));
 
-      console.log(newArrayChecked);
+        let newArrayChecked = prevState.flightData.map(trip =>
+          trip.concat(...this.resizeData(arrayChecked))
+        );
 
-      // Remove duplicates
-      for (const trip of newArrayChecked) {
-        const stopMap = new Map();
-        let uniqueList = [];
-        for (const item of trip) {
-          if (!stopMap.has(item.id)) {
-            stopMap.set(item.id, true); // set any value to Map
-            uniqueList.push({
-              ...item
-            });
+        // Remove duplicates
+        for (const trip of newArrayChecked) {
+          const stopMap = new Map();
+          let uniqueList = [];
+          for (const item of trip) {
+            if (!stopMap.has(item.id)) {
+              stopMap.set(item.id, true); // set value to Map
+              uniqueList.push({
+                ...item
+              });
+            }
           }
+          uniqueArrayChecked.push(uniqueList);
         }
-        uniqueArrayChecked.push(uniqueList);
       }
-      console.log(uniqueArrayChecked);
-      // let array = flightData.map(trip =>
-      //   trip.filter(flight => {
-      //     let stopList = [];
-      //     flight.itineraries.map(itinerary => {
-      //       // Set number of stops greater than 2 to 3 for simplicity ans push the nums to an array
-      //       if (itinerary.segments.length > 2) itinerary.segments.length = 3;
-      //       stopList.push(itinerary.segments.length);
-      //     });
-      //     console.log(stopList);
-      //     console.log(mapValues);
-      //     f;light.numStops = stopList;
 
-      //     let filterResult = flight.numStops.map(numStop =>
-      //       mapValues.includes(numStop)
-      //     );
-      //     console.log(filterResult);
-      //     return filterResult.every(item => item === false);
-      //   })
-      // );
       return {
         flightData: isChecked ? uniqueArrayChecked : resizedArrayUnchecked,
         showAllResultBtn: true
       };
     });
   };
-  //let stopsCount = data.reduce((total,itinerary)=> total + itinerary.segments.length, 0);
 
   onChangeAirline = e => {
     const item = e.target.name;
     const isChecked = e.target.checked;
-    let flightData = this.props.allData.map(
-      tripData => tripData.flightDetails.data
-    );
-    let mapValues = [];
+    let flightData = this.formattedData;
+    // this.unCheckedAirlines = [];
     this.setState(prevState => {
-      // prevState.checkedAirlines.set(item, isChecked);
-      // Create alist of unchecked airlines
-      for (let entry of this.state.checkedAirlines) {
-        if (entry[1] === false) {
-          mapValues.push(entry[0]);
-        }
-      }
+      console.log(prevState.flightData);
       return {
         checkedAirlines: prevState.checkedAirlines.set(item, isChecked)
       };
     });
+    console.log(this.unCheckedAirlines);
 
-    this.setState(() => {
-      // return an array of flights in which no itinerary contains segments with the given airline
-      let array = flightData.map(trip =>
-        trip.filter(flight => {
-          let airlineList = [];
-          let uniqueAirlinesList = [];
-          flight.itineraries.map(itinerary => {
-            itinerary.segments.map(segment =>
-              airlineList.push(segment.carrierCode)
+    let arrayUnchecked = [];
+    let arrayChecked = [];
+    let uniqueArrayChecked = [];
+    let resizedArrayUnchecked = [];
+    this.setState(prevState => {
+      // return an array of flights in which no itinerary contains segments with the given airlines
+      if (!isChecked) {
+        arrayUnchecked = prevState.flightData.map(trip =>
+          trip.filter(flight => {
+            return !flight.uniqueAirlinesList.includes(item);
+          })
+        );
+        this.unCheckedAirlines.push(item);
+        this.unCheckedAirlines = [...new Set(this.unCheckedAirlines)];
+
+        resizedArrayUnchecked = this.resizeData(arrayUnchecked);
+      }
+
+      // return an array of flights which contains segments with the given airlines
+      if (isChecked) {
+        this.unCheckedAirlines = this.unCheckedAirlines.filter(
+          airline => airline !== item
+        );
+        arrayChecked = flightData.map(trip =>
+          trip.filter(flight => {
+            console.log(flight.uniqueAirlinesList);
+            console.log(item);
+            console.log(this.unCheckedAirlines);
+            console.log(this.unCheckedStops);
+            return (
+              flight.uniqueAirlinesList.includes(item) &&
+              !flight.uniqueAirlinesList.some(item =>
+                this.unCheckedAirlines.includes(item)
+              ) &&
+              !flight.numStops.some(item => this.unCheckedStops.includes(item))
             );
-          });
-          uniqueAirlinesList = [...new Set(airlineList)];
-          flight.uniqueAirlinesList = uniqueAirlinesList;
+          })
+        );
 
-          let filterResult = flight.uniqueAirlinesList.map(airline =>
-            mapValues.includes(airline)
-          );
-          return filterResult.every(item => item === false);
-        })
-      );
+        console.log(arrayChecked);
 
+        let newArrayChecked = prevState.flightData.map(trip =>
+          trip.concat(...this.resizeData(arrayChecked))
+        );
+        console.log(this.resizeData(arrayChecked));
+
+        console.log(newArrayChecked);
+        console.log(this.unCheckedAirlines);
+
+        // Remove duplicates
+        for (const trip of newArrayChecked) {
+          const airlineMap = new Map();
+          let uniqueList = [];
+          for (const item of trip) {
+            if (!airlineMap.has(item.id)) {
+              airlineMap.set(item.id, true); // set any value to Map
+              uniqueList.push({
+                ...item
+              });
+            }
+          }
+          uniqueArrayChecked.push(uniqueList);
+        }
+        console.log(uniqueArrayChecked);
+      }
       return {
-        flightData: array,
+        flightData: isChecked ? uniqueArrayChecked : resizedArrayUnchecked,
         showAllResultBtn: true
       };
     });
+
+    // this.setState(() => {
+    //   // return an array of flights in which no itinerary contains segments with the given airline
+    //   let array = flightData.map(trip =>
+    //     trip.filter(flight => {
+    //       let airlineList = [];
+    //       let uniqueAirlinesList = [];
+    //       flight.itineraries.map(itinerary => {
+    //         itinerary.segments.map(segment =>
+    //           airlineList.push(segment.carrierCode)
+    //         );
+    //       });
+    //       uniqueAirlinesList = [...new Set(airlineList)];
+    //       flight.uniqueAirlinesList = uniqueAirlinesList;
+
+    //       let filterResult = flight.uniqueAirlinesList.map(airline =>
+    //         mapValues.includes(airline)
+    //       );
+    //       return filterResult.every(item => item === false);
+    //     })
+    //   );
+
+    //   return {
+    //     flightData: array,
+    //     showAllResultBtn: true
+    //   };
+    // });
   };
 
   resizeData = data => {
@@ -460,9 +524,9 @@ class QueryResult extends React.Component {
 
   render() {
     let { dictionaryData, flightData } = this.state;
-    console.log(dictionaryData);
-    console.log(flightData);
-    console.log(this.priceList, this.durationList);
+    // console.log(dictionaryData);
+    // console.log(flightData);
+    // console.log(this.priceList, this.durationList);
 
     return (
       <Container

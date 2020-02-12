@@ -12,7 +12,6 @@ function SortResult(props) {
     displayTime
   } = props;
 
-  console.log(durationList);
   // Get the duration and price of the cheapest and fastest flight
   let lowestPrice = 0;
   let lestDuration = 0;
