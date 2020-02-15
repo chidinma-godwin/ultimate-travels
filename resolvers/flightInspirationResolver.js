@@ -2,14 +2,9 @@
 const axios = require("axios");
 const util = require("util");
 
-// import required files
-const getToken = require("../amadeusToken");
-
 const flightInspirationResolver = {
   Query: {
-    flightInspiration: async (root, args, context, info) => {
-      let token = await getToken();
-
+    flightInspiration: (root, args, { token }, info) => {
       return axios({
         method: "Get",
         url: "https://test.api.amadeus.com/v1/shopping/flight-destinations",
@@ -50,10 +45,6 @@ const flightInspirationResolver = {
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
-            let checkToken = async () => {
-              token = await getToken();
-            };
-            if (error.response.status == 401) checkToken();
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);

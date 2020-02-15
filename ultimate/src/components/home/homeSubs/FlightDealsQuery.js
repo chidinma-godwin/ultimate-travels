@@ -18,14 +18,19 @@ function FlightDealsQuery() {
         if (loading) return "loading...";
         if (error) {
           console.log(error);
-          return "No deals available presently";
+          return "Sorry, we're presently unable to show top flight deals. Please try again";
         }
 
         console.log(data);
-        return (
+        const emptyData = {};
+        emptyData.flightInspiration = {};
+        emptyData.flightInspiration.data = [];
+        return data.flightInspiration ? (
           <ErrorBoundary>
-            <TopFlightDeals data={data} />
+            <TopFlightDeals data={data.flightInspiration ? data : emptyData} />
           </ErrorBoundary>
+        ) : (
+          "Sorry, we're presently unable to show top flight deals. Please reload the page"
         );
       }}
     </Query>

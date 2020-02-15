@@ -9,8 +9,7 @@ const tourResolver = {
         url: "https://rest.gadventures.com/tour_dossiers/None",
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "X-Application-Key": "test_bf512a4d633d404959a4d7a8ecd8bfa1929c7483",
-          "X-Api-Proxy": "https://developers.gadventures.com/playground"
+          "X-Application-Key": "test_bf512a4d633d404959a4d7a8ecd8bfa1929c7483"
         }
       })
         .then(response => {

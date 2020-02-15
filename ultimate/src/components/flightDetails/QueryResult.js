@@ -5,6 +5,7 @@ import FlightResultList from "./FlightResultList";
 import SortResult from "./SortResult";
 import FlightResultHeading from "./FlightResultHeading";
 import { Map } from "immutable";
+import { add } from "mathjs";
 
 class QueryResult extends React.Component {
   constructor(props) {
@@ -19,6 +20,17 @@ class QueryResult extends React.Component {
           let stopList = [];
           let airlineList = [];
           let uniqueAirlinesList = [];
+
+          // Put total flight prices for all trips in an itinerary in the flight data
+          this.props.allData
+            .map(tripData => tripData.flightDetails.data)[0]
+            .map((trip, index) => {
+              let total = trip.price.total * 1;
+              for (let i = 1; i < trip.length; i++) {
+                total += trip[i][index].price.total * 1;
+              }
+              flight.accumTotal = total.toFixed(2);
+            });
 
           flight.itineraries.map(itinerary => {
             // Push airlines to the list declared above
@@ -43,7 +55,6 @@ class QueryResult extends React.Component {
       dictionaryData: this.props.allData.map(
         tripData => tripData.flightDetails.dictionaries.carriers
       ),
-      // flightData: this.props.allData.flightDetails.data,
       flightData: this.formattedData,
       showAllResultBtn: false,
       checkedStops: new Map(),
@@ -57,14 +68,13 @@ class QueryResult extends React.Component {
 
   // Function to put all flight prices in an array
   getPrices = tripData => {
-    console.log(tripData);
     let priceArray = [];
     tripData[0].map((trip, index) => {
       let total = trip.price.total * 1;
       for (let i = 1; i < tripData.length; i++) {
         total += tripData[i][index].price.total * 1;
       }
-      priceArray.push(total);
+      priceArray.push(total.toFixed(2));
     });
     // a.reduce((total, i) => total + i[1], 0);
     // tripData.map(trip =>
@@ -235,17 +245,72 @@ class QueryResult extends React.Component {
     //   };
     //   allJoinedData.push(joinedData);
     // });
+    let array = [];
+    this.setState(() => {
+      let count = -1;
+      if (flightData.length > 1) {
+        array = flightData.map(trip =>
+          trip.filter((flight, index) => {
+            console.log(flightData);
+            let itemPosition = add(
+              ...flightData.map(data => {
+                return data.map(item => {
+                  console.log(item.price.total * 1);
+                  return item.price.total * 1;
+                });
+              })
+            );
+            console.log(itemPosition);
+            itemPosition = itemPosition
+              .map(item => item.toFixed(2))
+              .map((val, ind) =>
+                val >= value[0] &&
+                val <= Math.round(value[1]) &&
+                !flight.numStops.some(item =>
+                  this.unCheckedStops.includes(item)
+                ) &&
+                !flight.uniqueAirlinesList.some(item =>
+                  this.unCheckedAirlines.includes(item)
+                )
+                  ? ind
+                  : null
+              );
+            count += 1;
+            if (count == itemPosition.length) {
+              count = 0;
+            }
+            console.log(itemPosition, index, count);
+            return index == itemPosition[count];
+          })
+        );
+      }
 
-    let array = flightData.map(trip =>
-      trip.filter(
-        flight =>
-          (flight.price.total >= value[0]) &
-          (flight.price.total <= Math.round(value[1]))
-      )
-    );
-    this.setState({
-      flightData: array,
-      showAllResultBtn: true
+      if (flightData.length === 1) {
+        array = flightData.map(trip =>
+          trip.filter(flight => {
+            this.priceList = this.priceList.filter(
+              price => price >= value[0] && price <= Math.round(value[1])
+            );
+            return (
+              flight.price.total * 1 >= value[0] &&
+              flight.price.total * 1 <= Math.round(value[1]) &&
+              !flight.numStops.some(item =>
+                this.unCheckedStops.includes(item)
+              ) &&
+              !flight.uniqueAirlinesList.some(item =>
+                this.unCheckedAirlines.includes(item)
+              )
+            );
+          })
+        );
+      }
+
+      console.log(array);
+
+      return {
+        flightData: array,
+        showAllResultBtn: true
+      };
     });
   };
 
@@ -367,7 +432,8 @@ class QueryResult extends React.Component {
               ) &&
               !flight.uniqueAirlinesList.some(item =>
                 this.unCheckedAirlines.includes(item)
-              )
+              ) &&
+              this.priceList.some(item => flight.accumTotal == item)
             );
           })
         );
@@ -437,16 +503,15 @@ class QueryResult extends React.Component {
         );
         arrayChecked = flightData.map(trip =>
           trip.filter(flight => {
-            console.log(flight.uniqueAirlinesList);
-            console.log(item);
-            console.log(this.unCheckedAirlines);
-            console.log(this.unCheckedStops);
             return (
               flight.uniqueAirlinesList.includes(item) &&
               !flight.uniqueAirlinesList.some(item =>
                 this.unCheckedAirlines.includes(item)
               ) &&
-              !flight.numStops.some(item => this.unCheckedStops.includes(item))
+              !flight.numStops.some(item =>
+                this.unCheckedStops.includes(item)
+              ) &&
+              this.priceList.some(item => flight.accumTotal == item)
             );
           })
         );
@@ -550,15 +615,13 @@ class QueryResult extends React.Component {
               durationList={this.durationList}
               onChangePrice={this.onChangePrice}
               onChangeDuration={this.onChangeDuration}
-              none={this.state.none}
-              oneStop={this.state.oneStop}
-              twoMoreStop={this.state.twoMoreStop}
               onChangeStops={this.onChangeStops}
               checkedStops={this.state.checkedStops}
               onChangeArrivalTime={this.onChangeArrivalTime}
               onChangeDepartureTime={this.onChangeDepartureTime}
               onChangeAirline={this.onChangeAirline}
               checkedAirlines={this.state.checkedAirlines}
+              return={this.props.userInfo.returnDate}
             />
           </Col>
 

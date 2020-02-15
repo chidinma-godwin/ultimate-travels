@@ -1,12 +1,9 @@
 // import required package
 const axios = require("axios");
-const getToken = require("../amadeusToken");
 
 const placesResolver = {
   Query: {
-    places: async (root, args, context, info) => {
-      let token = await getToken();
-      console.log(token);
+    places: (root, args, { token }, info) => {
       return axios({
         method: "GET",
         url: "https://test.api.amadeus.com/v1/reference-data/locations",
@@ -29,11 +26,6 @@ const placesResolver = {
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
-
-            let checkToken = async () => {
-              token = await getToken();
-            };
-            if (error.response.status == 401) checkToken();
 
             console.log(error.response.data);
             console.log(error.response.status);

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Row, Col } from "react-bootstrap";
+import { Card, Button, CardDeck } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 class TopFlightDeals extends React.Component {
@@ -30,7 +30,7 @@ class TopFlightDeals extends React.Component {
 
     let flightInfo = this.props.data.flightInspiration;
     return (
-      <Row>
+      <CardDeck>
         {flightInfo.data.map(flight => {
           let originLocation = flightInfo.dictionaries.locations.filter(
             location => flight.origin === location.id
@@ -59,36 +59,36 @@ class TopFlightDeals extends React.Component {
           console.log(this.userInfo);
 
           return (
-            <Col md={4} lg={3} key={flight.destination} className="mb-3">
-              <Card>
-                <Card.Header
-                  style={{ backgroundColor: "#f68220", color: "white" }}
-                >
-                  {originLocation[0].details.detailedName} to{" "}
-                  {destinationLocation[0].details.detailedName}
-                </Card.Header>
-                <Card.Body>
-                  <Card.Text>
-                    <span>
-                      From {flight.price.total} {flightInfo.meta.currency}
-                    </span>
-                    Available from
-                    <span>
-                      {`${departureDate[0]}, ${departureDate[2]} ${departureDate[1]}. ${departureDate[3]} - 
+            // <Col md={4} lg={3} key={flight.destination} className="mb-3">
+            <Card key={flight.destination}>
+              <Card.Header
+                style={{ backgroundColor: "#f68220", color: "white" }}
+              >
+                {originLocation[0].details.detailedName} to{" "}
+                {destinationLocation[0].details.detailedName}
+              </Card.Header>
+              <Card.Body>
+                <Card.Text>
+                  <span>
+                    From {flight.price.total} {flightInfo.meta.currency}
+                  </span>
+                  Available from
+                  <span>
+                    {`${departureDate[0]}, ${departureDate[2]} ${departureDate[1]}. ${departureDate[3]} - 
                   ${returnDate[0]}, ${returnDate[2]} ${returnDate[1]}. ${returnDate[3]}`}
-                    </span>
-                    <br />
-                    Airline
-                  </Card.Text>
-                  <Button variant="primary" onClick={this.handleBook}>
-                    Book Now
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
+                  </span>
+                  <br />
+                  Airline
+                </Card.Text>
+                <Button variant="primary" onClick={this.handleBook}>
+                  Book Now
+                </Button>
+              </Card.Body>
+            </Card>
+            // </Col>
           );
         })}
-      </Row>
+      </CardDeck>
     );
   }
 }

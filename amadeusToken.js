@@ -9,9 +9,9 @@ const getToken = () => {
       "content-type": "application/x-www-form-urlencoded"
     },
     data: qs.stringify({
-      client_id: "GdnWPDfUYUTnxcmAdupVU9z6a7CRB8PV",
-      client_secret: "3PBb6Z1fGccPfvTF",
-      grant_type: "client_credentials"
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
+      grant_type: process.env.GRANT_TYPE
     })
   })
     .then(res => {

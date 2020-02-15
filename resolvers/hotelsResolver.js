@@ -2,12 +2,9 @@ const axios = require("axios");
 const qs = require("qs");
 const util = require("util");
 
-const getToken = require("../amadeusToken");
-
 const hotelsResolver = {
   Query: {
-    hotels: async (root, args, context, info) => {
-      let token = await getToken();
+    hotels: (root, args, { token }, info) => {
       return axios({
         method: "Get",
         url: "https://test.api.amadeus.com/v2/shopping/hotel-offers",
@@ -90,10 +87,7 @@ const hotelsResolver = {
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
-            let checkToken = async () => {
-              token = await getToken();
-            };
-            if (error.response.status == 401) checkToken();
+
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);

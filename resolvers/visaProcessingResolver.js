@@ -1,4 +1,5 @@
 const util = require("util");
+const multer = require("multer");
 const validateVisaRequest = require("../schemas/validateVisaRequest");
 const Visa = require("../models/visas");
 

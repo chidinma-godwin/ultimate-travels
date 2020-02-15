@@ -37,13 +37,13 @@ class FilterResults extends React.Component {
   };
 
   onClickPrices = () => {
-    let prices = this.props.priceList;
+    let priceList = this.props.priceList;
     this.setState(prevState => ({
       prices: !prevState.prices,
-      priceValue: [Math.min(...prices), Math.max(...prices)],
+      priceValue: [Math.min(...priceList), Math.max(...priceList)],
       priceRange: {
-        min: Math.min(...prices),
-        max: Math.max(...prices)
+        min: Math.min(...priceList),
+        max: Math.max(...priceList)
       }
     }));
   };
@@ -70,9 +70,6 @@ class FilterResults extends React.Component {
   };
 
   onPriceSlide = (render, handle, value, un, percent) => {
-    console.log(render);
-    console.log(handle);
-    console.log(un);
     this.setState({
       priceValue: [value[0].toFixed(2), value[1].toFixed(2)]
     });
@@ -360,28 +357,33 @@ class FilterResults extends React.Component {
                 onChange={this.props.onChangeDepartureTime}
                 connect
               />
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginLeft: "2em",
-                  marginRight: "2em"
-                }}
-              >
-                <span>{this.displayTime(this.state.inboundTime[0])}</span>
-                <span>Arrival</span>
-                <span>{this.displayTime(this.state.inboundTime[1])}</span>
-              </div>
-              <Nouislider
-                accessibility
-                step={1}
-                start={this.state.inboundTime}
-                range={this.state.inboundTimeRange}
-                onSlide={this.onInboundTimeSlide}
-                onChange={this.props.onChangeArrivalTime}
-                connect
-              />
+              {this.props.returnDate === undefined ? (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginLeft: "2em",
+                      marginRight: "2em"
+                    }}
+                  >
+                    <span>{this.displayTime(this.state.inboundTime[0])}</span>
+                    <span>Arrival</span>
+                    <span>{this.displayTime(this.state.inboundTime[1])}</span>
+                  </div>
+                  <Nouislider
+                    accessibility
+                    step={1}
+                    start={this.state.inboundTime}
+                    range={this.state.inboundTimeRange}
+                    onSlide={this.onInboundTimeSlide}
+                    onChange={this.props.onChangeArrivalTime}
+                    connect
+                  />
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </Collapse>
           <hr />

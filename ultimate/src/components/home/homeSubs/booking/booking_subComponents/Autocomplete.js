@@ -22,6 +22,16 @@ class Autocomplete extends React.Component {
     this.props.handleAsyncChange(selectedOption);
   };
 
+  onKeyUp = evt => {
+    console.log(evt);
+    let key = evt.keyCode || evt.charCode;
+
+    if (key == 8 || key == 46) {
+      evt.target.select();
+      console.log(true);
+    }
+  };
+
   render() {
     return (
       <ApolloConsumer>
@@ -35,6 +45,7 @@ class Autocomplete extends React.Component {
             selectHintOnEnter
             bsSize="small"
             onChange={this.onChange}
+            onKeyUp={this.onKeyUp}
             onSearch={async value => {
               this.setState({ isLoading: true });
               await client
@@ -46,7 +57,7 @@ class Autocomplete extends React.Component {
                   console.log(res.data);
                   this.setState({
                     isLoading: false,
-                    options: res.data.places
+                    options: res.data.places ? res.data.places : []
                     // options: res.data.places.push({
                     //   PlaceId: "MUR-sky",
                     //   PlaceName: "Murtala Mohammed Int'l airport, Lagos (LOS)",
@@ -57,6 +68,7 @@ class Autocomplete extends React.Component {
                   });
                 })
                 .catch(err => {
+                  console.log("there is an error");
                   console.log(err);
                 });
             }}

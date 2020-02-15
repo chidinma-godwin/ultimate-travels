@@ -23,23 +23,28 @@ body {
 }
 
 .top-nav {
-  background-color: rgb(252, 235, 213);
+  /* background-color: rgb(252, 235, 213); */
+  background-color: #fbc1ac;
   padding: 0.5em;
 }
 
 .main-nav {
-  background-color: rgb(123, 123, 204);
+  /* background-color: rgb(123, 123, 204); */
+  background-color: #15498d;
 }
 
 #footer {
-  background-color: rgb(24, 21, 21);
+  /* background-color: rgb(24, 21, 21); */
+  background-color: #41225f;
   color: antiquewhite;
+  /* color: #fbc1ac; */
   box-sizing: border-box;
   padding-top: 2em;
 }
 
 #bottom-nav {
-  background-color: rgb(252, 235, 213);
+  /* background-color: rgb(252, 235, 213); */
+  background-color: #fbc1ac;
   margin-bottom: 0;
   padding: 1em;
   color: black;
@@ -51,18 +56,37 @@ body {
   cursor: pointer;
 }
 
+.card-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 0.5rem;
+}
+
 .booking-tabs.nav-tabs {
   margin-right: 1em;
 }
 
+.header-link {
+  color: white !important;
+  text-decoration: "none";
+  width: fit-content;
+}
+
+.header-link:hover,
+.header-link:focus {
+  color: #fbc1ac !important;
+}
+
 /* Inactive tab */
 .booking-tabs a {
-  background-color: rgb(41, 60, 77);
-  color: white;
+  /* background-color: rgb(41, 60, 77); */
+  background-color: #15498d;
+  color: whitesmoke;
   margin-right: 1em;
 }
 .booking-tabs a:hover {
-  background-color: rgb(123, 123, 204);
+  /* background-color: rgb(123, 123, 204); */
+  background-color: #41225f;
 }
 
 /* Active tab */
@@ -97,6 +121,7 @@ input#phone.phone-form-control {
 
 button#currency.dropdown-toggle.btn.btn-default {
   color: "white";
+  background-color: transparent;
 }
 
 .stops {
@@ -137,6 +162,10 @@ button#currency.dropdown-toggle.btn.btn-default {
   height: inherit;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
+}
+
+.btn {
+  background-color: #157ec2;
 }
 
 /* input[type="text"],

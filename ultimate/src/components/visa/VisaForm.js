@@ -6,8 +6,8 @@ import PersonalInfo from "./PersonalInfo";
 import TravelInfo from "./TravelInfo";
 
 class VisaForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       firstName: "",
       middleName: "",
@@ -29,7 +29,16 @@ class VisaForm extends React.Component {
       email: ""
       // selectedFile: null
     };
+    this.handleHideFooter = this.props.handleHideFooter;
   }
+
+  componentDidMount = () => {
+    this.handleHideFooter(true);
+  };
+
+  componentWillUnmount = () => {
+    this.handleHideFooter(false);
+  };
 
   handleChange = evt => {
     let value = evt.target.value;
@@ -64,14 +73,15 @@ class VisaForm extends React.Component {
     return (
       <Mutation mutation={addVisaRequest}>
         {addVisaRequest => (
-          <Container fluid>
+          <Container fluid className="p-0">
             <Container>
               <h2 className="mb-5 mt-5">UAE Visa Application Form</h2>
               <Card>
                 <Card.Header
                   className="text-center"
                   style={{
-                    backgroundColor: "#f68220",
+                    // backgroundColor: "#f68220",
+                    backgroundColor: "#41225f",
                     color: "white",
                     fontSize: "18px"
                   }}
@@ -146,9 +156,11 @@ class VisaForm extends React.Component {
             </Container>
             <div
               style={{
-                backgroundColor: "rgb(123, 123, 204)",
-                color: "white",
+                // backgroundColor: "rgb(123, 123, 204)",
+                backgroundColor: "#41225f",
+                color: "#fff",
                 marginTop: "8em",
+                marginBottom: "-500px",
                 padding: "2em"
               }}
             >
@@ -167,10 +179,11 @@ class VisaForm extends React.Component {
                   We do not accept any form of payment until your visa is ready.
                 </span>
               </p>
-              <p style={{ color: "blanchedalmond" }}>
+              <p>
                 Contact us for any visa related questions. Email:
                 ultimatetravelsltd@gmail.com, Phone: 08161128204
               </p>
+              <p>© 2019 Ultimate Travels. All Rights Reserved.</p>
             </div>
           </Container>
         )}

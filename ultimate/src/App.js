@@ -117,13 +117,20 @@ class App extends React.Component {
           id: 6
         }
       ],
-      currency: "USD"
+      currency: "USD",
+      hideFooter: false
     };
   }
 
   handleCurrencyToggle = selected => {
     console.log(selected);
     this.setState({ currency: selected });
+  };
+
+  handleHideFooter = choice => {
+    this.setState({
+      hideFooter: choice
+    });
   };
 
   render() {
@@ -157,7 +164,12 @@ class App extends React.Component {
               path="/checkOfferAvailability"
               component={checkOfferAvailability}
             />
-            <Route path="/visaApplicationForm" component={VisaForm} />
+            <Route
+              path="/visaApplicationForm"
+              render={props => (
+                <VisaForm {...props} handleHideFooter={this.handleHideFooter} />
+              )}
+            />
 
             <Route
               path="/hotels"
@@ -173,7 +185,7 @@ class App extends React.Component {
           </Switch>
           <br />
           <br />
-          <Footer />
+          {this.state.hideFooter ? "" : <Footer />}
         </Router>
       </ApolloProvider>
     );

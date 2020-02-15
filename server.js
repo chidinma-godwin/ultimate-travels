@@ -9,14 +9,13 @@ require("dotenv").config();
 // import required files
 const typeDefs = require("./typeDefs/typeDefs");
 const resolvers = require("./resolvers/resolvers");
-const sessionRoutes = require("./session");
-//const { resolvers } = require('./schema');
+const getToken = require("./amadeusToken");
 
 const app = express();
 
 // Setup the database
 mongoose.connect(
-  "mongodb+srv://chidex:chidi2SUWA@ultimate-ojdty.mongodb.net/test?retryWrites=true&w=majority",
+  `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@ultimate-ojdty.mongodb.net/test?retryWrites=true&w=majority`,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 mongoose.connection
@@ -38,7 +37,13 @@ app.disable("x-powered-by");
 // graphql server
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: async () => {
+    let token = await getToken();
+    return {
+      token: token === undefined ? getToken() : token
+    };
+  }
   // context: ({ req, res }) => {
   //   res.set({ "Access-Control-Expose-Headers": "*" });
   // },

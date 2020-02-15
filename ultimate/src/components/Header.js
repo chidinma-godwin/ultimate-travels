@@ -62,9 +62,8 @@ const Header = props => {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-md-auto">
                 <NavLink
-                  className="mr-3"
+                  className="mr-3 header-link"
                   style={{
-                    color: "white",
                     marginTop: "auto",
                     marginBottom: "auto"
                   }}
@@ -72,7 +71,7 @@ const Header = props => {
                 >
                   Home
                 </NavLink>
-                <Nav.Link className="mr-3" href="#contact">
+                <Nav.Link className="mr-3 header-link" href="#contact">
                   Contact
                 </Nav.Link>
               </Nav>
@@ -81,7 +80,7 @@ const Header = props => {
                 <Dropdown.Toggle
                   id="currency"
                   variant="default"
-                  className="text-light p-0"
+                  className="text-light p-0 header-link"
                 >
                   {props.currency}
                 </Dropdown.Toggle>
