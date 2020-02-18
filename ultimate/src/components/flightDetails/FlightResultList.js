@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button, Card, Image } from "react-bootstrap";
+import { Row, Col, Button, Card, Image, CardDeck } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -25,6 +25,7 @@ class FlightResultList extends React.Component {
         data.itineraries.map(itinerary => delete itinerary.durationMins);
         if (data.numStops) delete data.numStops;
         if (data.uniqueAirlinesList) delete data.uniqueAirlinesList;
+        return data;
       });
 
       let queryVariable = {};
@@ -58,7 +59,7 @@ class FlightResultList extends React.Component {
       }
     }
     return (
-      <Row>
+      <CardDeck>
         {/* present the flight result in an array of cards */}
         {/* a[0].map((b,c)=> {let k=[]; k.push(b); for(let i=1; i<a.length; i++){k.push(a[i][c])}; w.push(k)}) */}
         {this.props.flightData[0].length > 0
@@ -261,7 +262,7 @@ class FlightResultList extends React.Component {
               );
             })
           : "No result matches your search"}
-      </Row>
+      </CardDeck>
     );
   }
 }

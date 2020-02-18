@@ -27,7 +27,9 @@ class FlightResultHeading extends React.Component {
     return (
       <Row
         style={{
-          backgroundColor: "rgb(65, 65, 66)",
+          // backgroundColor: "rgb(65, 65, 66)",
+          backgroundColor: "#157ec2",
+          borderRadius: "115px",
           color: "white",
           padding: "1.5em",
           marginBottom: "1.5em"
@@ -65,7 +67,7 @@ class FlightResultHeading extends React.Component {
         <Col xs={3}>
           <Button
             style={{
-              backgroundColor: "rgb(123, 123, 204)",
+              backgroundColor: "#41225f",
               marginRight: "0.5em"
             }}
           >

@@ -14,6 +14,7 @@ const ShowMore = props => {
     if (str[0] === "adults") str[1] = str[1] * 1;
     if (str[0] === "roomQuantity") str[1] = str[1] * 1;
     args[str[0]] = str[1];
+    return item;
   });
   console.log(userInfo);
 

@@ -26,7 +26,7 @@ class Autocomplete extends React.Component {
     console.log(evt);
     let key = evt.keyCode || evt.charCode;
 
-    if (key == 8 || key == 46) {
+    if (key === 8 || key === 46) {
       evt.target.select();
       console.log(true);
     }

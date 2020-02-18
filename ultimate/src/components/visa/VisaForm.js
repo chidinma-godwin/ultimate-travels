@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Form, Button, Card, Col, Row } from "react-bootstrap";
+import { Container, Form, Button, Card } from "react-bootstrap";
 import { Mutation } from "react-apollo";
 import { addVisaRequest } from "../../queries/queries";
 import PersonalInfo from "./PersonalInfo";
@@ -48,10 +48,7 @@ class VisaForm extends React.Component {
   };
 
   onChangePhone = phone => {
-    {
-      this.setState({ phoneNum: phone });
-    }
-    console.log(this.state);
+    this.setState({ phoneNum: phone });
   };
 
   handleDateChange = (name, date) => {

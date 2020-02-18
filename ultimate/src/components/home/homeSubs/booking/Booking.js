@@ -1,8 +1,7 @@
 import React from "react";
 import Trip from "./booking_subComponents/Trip";
-import { Tabs, Tab, Card, FormCheck, Row } from "react-bootstrap";
+import { Tabs, Tab, Card, FormCheck } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import bahrain from "../../../../images/bahrain.jpg";
 import { Redirect } from "react-router-dom";
 import HotelForm from "../../../hotel/HotelForm";
 

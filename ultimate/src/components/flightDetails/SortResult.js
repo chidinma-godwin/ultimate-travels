@@ -58,7 +58,9 @@ function SortResult(props) {
         }}
       >
         <Card style={{ width: "45%" }} onClick={() => handleFastestCardClick()}>
-          <Card.Header style={{ fontWeight: "bolder" }}>Fastest</Card.Header>
+          <Card.Header className="filter_cheapest_fastest_flight">
+            Fastest
+          </Card.Header>
 
           <Card.Title>
             <div
@@ -85,7 +87,9 @@ function SortResult(props) {
           style={{ width: "45%" }}
           onClick={() => handleCheapestCardClick()}
         >
-          <Card.Header style={{ fontWeight: "bolder" }}>Cheapest</Card.Header>
+          <Card.Header className="filter_cheapest_fastest_flight">
+            Cheapest
+          </Card.Header>
 
           <Card.Title>
             <div

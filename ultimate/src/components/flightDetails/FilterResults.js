@@ -112,12 +112,29 @@ class FilterResults extends React.Component {
 
   render() {
     console.log(this.state);
+    let dictionaryData = this.props.dictionaryData;
+    let uniqueCarrierCodes = [];
 
+    // Remove duplicates
+    for (const data of dictionaryData) {
+      const matchAirline = new Map();
+      let uniqueList = [];
+      for (const item of data) {
+        if (!matchAirline.has(item[0])) {
+          matchAirline.set(item[0], true); // set value to Map
+          uniqueList.push({
+            ...item
+          });
+        }
+      }
+      uniqueCarrierCodes.push(uniqueList);
+    }
+    console.log(uniqueCarrierCodes);
     return (
       <React.Fragment>
         <div
           style={{
-            backgroundColor: "rgb(123, 123, 204)",
+            backgroundColor: "#41225f",
             padding: "0.5em",
             textAlign: "center",
             color: "white"
@@ -357,7 +374,7 @@ class FilterResults extends React.Component {
                 onChange={this.props.onChangeDepartureTime}
                 connect
               />
-              {this.props.returnDate === undefined ? (
+              {this.props.returnDate !== undefined ? (
                 <>
                   <div
                     style={{

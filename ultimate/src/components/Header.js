@@ -48,15 +48,15 @@ const Header = props => {
 
         <Navbar variant="dark" expand="lg" className="main-nav">
           <Container>
-            <Navbar.Brand href="/">
+            <Navbar.Brand href="/" className="d-flex">
               <img
                 alt=""
                 src={logo}
-                width="30"
-                height="30"
-                className="d-inline-block align-top"
-              />{" "}
-              Ultimate Travels
+                width="64"
+                // height="64"
+                className="d-inline-block align-top mr-4"
+              />
+              <span className="align-self-center">Ultimate Travels</span>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

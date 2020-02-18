@@ -145,7 +145,7 @@ class HotelForm extends React.Component {
               <DatePicker
                 calenderClassName="form-control"
                 selected={this.state.checkIn}
-                onChange={this.handleDateChange}
+                // onChange={this.handleDateChange}
                 minDate={new Date()}
                 showDisabledMonthNavigation
                 name="checkIn"

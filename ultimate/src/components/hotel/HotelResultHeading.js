@@ -1,6 +1,5 @@
 import React from "react";
 import { Table, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class HotelResultHeading extends React.Component {
   constructor() {

@@ -48,12 +48,12 @@ function SelectedFlightInfo(props) {
       <Card.Body style={{ paddingLeft: "2em" }}>
         {uniqueTravelerPricings.map(traveler => {
           // Check the passenger type and store the number of that particular type in a variable
-          let numTravelerType = 0;
-          if (traveler.travelerType === "ADULT") numTravelerType = countAdult;
-          if (traveler.travelerType === "CHILD")
-            numTravelerType = countChildren;
-          if (traveler.travelerType === "HELD_INFANT")
-            numTravelerType = countInfant;
+          // let numTravelerType = 0;
+          // if (traveler.travelerType === "ADULT") numTravelerType = countAdult;
+          // if (traveler.travelerType === "CHILD")
+          //   numTravelerType = countChildren;
+          // if (traveler.travelerType === "HELD_INFANT")
+          //   numTravelerType = countInfant;
 
           // Check if the passenger is an infant and put the name in the right format
           if (traveler.travelerType === "HELD_INFANT")

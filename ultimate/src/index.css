@@ -36,7 +36,7 @@ body {
 #footer {
   /* background-color: rgb(24, 21, 21); */
   background-color: #41225f;
-  color: antiquewhite;
+  color: whitesmoke;
   /* color: #fbc1ac; */
   box-sizing: border-box;
   padding-top: 2em;
@@ -55,6 +55,12 @@ body {
 .custom-btn {
   cursor: pointer;
 }
+
+/* .card-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  grid-gap: 1rem;
+} */
 
 .card-deck {
   display: grid;
@@ -168,6 +174,11 @@ button#currency.dropdown-toggle.btn.btn-default {
   background-color: #157ec2;
 }
 
+.filter_cheapest_fastest_flight {
+  font-weight: bolder;
+  background-color: #41225f;
+  color: white;
+}
 /* input[type="text"],
 select.form-control {
   background: transparent;
