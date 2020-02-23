@@ -70,12 +70,19 @@ class FlightResultList extends React.Component {
                 joinedData.push(this.props.flightData[i][index]);
               }
               // declare outbound flight variables
-              let outboundTime = joinedData.map(flight =>
+              let outboundDuration = joinedData.map(flight =>
                 flight.itineraries[0].duration.slice(2).split("H")
               );
               let outboundItineraryDeparture = joinedData.map(
                 flight => flight.itineraries[0].segments[0].departure
               );
+              let outboundDepartureTime = joinedData.map(flight => {
+                let time = flight.itineraries[0].segments[0].departure.at.split(
+                  "T"
+                )[1];
+                let splittedTimeArray = time.split(":");
+                return `${splittedTimeArray[0]}:${splittedTimeArray[1]}`;
+              });
               let outboundStops = joinedData.map(
                 flight => flight.itineraries[0].segments.length - 1
               );
@@ -85,6 +92,15 @@ class FlightResultList extends React.Component {
                     flight.itineraries[0].segments.length - 1
                   ].arrival
               );
+              let outboundArrivalTime = joinedData.map(flight => {
+                let time = flight.itineraries[0].segments[
+                  flight.itineraries[0].segments.length - 1
+                ].arrival.at.split("T")[1];
+                let splittedTimeArray = time.split(":");
+                return `${splittedTimeArray[0]}:${splittedTimeArray[1]}`;
+              });
+              console.log(outboundDepartureTime);
+              console.log(outboundArrivalTime);
               // console.log(
               //   outboundItineraryArrival,
               //   outboundItineraryDeparture,
@@ -93,21 +109,35 @@ class FlightResultList extends React.Component {
               // );
 
               // declare inbound flight variables
-              let inboundTime,
+              let inboundDuration,
                 inboundItineraryDeparture,
+                inboundDepartureTime,
+                inboundArrivalTime,
                 inboundItineraryArrival,
                 inboundStops;
               if (flight.itineraries.length > 1) {
-                inboundTime = flight.itineraries[1].duration
+                let departureTime = flight.itineraries[0].segments[0].departure.at.split(
+                  "T"
+                )[1];
+                let arrivalTime = flight.itineraries[1].segments[
+                  flight.itineraries[1].segments.length - 1
+                ].arrival.at.split("T")[1];
+
+                let splittedDepartureTimeArray = departureTime.split(":");
+                let splittedArrivalTimeArray = arrivalTime.split(":");
+                inboundDuration = flight.itineraries[1].duration
                   .slice(2)
                   .split("H");
                 inboundItineraryDeparture =
                   flight.itineraries[1].segments[0].departure;
+                inboundDepartureTime = `${splittedDepartureTimeArray[0]}:${splittedDepartureTimeArray[1]}`;
+
                 inboundStops = flight.itineraries[1].segments.length - 1;
                 inboundItineraryArrival =
                   flight.itineraries[1].segments[
                     flight.itineraries[1].segments.length - 1
                   ].arrival;
+                inboundArrivalTime = `${splittedArrivalTimeArray[0]}:${splittedArrivalTimeArray[1]}`;
               }
               let length = flight.itineraries.length;
 
@@ -115,17 +145,18 @@ class FlightResultList extends React.Component {
                 <Card
                   key={flight.id}
                   className="mb-3"
-                  style={{ fontWeight: "bold" }}
+                  style={{ fontWeight: "bold", borderColor: "#f68220" }}
                   // style={{ width: "68%", marginLeft: "auto" }}
                 >
                   <Card.Body>
                     <Row className="mb-2">
-                      <Col xs={9}>
+                      <Col sm={12} md={10}>
                         {joinedData.map((flight, i) => {
                           return (
-                            <Row key={i}>
+                            <Row key={i} className="align-items-center">
                               <Col
-                                xs={3}
+                                sm={6}
+                                md={3}
                                 className={
                                   length === 1 ? "align-self-center" : ""
                                 }
@@ -136,22 +167,25 @@ class FlightResultList extends React.Component {
                                 />
                               </Col>
                               <Col
-                                xs={9}
+                                sm={12}
+                                md={9}
                                 className={
                                   length === 1 ? "align-self-center" : ""
                                 }
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center"
+                                }}
                               >
-                                {`${outboundItineraryDeparture[i].iataCode} ${
-                                  outboundItineraryDeparture[i].at.split("T")[1]
-                                }`}
+                                {`${outboundItineraryDeparture[i].iataCode} ${outboundDepartureTime[i]}`}
                                 <FontAwesomeIcon
                                   icon={["fas", "long-arrow-alt-right"]}
                                   className="mr-1 ml-1"
                                   style={{ color: "blue" }}
                                   size="lg"
                                 />
-                                {`${outboundTime[i][0]}H ${
-                                  outboundTime[i][1]
+                                {`${outboundDuration[i][0]}H ${
+                                  outboundDuration[i][1]
                                 }  |  ${outboundStops[i]} ${
                                   outboundStops[i] > 1 ? "stops" : "stop"
                                 }`}
@@ -161,17 +195,15 @@ class FlightResultList extends React.Component {
                                   style={{ color: "blue" }}
                                   size="lg"
                                 />{" "}
-                                {`${outboundItineraryArrival[i].iataCode} ${
-                                  outboundItineraryArrival[i].at.split("T")[1]
-                                }`}
+                                {`${outboundItineraryArrival[i].iataCode} ${outboundArrivalTime[i]}`}
                               </Col>
                             </Row>
                           );
                         })}
 
                         {flight.itineraries.length > 1 ? (
-                          <Row>
-                            <Col xs={3}>
+                          <Row className="align-items-center">
+                            <Col sm={6} md={3}>
                               <Image
                                 src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${
                                   flight.itineraries[1].segments[
@@ -182,18 +214,23 @@ class FlightResultList extends React.Component {
                               />
                             </Col>
 
-                            <Col xs={9}>
-                              {`${inboundItineraryDeparture.iataCode} ${
-                                inboundItineraryDeparture.at.split("T")[1]
-                              }`}{" "}
+                            <Col
+                              sm={12}
+                              md={9}
+                              style={{
+                                display: "flex",
+                                justifyContent: "center"
+                              }}
+                            >
+                              {`${inboundItineraryDeparture.iataCode} ${inboundDepartureTime}`}{" "}
                               <FontAwesomeIcon
                                 icon={["fas", "long-arrow-alt-right"]}
                                 className="mr-1 ml-1"
                                 style={{ color: "blue" }}
                                 size="lg"
                               />
-                              {`${inboundTime[0]}H ${
-                                inboundTime[1]
+                              {`${inboundDuration[0]}H ${
+                                inboundDuration[1]
                               }  |  ${inboundStops} ${
                                 inboundStops > 1 ? "stops" : "stop"
                               }`}{" "}
@@ -203,9 +240,7 @@ class FlightResultList extends React.Component {
                                 style={{ color: "blue" }}
                                 size="lg"
                               />{" "}
-                              {`${inboundItineraryArrival.iataCode} ${
-                                inboundItineraryArrival.at.split("T")[1]
-                              }`}
+                              {`${inboundItineraryArrival.iataCode} ${inboundArrivalTime}`}
                             </Col>
                           </Row>
                         ) : (
@@ -213,7 +248,16 @@ class FlightResultList extends React.Component {
                         )}
                       </Col>
 
-                      <Col xs={3}>
+                      <Col
+                        sm={12}
+                        md={2}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-end",
+                          paddingRight: "1.5em"
+                        }}
+                      >
                         {/* {`${prices.length} ${
                                 prices.length > 1 ? "deals" : "deal"
                               } from`} */}

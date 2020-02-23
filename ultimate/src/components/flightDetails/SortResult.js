@@ -24,43 +24,15 @@ function SortResult(props) {
     <React.Fragment>
       <div
         style={{
-          width: "50%",
-          marginLeft: "auto",
-          marginBottom: "1.5em",
-          display: "flex"
-        }}
-      >
-        <span
-          className="mr-3"
-          style={{ fontWeight: "bold", alignSelf: "center" }}
-        >
-          Sort By
-        </span>
-        <span className="mr-3">
-          <Button className="sort-btn" onClick={() => handleSortCheapest()}>
-            Cheapest
-          </Button>
-        </span>
-        <span>
-          <Button className="sort-btn" onClick={() => handleSortFastest()}>
-            Fastest
-          </Button>
-        </span>
-      </div>
-
-      <div
-        style={{
           display: "flex",
           position: "relative",
           width: "100%",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
           marginBottom: "1.7em"
         }}
       >
         <Card style={{ width: "45%" }} onClick={() => handleFastestCardClick()}>
-          <Card.Header className="filter_cheapest_fastest_flight">
-            Fastest
-          </Card.Header>
+          <Card.Header className="filter_flight">Fastest</Card.Header>
 
           <Card.Title>
             <div
@@ -87,9 +59,7 @@ function SortResult(props) {
           style={{ width: "45%" }}
           onClick={() => handleCheapestCardClick()}
         >
-          <Card.Header className="filter_cheapest_fastest_flight">
-            Cheapest
-          </Card.Header>
+          <Card.Header className="filter_flight">Cheapest</Card.Header>
 
           <Card.Title>
             <div
@@ -112,6 +82,32 @@ function SortResult(props) {
               : ""}
           </Card.Body>
         </Card>
+      </div>
+
+      <div
+        style={{
+          width: "fit-content",
+          marginLeft: "auto",
+          marginBottom: "1.5em",
+          display: "flex"
+        }}
+      >
+        <span
+          className="mr-3"
+          style={{ fontWeight: "bold", alignSelf: "center" }}
+        >
+          Sort By
+        </span>
+        <span className="mr-3">
+          <Button className="sort-btn" onClick={() => handleSortCheapest()}>
+            Cheapest
+          </Button>
+        </span>
+        <span>
+          <Button className="sort-btn" onClick={() => handleSortFastest()}>
+            Fastest
+          </Button>
+        </span>
       </div>
     </React.Fragment>
   );

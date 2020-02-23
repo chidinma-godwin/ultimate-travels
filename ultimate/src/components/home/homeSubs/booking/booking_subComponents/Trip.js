@@ -131,7 +131,10 @@ class Trip extends React.Component {
           push
           to={{
             pathname: this.state.redirect,
-            state: { userInfo: this.userInfo }
+            state: {
+              userInfo: this.userInfo,
+              singleTrip: this.props.singleTrip
+            }
           }}
         />
       );

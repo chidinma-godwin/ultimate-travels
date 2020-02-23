@@ -23,8 +23,8 @@ const flightResolver = {
           includeAirlineCodes: args.includeAirlineCodes,
           excludeAirlineCodes: args.excludeAirlineCodes,
           nonStop: args.nonStop,
-          currencyCode: args.currencyCode,
-          max: 20
+          currencyCode: args.currencyCode
+          // max: 20
         }
       })
         .then(response => {

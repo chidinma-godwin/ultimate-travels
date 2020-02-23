@@ -113,32 +113,32 @@ class FilterResults extends React.Component {
   render() {
     console.log(this.state);
     let dictionaryData = this.props.dictionaryData;
-    let uniqueCarrierCodes = [];
 
-    // Remove duplicates
-    for (const data of dictionaryData) {
-      const matchAirline = new Map();
-      let uniqueList = [];
-      for (const item of data) {
-        if (!matchAirline.has(item[0])) {
-          matchAirline.set(item[0], true); // set value to Map
-          uniqueList.push({
-            ...item
-          });
+    // Join the dictionary data into a single array
+    let joinedCarrierCodes = dictionaryData[0].concat(
+      ...dictionaryData.filter((item, index) => {
+        if (index >= 1) {
+          return item;
         }
-      }
-      uniqueCarrierCodes.push(uniqueList);
-    }
+      })
+    );
+
+    // Remove duplicate airlines
+    let uniqueCarrierCodes = Array.from(
+      new Set(joinedCarrierCodes.map(airline => airline[0]))
+    ).map(code => joinedCarrierCodes.find(airline => airline[0] === code));
+
     console.log(uniqueCarrierCodes);
     return (
       <React.Fragment>
         <div
-          style={{
-            backgroundColor: "#41225f",
-            padding: "0.5em",
-            textAlign: "center",
-            color: "white"
-          }}
+          className="filter_flight"
+          // style={{
+          //   backgroundColor: "#41225f",
+          //   padding: "0.5em",
+          //   textAlign: "center",
+          //   color: "white"
+          // }}
         >
           Filter Results
         </div>
@@ -210,19 +210,17 @@ class FilterResults extends React.Component {
 
           <Collapse in={this.state.airlines}>
             <div id="airlines" style={{ paddingLeft: "3em" }}>
-              {this.props.dictionaryData.map(dictionary =>
-                dictionary.map(airline => (
-                  <CheckBox
-                    key={airline[0]}
-                    type="checkbox"
-                    label={airline[1]}
-                    name={airline[0]}
-                    id={airline[1]}
-                    checked={this.props.checkedAirlines.get(airline[0])}
-                    onChange={this.props.onChangeAirline}
-                  />
-                ))
-              )}
+              {uniqueCarrierCodes.map(airline => (
+                <CheckBox
+                  key={airline[0]}
+                  type="checkbox"
+                  label={airline[1]}
+                  name={airline[0]}
+                  id={airline[1]}
+                  checked={this.props.checkedAirlines.get(airline[0])}
+                  onChange={this.props.onChangeAirline}
+                />
+              ))}
               {/* {this.props.flightDetails.dictionaries.carriers.map(airline => (
                 <FormCheck
                   key={airline[0]}
@@ -309,12 +307,27 @@ class FilterResults extends React.Component {
           <Collapse in={this.state.duration}>
             <div id="duration">
               <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginLeft: "2em",
+                  marginRight: "2em"
+                }}
+              >
+                <span>{`${this.displayTime(
+                  this.state.durationValue[0]
+                )} hours`}</span>
+                <span>
+                  {`${this.displayTime(this.state.durationValue[1])} hours`}}
+                </span>
+              </div>
+              {/* <div
                 style={{ marginLeft: "2em", marginRight: "2em" }}
               >{`${this.displayTime(
                 this.state.durationValue[0]
               )} hours - ${this.displayTime(
                 this.state.durationValue[1]
-              )} hours`}</div>
+              )} hours`}</div> */}
               <Nouislider
                 accessibility
                 // step={1}

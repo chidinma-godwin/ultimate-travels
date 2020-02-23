@@ -9,7 +9,7 @@ const Home = props => {
   return (
     <React.Fragment>
       <MainImage currency={currency} />
-      <Container>
+      <Container fluid>
         {/* <Booking /> */}
         <br />
         <br />

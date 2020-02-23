@@ -1,12 +1,12 @@
 import React from "react";
-import { ProgressBar } from "react-bootstrap";
+import { ProgressBar, Container, Spinner } from "react-bootstrap";
 import { Query } from "react-apollo";
 import { adopt } from "react-adopt";
 import { getFlightDetails } from "../../queries/queries";
 import QueryResult from "./QueryResult";
 
 function FlightQuery(props) {
-  let { userInfo } = props.location.state;
+  let { userInfo, singleTrip } = props.location.state;
   let { currency } = props;
   let queryObj = {};
   userInfo.from.map((origin, i) => {
@@ -41,20 +41,42 @@ function FlightQuery(props) {
       {result => {
         let allData = [];
         for (let name in queryObj) {
-          if (result[name].loading) return <ProgressBar now={25} />;
+          if (result[name].loading)
+            return (
+              <div className="flight_query_status">
+                <Spinner
+                  animation="border"
+                  size="lg"
+                  variant="primary"
+                  role="status"
+                >
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              </div>
+            );
           if (result[name].error) {
             console.log(result[name].error);
-            return "Please fill the flight form";
+            return (
+              <div className="flight_query_status">
+                Please fill the flight form
+              </div>
+            );
           }
           allData.push(result[name].data);
         }
         console.log(allData);
 
         if (allData.some(tripData => tripData.flightDetails === null)) {
-          return "No result found";
+          return <div className="flight_query_status">No Result Found</div>;
         }
 
-        return <QueryResult allData={allData} userInfo={userInfo} />;
+        return (
+          <QueryResult
+            allData={allData}
+            userInfo={userInfo}
+            singleTrip={singleTrip}
+          />
+        );
       }}
     </Composed>
     // <Query

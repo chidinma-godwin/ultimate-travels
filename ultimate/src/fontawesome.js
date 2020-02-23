@@ -20,7 +20,9 @@ import {
   faLongArrowAltLeft,
   faLongArrowAltRight,
   faStar,
-  faMapMarkerAlt
+  faMapMarkerAlt,
+  faChevronCircleLeft,
+  faChevronCircleRight
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import { faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
@@ -47,5 +49,7 @@ library.add(
   faLongArrowAltRight,
   faStar,
   faStarRegular,
-  faMapMarkerAlt
+  faMapMarkerAlt,
+  faChevronCircleLeft,
+  faChevronCircleRight
 );

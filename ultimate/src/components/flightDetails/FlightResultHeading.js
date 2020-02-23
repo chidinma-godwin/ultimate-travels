@@ -1,18 +1,38 @@
 import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Redirect } from "react-router-dom";
 
 class FlightResultHeading extends React.Component {
-  constructor(props) {
-    super(props);
-    let info = this.props.userInfo;
+  constructor() {
+    super();
     this.state = {
-      info
+      redirect: null
     };
   }
 
+  changeFlightQuery = () => {
+    this.setState({
+      redirect: "/"
+    });
+  };
+
   render() {
-    let info = this.state.info;
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: this.state.redirect,
+            state: {
+              userInfo: this.props.userInfo
+            }
+          }}
+        />
+      );
+    }
+
+    let info = this.props.userInfo;
     let originCity = info.from[0][1].address.cityName;
     let originLocationCode = info.from[0][1].iataCode;
     let destinationCity = info.to[info.to.length - 1][1].address.cityName;
@@ -25,23 +45,30 @@ class FlightResultHeading extends React.Component {
             .split("T")[0]
         : "";
     return (
-      <Row
+      <div
         style={{
           // backgroundColor: "rgb(65, 65, 66)",
-          backgroundColor: "#157ec2",
-          borderRadius: "115px",
-          color: "white",
+          backgroundColor: "#dee2e6",
+          borderRadius: "20px",
+          color: "black",
           padding: "1.5em",
-          marginBottom: "1.5em"
+          marginBottom: "1.5em",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
         }}
       >
-        <Col xs={9}>
+        <div>
           <div className="text-center">
             {`${originCity} (${originLocationCode})`}
             <FontAwesomeIcon
-              icon={["fas", "exchange-alt"]}
+              icon={
+                this.props.singleTrip
+                  ? ["fas", "long-arrow-alt-right"]
+                  : ["fas", "exchange-alt"]
+              }
               className="mr-3 ml-3"
-              style={{ color: "white" }}
+              style={{ color: "#f68220" }}
               size="lg"
             />
             {`${destinationCity} (${destinationLocationCode})`}
@@ -62,19 +89,22 @@ class FlightResultHeading extends React.Component {
               ? info.infants + " infant |"
               : ""
           }
-                   ${info.travelClass}`}</div>
-        </Col>
-        <Col xs={3}>
+                 ${info.travelClass}`}</div>
+        </div>
+        <div>
           <Button
             style={{
-              backgroundColor: "#41225f",
-              marginRight: "0.5em"
+              // backgroundColor: "#41225f",
+              display: "block",
+              marginLeft: "auto",
+              borderRadius: "10px"
             }}
+            onClick={this.changeFlightQuery}
           >
             Change
           </Button>
-        </Col>
-      </Row>
+        </div>
+      </div>
     );
   }
 }

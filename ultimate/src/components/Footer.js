@@ -1,7 +1,6 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Container, Row, Col } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Footer = () => {
   return (
@@ -52,11 +51,53 @@ const Footer = () => {
               </p>
             </section>
           </Col>
+          <Col sm={12}>
+            <p className="mt-1">
+              © 2019 Ultimate Travels. All Rights Reserved.
+            </p>
+          </Col>
         </Row>
       </Container>
-      <div id="bottom-nav">
-        <p className="mb-0">© 2019 Ultimate Travels. All Rights Reserved.</p>
+      <div className="d-none d-lg-block bottom-nav">
+        <ul className="nav nav-pills justify-content-around">
+          <li>Contact us</li>
+          <li>
+            <FontAwesomeIcon
+              icon={["fab", "whatsapp-square"]}
+              className="mr-2"
+              style={{ color: "green" }}
+              size="lg"
+            />
+            +2348161128204, +2349026622600
+          </li>
+          <li>
+            <i>
+              <FontAwesomeIcon
+                icon={["fas", "phone-alt"]}
+                className="mr-2"
+                style={{ color: "green" }}
+                size="lg"
+              />
+              +2348161128204, +2349026622600
+            </i>
+          </li>
+          <li>
+            <i>
+              <FontAwesomeIcon
+                icon={["fas", "envelope"]}
+                className="mr-2"
+                style={{ color: "green" }}
+                size="lg"
+              />
+              ultimatetravelsltd@gmail.com
+            </i>
+          </li>
+        </ul>
       </div>
+
+      {/* <div id="bottom-nav">
+        <p className="mb-0">© 2019 Ultimate Travels. All Rights Reserved.</p>
+      </div> */}
     </footer>
   );
 };
