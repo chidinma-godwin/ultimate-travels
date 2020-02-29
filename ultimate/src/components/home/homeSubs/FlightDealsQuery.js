@@ -37,7 +37,7 @@ class FlightDealsQuery extends React.Component {
       <Query
         query={getInspirationPlaces}
         variables={{
-          origin: "fra",
+          origin: "los",
           //   departureDate: String
           viewBy: "COUNTRY"
         }}

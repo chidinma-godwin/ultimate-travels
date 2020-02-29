@@ -10,123 +10,148 @@ import bahrain from "../../../images/bahrain.jpg";
 // import { Carousel, Modal, Image, Container } from "react-bootstrap";
 import Booking from "../homeSubs/booking/Booking";
 
-const MainImage = props => {
-  return (
-    <div className="d-flex flex-column justify-content-center position-relative align-items-center p-0">
-      <img
-        style={{ height: "500px" }}
-        src={bahrain}
-        alt="Dubai water park"
-        className="d-block w-100"
-      />
-      <Booking currency={props.currency} />
-    </div>
-    // <Carousel interval={7000}>
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={waterpark}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
+class MainImage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      height: "500px"
+    };
+  }
 
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={kuvajt}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
+  changeImageHeight = height => {
+    this.setState(prevState => {
+      console.log(height);
+      // let numericPreviousHeight = Number(prevState.height.split("px")[0]);
+      return {
+        height: height < 500 ? "500px" : `${height}px`
+      };
+    });
+  };
 
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={beirutLebanon}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
+  render() {
+    return (
+      <div
+        className="d-flex flex-column justify-content-center position-relative align-items-center p-0 clearfix"
+        style={{ height: this.state.height }}
+      >
+        <img
+          style={{ height: "inherit" }}
+          src={bahrain}
+          alt="Dubai water park"
+          className="d-block w-100"
+        />
+        <Booking
+          currency={this.props.currency}
+          changeImageHeight={height => this.changeImageHeight(height)}
+        />
+      </div>
+      // <Carousel interval={7000}>
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={waterpark}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
 
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={dohaQatar}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={kuvajt}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
 
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={bahrain}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={beirutLebanon}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
 
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={ritadhSaudi}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={dohaQatar}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
 
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={iran}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={bahrain}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
 
-    //   <Carousel.Item>
-    //     <img
-    //       className="d-block w-100"
-    //       style={{ maxHeight: "430px" }}
-    //       src={oman}
-    //       alt="Dubai water park"
-    //     />
-    //     <Carousel.Caption>
-    //       <h3>First slide label</h3>
-    //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-    //     </Carousel.Caption>
-    //   </Carousel.Item>
-    // </Carousel>
-  );
-};
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={ritadhSaudi}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
+
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={iran}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
+
+      //   <Carousel.Item>
+      //     <img
+      //       className="d-block w-100"
+      //       style={{ maxHeight: "430px" }}
+      //       src={oman}
+      //       alt="Dubai water park"
+      //     />
+      //     <Carousel.Caption>
+      //       <h3>First slide label</h3>
+      //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      //     </Carousel.Caption>
+      //   </Carousel.Item>
+      // </Carousel>
+    );
+  }
+}
 
 export default MainImage;

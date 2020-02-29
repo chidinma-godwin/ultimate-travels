@@ -3,11 +3,12 @@ import Trip from "./booking_subComponents/Trip";
 import { Tabs, Tab, Card, FormCheck } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Redirect } from "react-router-dom";
+import ReactResizeDetector from "react-resize-detector";
 import HotelForm from "../../../hotel/HotelForm";
 
 class Booking extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       singleTrip: false,
       roundtrip: true,
@@ -16,9 +17,28 @@ class Booking extends React.Component {
       activeTab: "Flights",
       redirect: null
     };
+    this.heightChange = false;
+  }
+
+  calculateHeight = element => {
+    if (element) {
+      this.cardRef = element;
+      const height = element.getBoundingClientRect().height;
+      this.props.changeImageHeight(height);
+    }
+  };
+
+  componentDidUpdate() {
+    if (this.heightChange) {
+      const height = this.cardRef.getBoundingClientRect().height;
+      console.log(height);
+      this.props.changeImageHeight(height);
+      this.heightChange = false;
+    }
   }
 
   handleAddTrip = () => {
+    this.heightChange = true;
     this.setState(prevState => {
       // this.selectedCityOptions.push(this.cityArray[prevState.tripCount]);
       return { tripCount: prevState.tripCount + 1 };
@@ -26,6 +46,7 @@ class Booking extends React.Component {
   };
 
   handleRemoveTrip = () => {
+    this.heightChange = true;
     this.setState(prevState => {
       //this.selectedCityOptions.pop();
       return { tripCount: Math.max(prevState.tripCount - 1, 1) };
@@ -33,6 +54,7 @@ class Booking extends React.Component {
   };
 
   handleSingleTripChange = () => {
+    this.heightChange = true;
     this.setState(prevState => ({
       singleTrip: !prevState.one,
       tripCount: 1,
@@ -42,6 +64,7 @@ class Booking extends React.Component {
   };
 
   handleRoundTripChange = () => {
+    this.heightChange = true;
     this.setState(prevState => ({
       roundtrip: !prevState.roundtrip,
       tripCount: 1,
@@ -51,6 +74,7 @@ class Booking extends React.Component {
   };
 
   handleMultipleTripChange = () => {
+    this.heightChange = true;
     //this.selectedCityOptions.push(this.cityArray[1]);
     this.setState(prevState => ({
       multipletrip: !prevState.multipletrip,
@@ -61,12 +85,17 @@ class Booking extends React.Component {
   };
 
   handleDubaiVisa = key => {
+    this.heightChange = true;
     this.setState({ activeTab: key });
     if (key === "UAE") {
       this.setState({
         redirect: "/visaApplicationForm"
       });
     }
+  };
+
+  onResize = (width, height) => {
+    this.props.changeImageHeight(height);
   };
 
   render() {
@@ -95,6 +124,10 @@ class Booking extends React.Component {
           border: "none",
           position: "absolute"
         }}
+        ref={this.calculateHeight}
+        // ref={cardElement => {
+        //   this.cardElement = cardElement;
+        // }}
       >
         <Card.Body>
           <Tabs
@@ -248,6 +281,11 @@ class Booking extends React.Component {
               </Nav.Item>
             </Nav> */}
         </Card.Body>
+        <ReactResizeDetector
+          handleWidth
+          handleHeight
+          onResize={this.onResize}
+        />
       </Card>
     );
   }
