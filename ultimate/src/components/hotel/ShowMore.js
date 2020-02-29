@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, ProgressBar, Table } from "react-bootstrap";
+import { Container, Row, Col, Card, Spinner, Table } from "react-bootstrap";
 import { Query } from "react-apollo";
 import { getHotelOffers } from "../../queries/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,6 +27,7 @@ const ShowMore = props => {
       if (numRatings >= i) {
         ratings.push(
           <FontAwesomeIcon
+            key={i}
             icon={["fas", "star"]}
             style={{ color: "orange" }}
             size="lg"
@@ -35,6 +36,7 @@ const ShowMore = props => {
       } else {
         ratings.push(
           <FontAwesomeIcon
+            key={i}
             icon={["far", "star"]}
             style={{ color: "orange" }}
             size="lg"
@@ -55,39 +57,47 @@ const ShowMore = props => {
               <p className="mb-3">
                 {numRatings ? ratings : "No ratings available"}
               </p>
-              <p className="mb-3">{hotelData.hotel.description.text}</p>
+              {hotelData.hotel.description ? (
+                <p className="mb-3">{hotelData.hotel.description.text}</p>
+              ) : (
+                ""
+              )}
 
               <Table>
-                <tr>
-                  <td className="font-weight-bold">From</td>
-                  <td className="font-weight-bold">
-                    {hotelData.offers[0].price.currency}{" "}
-                    {hotelData.offers[0].price.total}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Check In</td>
-                  <td>
-                    {userInfo.userInfo.checkIn.toISOString().split("T")[0]}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Check Out</td>
-                  <td>
-                    {userInfo.userInfo.checkOut.toISOString().split("T")[0]}
-                  </td>
-                </tr>
-                <tr>
-                  <td>Number of Rooms</td>
-                  <td>{userInfo.userInfo.rooms}</td>
-                </tr>
-                <tr>
-                  <td>Number of Adults</td>
-                  <td>{userInfo.userInfo.adult}</td>
-                </tr>
-                <tr>
-                  <td>Number of Children</td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className="font-weight-bold">From</td>
+                    <td className="font-weight-bold">
+                      {new Intl.NumberFormat("en-NG", {
+                        style: "currency",
+                        currency: hotelData.offers[0].price.currency
+                      }).format(Number(hotelData.offers[0].price.total))}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Check In</td>
+                    <td>
+                      {userInfo.userInfo.checkIn.toISOString().split("T")[0]}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Check Out</td>
+                    <td>
+                      {userInfo.userInfo.checkOut.toISOString().split("T")[0]}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Number of Rooms</td>
+                    <td>{userInfo.userInfo.rooms}</td>
+                  </tr>
+                  <tr>
+                    <td>Number of Adults</td>
+                    <td>{userInfo.userInfo.adult}</td>
+                  </tr>
+                  <tr>
+                    <td>Number of Children</td>
+                  </tr>
+                </tbody>
               </Table>
             </Card.Body>
           </Card>
@@ -95,8 +105,8 @@ const ShowMore = props => {
           <Card className="mb-2">
             <Card.Body>
               <h3 className="mb-3 font-weight-bold">Amenities</h3>
-              {hotelData.hotel.amenities.map(amenity => (
-                <ol key={amenity}>{amenity.split("_").join(" ")}</ol>
+              {hotelData.hotel.amenities.map((amenity, i) => (
+                <ol key={i}>{amenity.split("_").join(" ")}</ol>
               ))}
             </Card.Body>
           </Card>
@@ -105,13 +115,30 @@ const ShowMore = props => {
         <Col lg={7}>
           <Query query={getHotelOffers} variables={args}>
             {({ error, loading, data }) => {
-              if (loading) return <ProgressBar now={25} />;
+              if (loading)
+                return (
+                  <div className="flight_query_status">
+                    <Spinner
+                      animation="border"
+                      size="lg"
+                      variant="primary"
+                      role="status"
+                    >
+                      <span className="sr-only">Loading...</span>
+                    </Spinner>
+                  </div>
+                );
               if (error) {
                 console.log(error);
-                return "More info not available presently, please try again";
+                return (
+                  <div className="flight_query_status">
+                    More info not available presently, please try again
+                  </div>
+                );
               }
 
               console.log(data);
+
               return <HotelOffers hotelOffers={data.hotelOffers.data} />;
             }}
           </Query>

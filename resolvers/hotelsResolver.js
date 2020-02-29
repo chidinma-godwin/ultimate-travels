@@ -1,5 +1,4 @@
 const axios = require("axios");
-const qs = require("qs");
 const util = require("util");
 
 const hotelsResolver = {
@@ -7,7 +6,7 @@ const hotelsResolver = {
     hotels: (root, args, { token }, info) => {
       return axios({
         method: "Get",
-        url: "https://test.api.amadeus.com/v2/shopping/hotel-offers",
+        url: "https://api.amadeus.com/v2/shopping/hotel-offers",
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -34,10 +33,7 @@ const hotelsResolver = {
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
-            let checkToken = async () => {
-              token = await getToken();
-            };
-            if (error.response.status == 401) checkToken();
+
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
@@ -57,11 +53,10 @@ const hotelsResolver = {
         });
     },
 
-    hotelOffers: async (root, args, context, info) => {
-      let token = await getToken();
+    hotelOffers: async (root, args, { token }, info) => {
       return axios({
         method: "Get",
-        url: "https://test.api.amadeus.com/v2/shopping/hotel-offers/by-hotel",
+        url: "https://api.amadeus.com/v2/shopping/hotel-offers/by-hotel",
         headers: {
           Authorization: `Bearer ${token}`
         },

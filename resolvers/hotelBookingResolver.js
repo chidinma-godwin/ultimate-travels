@@ -7,7 +7,7 @@ const hotelBookingResolver = {
     hotelBooking: (root, args, context, info) => {
       return axios({
         method: "POST",
-        url: "https://test.api.amadeus.com/v1/booking/hotel-bookings",
+        url: "https://api.amadeus.com/v1/booking/hotel-bookings",
         headers: {
           Authorization: `Bearer ${token}`
         },

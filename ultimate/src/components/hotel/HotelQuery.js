@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { getHotels } from "../../queries/queries";
-import { ProgressBar } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import HotelResult from "./HotelResult";
 
 const HotelQuery = props => {
@@ -28,17 +28,38 @@ const HotelQuery = props => {
       }}
     >
       {({ error, loading, data }) => {
-        if (loading) return <ProgressBar now={25} />;
+        if (loading)
+          return (
+            <div className="flight_query_status">
+              <Spinner
+                animation="border"
+                size="lg"
+                variant="primary"
+                role="status"
+              >
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            </div>
+          );
         if (error) {
           console.log(error);
-          return "Please fill the flight form";
+          return (
+            <div className="flight_query_status">
+              We are currently unable to complete the hotel search. Please try
+              again.
+            </div>
+          );
         }
+
+        let emptyData = {};
+        emptyData.hotels = {};
+        emptyData.hotels.data = [];
 
         console.log(data);
 
         return (
           <HotelResult
-            data={data}
+            data={data.hotels ? data : emptyData}
             userInfo={props.location.state.searchParams}
           />
         );

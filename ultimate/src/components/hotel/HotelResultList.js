@@ -1,19 +1,42 @@
 import React from "react";
 import { Card, Row, Col, Button, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 class HotelResultList extends React.Component {
   constructor() {
     super();
     this.state = {
-      // redirect: null
+      redirect: null,
+      redirectHotelData: null
     };
   }
+
+  showMore = hotel => {
+    this.setState({
+      redirect: "/showMore",
+      redirectHotelData: hotel
+    });
+  };
 
   render() {
     let { hotelData, userInfo } = this.props;
     console.log(userInfo);
+
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: this.state.redirect,
+            state: {
+              hotelData: this.state.redirectHotelData,
+              userInfo: { userInfo }
+            }
+          }}
+        />
+      );
+    }
 
     return (
       <React.Fragment>
@@ -30,6 +53,7 @@ class HotelResultList extends React.Component {
                   if (numRatings >= i) {
                     ratings.push(
                       <FontAwesomeIcon
+                        key={i}
                         icon={["fas", "star"]}
                         style={{ color: "orange" }}
                         size="lg"
@@ -38,6 +62,7 @@ class HotelResultList extends React.Component {
                   } else {
                     ratings.push(
                       <FontAwesomeIcon
+                        key={i}
                         icon={["far", "star"]}
                         style={{ color: "orange" }}
                         size="lg"
@@ -85,7 +110,8 @@ class HotelResultList extends React.Component {
                           ""
                         )} */}
                         <div>
-                          {hotel.offers[0].room.typeEstimated.category
+                          {hotel.offers[0].room.typeEstimated &&
+                          hotel.offers[0].room.typeEstimated.category
                             ? hotel.offers[0].room.typeEstimated.category
                                 .split("_")
                                 .join(" ")
@@ -98,19 +124,9 @@ class HotelResultList extends React.Component {
                             border: "none",
                             color: "white"
                           }}
+                          onClick={this.showMore.bind(this, hotel)}
                         >
-                          <Link
-                            push
-                            to={{
-                              pathname: "/showMore",
-                              state: {
-                                hotelData: hotel,
-                                userInfo: { userInfo }
-                              }
-                            }}
-                          >
-                            View More
-                          </Link>
+                          View more
                         </Button>
                       </Col>
 
@@ -124,8 +140,15 @@ class HotelResultList extends React.Component {
                         </div>
 
                         <div>
-                          {`From 
-                            ${hotel.offers[0].price.currency} ${hotel.offers[0].price.total}`}
+                          From{" "}
+                          {new Intl.NumberFormat("en-NG", {
+                            style: "currency",
+                            currency: hotel.offers[0].price.currency
+                          }).format(hotel.offers[0].price.total * 1)}
+                          {/* {new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: hotel.offers[0].price.currency
+                          }).format(hotel.offers[0].price.total * 1)} */}
                         </div>
 
                         <div>
