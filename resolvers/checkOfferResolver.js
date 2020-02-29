@@ -7,7 +7,7 @@ const checkOfferResolver = {
     checkOffer: (roots, args, { token }, info) => {
       return axios({
         method: "POST",
-        url: "https://test.api.amadeus.com/v1/shopping/flight-offers/pricing",
+        url: "https://api.amadeus.com/v1/shopping/flight-offers/pricing",
         headers: {
           authorization: `Bearer ${token}`
           // "content-type": "application/json"

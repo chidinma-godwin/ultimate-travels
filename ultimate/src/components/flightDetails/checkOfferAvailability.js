@@ -1,39 +1,71 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { ProgressBar } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
+import { adopt } from "react-adopt";
 import { checkOfferQuery } from "../../queries/queries";
 import OfferAvailabilityResult from "./OfferAvailabilityResult";
 
-class checkOfferAvailability extends React.Component {
-  constructor(props) {
-    super(props);
-    const { queryVariable } = this.props.location.state;
-    this.state = {
-      queryVariable
-    };
-  }
+const checkOfferAvailability = props => {
+  let { joinedQueryVariable, userInfo } = props.location.state;
+  let queryObj = {};
 
-  render() {
-    const userInfo = this.props.location.state.userInfo;
-    return (
-      <Query
-        query={checkOfferQuery}
-        variables={{ input: this.state.queryVariable }}
-      >
-        {({ error, loading, data }) => {
-          if (loading) return <ProgressBar now={25} />;
-          if (error) {
-            console.log(error);
-            return "Please reload the page";
-          }
-
-          console.log(data);
-
-          return <OfferAvailabilityResult data={data} userInfo={userInfo} />;
-        }}
+  console.log(userInfo);
+  console.log(joinedQueryVariable);
+  joinedQueryVariable.map((queryVariable, index) => {
+    let key = index;
+    return (queryObj[key] = ({ render }) => (
+      <Query query={checkOfferQuery} variables={{ input: queryVariable }}>
+        {render}
       </Query>
-    );
-  }
-}
+    ));
+  });
+
+  console.log(queryObj);
+  const Composed = adopt(queryObj);
+
+  return (
+    <Composed>
+      {result => {
+        let allData = [];
+        for (let name in queryObj) {
+          if (result[name].loading)
+            return (
+              <div className="flight_query_status">
+                <Spinner
+                  animation="border"
+                  size="lg"
+                  variant="primary"
+                  role="status"
+                >
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              </div>
+            );
+          if (result[name].error) {
+            console.log(result[name].error);
+            return (
+              <div className="flight_query_status">
+                Sorry, we are currently unable to check this flight
+                availability. Please try again.
+              </div>
+            );
+          }
+          allData.push(result[name].data);
+        }
+        console.log(allData);
+
+        if (allData.some(tripData => tripData.checkOffer === null)) {
+          return (
+            <div className="flight_query_status">
+              No Result Found, please try again
+            </div>
+          );
+        }
+
+        return <OfferAvailabilityResult data={allData} userInfo={userInfo} />;
+      }}
+    </Composed>
+  );
+};
 
 export default checkOfferAvailability;

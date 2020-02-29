@@ -8,7 +8,9 @@ class OfferAvailabilityResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      flightOffer: this.props.data.checkOffer.data.flightOffers[0],
+      flightOffer: this.props.data.map(
+        trip => trip.checkOffer.data.flightOffers[0]
+      ),
       dateOfBirth: new Map(),
       showAlert: true,
       firstName: new Map(),
@@ -100,9 +102,16 @@ class OfferAvailabilityResult extends React.Component {
 
   render() {
     const flightOffer = this.state.flightOffer;
-    const warnings = this.props.data.checkOffer.warnings;
+    const warnings = this.props.data.map(trip => trip.checkOffer.warnings);
     const userInfo = this.props.userInfo;
     console.log(this.state);
+    console.log(warnings);
+    let hasWarnings;
+    if (warnings.includes(null)) {
+      hasWarnings = false;
+    } else {
+      hasWarnings = true;
+    }
 
     return (
       <Container
@@ -113,27 +122,29 @@ class OfferAvailabilityResult extends React.Component {
           paddingTop: "0"
         }}
       >
-        {this.state.showAlert && warnings
-          ? warnings.map(warn => {
-              if (warn.status === 200) {
-                return (
-                  <Alert
-                    key={warn.code}
-                    variant="warning"
-                    onClose={() => this.setState({ showAlert: false })}
-                    dismissible
-                    className="mb-3"
-                  >
-                    <Alert.Heading>
-                      {warn.title.split(/(?=[A-Z])/).join(" ")}
-                    </Alert.Heading>
-                    <p>{warn.detail}</p>
-                  </Alert>
-                );
-              } else {
-                return "";
-              }
-            })
+        {this.state.showAlert && hasWarnings
+          ? warnings.map(warnList =>
+              warnList.map(warn => {
+                if (warn.status === 200) {
+                  return (
+                    <Alert
+                      key={warn.code}
+                      variant="warning"
+                      onClose={() => this.setState({ showAlert: false })}
+                      dismissible
+                      className="mb-3"
+                    >
+                      <Alert.Heading>
+                        {warn.title.split(/(?=[A-Z])/).join(" ")}
+                      </Alert.Heading>
+                      <p>{warn.detail}</p>
+                    </Alert>
+                  );
+                } else {
+                  return "";
+                }
+              })
+            )
           : ""}
 
         <Row>
