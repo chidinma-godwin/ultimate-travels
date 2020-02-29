@@ -8,7 +8,7 @@ function SelectedFlightInfo(props) {
   let countAdult = 0;
   let countChildren = 0;
   let countInfant = 0;
-  flightOffer.travelerPricings.map(traveler => {
+  flightOffer[0].travelerPricings.map(traveler => {
     if (traveler.travelerType === "ADULT") countAdult += 1;
     if (traveler.travelerType === "CHILD") countChildren += 1;
     if (traveler.travelerType === "HELD_INFANT") countInfant += 1;
@@ -16,7 +16,7 @@ function SelectedFlightInfo(props) {
   });
 
   // Get a unique flightOffer array which contains one object for adults, children, and infants each
-  const uniqueTravelerPricings = flightOffer.travelerPricings.reduce(
+  const unique = flightOffer[0].travelerPricings.reduce(
     (accumulator, traveler) =>
       accumulator.concat(
         accumulator.find(
@@ -28,12 +28,29 @@ function SelectedFlightInfo(props) {
     []
   );
 
+  const uniqueTravelerPricings = flightOffer.map(flight =>
+    flight.travelerPricings.reduce(
+      (accumulator, traveler) =>
+        accumulator.concat(
+          accumulator.find(
+            travelerObj => travelerObj.travelerType === traveler.travelerType
+          )
+            ? []
+            : [traveler]
+        ),
+      []
+    )
+  );
+
+  console.log(uniqueTravelerPricings);
+  console.log(unique);
+
   return (
     <Card>
       <Card.Header
         style={{
           fontSize: "1.5em",
-          backgroundColor: "lightslategrey",
+          backgroundColor: "#f68220",
           color: "white"
         }}
       >
@@ -41,24 +58,49 @@ function SelectedFlightInfo(props) {
       </Card.Header>
 
       <Card.Title style={{ paddingLeft: "2em" }}>
-        {`${userInfo.originCity} to ${userInfo.destinationCity} - Round Trip`}
+        {`${userInfo.from[0][1].address.cityName} to ${
+          userInfo.to[userInfo.to.length - 1][1].address.cityName
+        } - Round Trip`}
         <hr />
       </Card.Title>
 
       <Card.Body style={{ paddingLeft: "2em" }}>
-        {uniqueTravelerPricings.map(traveler => {
-          // Check the passenger type and store the number of that particular type in a variable
-          // let numTravelerType = 0;
-          // if (traveler.travelerType === "ADULT") numTravelerType = countAdult;
-          // if (traveler.travelerType === "CHILD")
-          //   numTravelerType = countChildren;
-          // if (traveler.travelerType === "HELD_INFANT")
-          //   numTravelerType = countInfant;
-
+        {uniqueTravelerPricings[0].map((traveler, index) => {
           // Check if the passenger is an infant and put the name in the right format
           if (traveler.travelerType === "HELD_INFANT")
             traveler.travelerType = traveler.travelerType.split("_")[1];
 
+          // Get the base flight price
+          let basePrice = uniqueTravelerPricings.reduce(
+            (total, trip) => total + Number(trip[index].price.base),
+            0
+          );
+
+          // Get the total flight price
+          let totalPrice = uniqueTravelerPricings.reduce(
+            (total, trip) => total + Number(trip[index].price.total),
+            0
+          );
+
+          // Get the total tax and other fees
+          let taxAndFees = totalPrice - basePrice;
+
+          // Get the refundable taxes
+          let refundableTaxes = uniqueTravelerPricings.reduce(
+            (total, trip) => total + Number(trip[index].price.refundableTaxes),
+            0
+          );
+
+          // Get the currency
+          let currency = traveler.price.currency;
+
+          console.log(
+            totalPrice,
+            basePrice,
+            taxAndFees,
+            refundableTaxes,
+            currency
+          );
           return (
             <div key={traveler.travelerId}>
               <div
@@ -69,7 +111,13 @@ function SelectedFlightInfo(props) {
                 }}
               >
                 <span>{` Price per ${traveler.travelerType.toLowerCase()}`}</span>
-                <span>{traveler.price.base}</span>
+                <span>
+                  {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: currency
+                  }).format(Number(basePrice.toFixed(2)))}
+                </span>
+                {/* <span>{traveler.price.base}</span> */}
               </div>
 
               <div
@@ -81,21 +129,14 @@ function SelectedFlightInfo(props) {
               >
                 <span>{`Taxes and fees per ${traveler.travelerType.toLowerCase()}`}</span>
                 <span>
-                  {/* {traveler.price.taxes
-                            .reduce((total, tax) => total + tax.amount * 1, 0)
-                            .toFixed(2)} */}
-                  {(
-                    traveler.price.total * 1 -
-                    traveler.price.base * 1 +
-                    flightOffer.price.fees.reduce(
-                      (total, fee) => total + fee.amount * 1,
-                      0
-                    )
-                  ).toFixed(2)}
+                  {new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: currency
+                  }).format(Number(taxAndFees.toFixed(2)))}
                 </span>
               </div>
 
-              {traveler.price.refundableTaxes ? (
+              {traveler.price.refundableTaxes !== undefined ? (
                 <div
                   style={{
                     display: "flex",
@@ -104,11 +145,14 @@ function SelectedFlightInfo(props) {
                   }}
                 >
                   <span>{`Refundable taxes per ${traveler.travelerType.toLowerCase()}`}</span>
-                  <span>{traveler.price.refundableTaxes}</span>
+                  <span>
+                    {new Intl.NumberFormat("en-NG", {
+                      style: "currency",
+                      currency: currency
+                    }).format(Number(refundableTaxes.toFixed(2)))}
+                  </span>
                 </div>
-              ) : (
-                ""
-              )}
+              ) : null}
               <hr />
             </div>
           );
@@ -122,22 +166,35 @@ function SelectedFlightInfo(props) {
           }}
         >
           <span>Total Price</span>
-          <span>{flightOffer.price.grandTotal}</span>
+          <span>
+            {new Intl.NumberFormat("en-NG", {
+              style: "currency",
+              currency: uniqueTravelerPricings[0][0].price.currency
+            }).format(
+              flightOffer.reduce(
+                (total, flightPrice) =>
+                  total + flightPrice.price.grandTotal * 1,
+                0
+              )
+            )}
+          </span>
         </div>
 
         <hr />
-        {flightOffer.itineraries.map(itinerary => {
-          return (
-            <div key={itinerary.segments[0].id}>
-              {`${itinerary.segments[0].departure.iataCode} -
+        {flightOffer.map(trip =>
+          trip.itineraries.map(itinerary => {
+            return (
+              <div key={itinerary.segments[0].id}>
+                {`${itinerary.segments[0].departure.iataCode} -
                         ${
                           itinerary.segments[itinerary.segments.length - 1]
                             .arrival.iataCode
                         }`}
-              <hr />
-            </div>
-          );
-        })}
+                <hr />
+              </div>
+            );
+          })
+        )}
 
         <hr />
         <div style={{ display: "flex", flexDirection: "column" }}>

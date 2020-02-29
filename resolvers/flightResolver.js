@@ -7,7 +7,7 @@ const flightResolver = {
     flightDetails: (roots, args, { token }, info) => {
       return axios({
         method: "GET",
-        url: "https://test.api.amadeus.com/v2/shopping/flight-offers",
+        url: "https://api.amadeus.com/v2/shopping/flight-offers",
         headers: {
           Authorization: `Bearer ${token}`
         },

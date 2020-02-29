@@ -4,7 +4,7 @@ const qs = require("qs");
 const getToken = () => {
   return axios({
     method: "POST",
-    url: "https://test.api.amadeus.com/v1/security/oauth2/token",
+    url: "https://api.amadeus.com/v1/security/oauth2/token",
     headers: {
       "content-type": "application/x-www-form-urlencoded"
     },

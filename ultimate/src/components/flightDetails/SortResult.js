@@ -9,7 +9,8 @@ function SortResult(props) {
     handleCheapestCardClick,
     durationList,
     priceList,
-    displayTime
+    displayTime,
+    currency
   } = props;
 
   // Get the duration and price of the cheapest and fastest flight
@@ -43,8 +44,16 @@ function SortResult(props) {
                 paddingTop: "1em"
               }}
             >
-              <span>&#8358;</span>
-              {durationList.length > 0 ? durationList[lestDuration][0] : ""}
+              {durationList.length > 0
+                ? new Intl.NumberFormat("en-NG", {
+                    style: "currency",
+                    currency: currency
+                  }).format(Number(durationList[lestDuration][0].toFixed(2)))
+                : null}
+              {/* <span>&#8358;</span>
+              {durationList.length > 0
+                ? Number(durationList[lestDuration][0].toFixed(2))
+                : ""} */}
             </div>
           </Card.Title>
 
@@ -70,9 +79,13 @@ function SortResult(props) {
                 paddingTop: "1em"
               }}
             >
-              <span>&#8358;</span>
+              {new Intl.NumberFormat("en-NG", {
+                style: "currency",
+                currency: currency
+              }).format(Math.min(...priceList))}
+              {/* <span>&#8358;</span>
 
-              {Math.min(...priceList)}
+              {Math.min(...priceList)} */}
             </div>
           </Card.Title>
 

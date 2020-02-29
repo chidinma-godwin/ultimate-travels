@@ -7,7 +7,7 @@ const flightInspirationResolver = {
     flightInspiration: (root, args, { token }, info) => {
       return axios({
         method: "Get",
-        url: "https://test.api.amadeus.com/v1/shopping/flight-destinations",
+        url: "https://api.amadeus.com/v1/shopping/flight-destinations",
         headers: {
           AUTHORIZATION: `Bearer ${token}`
         },

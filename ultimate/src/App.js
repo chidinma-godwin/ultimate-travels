@@ -117,7 +117,7 @@ class App extends React.Component {
           id: 6
         }
       ],
-      currency: "USD",
+      currency: "NGN",
       hideFooter: false
     };
   }

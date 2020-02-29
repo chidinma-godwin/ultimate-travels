@@ -50,6 +50,13 @@ const Header = props => {
                     props.handleCurrencyToggle(evt.target.textContent)
                   }
                 >
+                  NGN
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={evt =>
+                    props.handleCurrencyToggle(evt.target.textContent)
+                  }
+                >
                   USD
                 </Dropdown.Item>
                 <Dropdown.Item

@@ -58,7 +58,8 @@ function FlightQuery(props) {
             console.log(result[name].error);
             return (
               <div className="flight_query_status">
-                Please fill the flight form
+                Sorry, we are currently unable to retrieve flight data. Please
+                try again.
               </div>
             );
           }
@@ -67,7 +68,11 @@ function FlightQuery(props) {
         console.log(allData);
 
         if (allData.some(tripData => tripData.flightDetails === null)) {
-          return <div className="flight_query_status">No Result Found</div>;
+          return (
+            <div className="flight_query_status">
+              No Result Found, please try again
+            </div>
+          );
         }
 
         return (
@@ -75,36 +80,11 @@ function FlightQuery(props) {
             allData={allData}
             userInfo={userInfo}
             singleTrip={singleTrip}
+            currency={currency}
           />
         );
       }}
     </Composed>
-    // <Query
-    //   query={getFlightDetails}
-    //   variables={{
-    //     originLocationCode: userInfo.originLocationCode,
-    //     destinationLocationCode: userInfo.destinationLocationCode,
-    //     departureDate: userInfo.departureDate,
-    //     returnDate: userInfo.returnDate,
-    //     adults: userInfo.adults * 1,
-    //     children: userInfo.children ? userInfo.children * 1 : undefined,
-    //     infants: userInfo.infants ? userInfo.infants * 1 : undefined,
-    //     travelClass: userInfo.travelClass ? userInfo.travelClass : undefined,
-    //     currencyCode: currency
-    //   }}
-    // >
-    //   {({ error, loading, data }) => {
-    //     if (loading) return <ProgressBar now={25} />;
-    // if (error) {
-    //   console.log(error);
-    //   return "Please fill the flight form";
-    // }
-
-    //     console.log(data);
-
-    //     return <QueryResult data={data} userInfo={userInfo} />;
-    //   }}
-    // </Query>
   );
 }
 

@@ -116,12 +116,13 @@ class FilterResults extends React.Component {
 
     // Join the dictionary data into a single array
     let joinedCarrierCodes = dictionaryData[0].concat(
-      ...dictionaryData.filter((item, index) => {
-        if (index >= 1) {
-          return item;
-        }
-      })
+      ...dictionaryData.filter((item, index) => index >= 1)
     );
+    // if (index >= 1) {
+    //   return item;
+    // }
+    // })
+    // );
 
     // Remove duplicate airlines
     let uniqueCarrierCodes = Array.from(

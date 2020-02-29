@@ -77,7 +77,7 @@ const TravelersInfo = props => {
           <Card.Header
             style={{
               fontSize: "1.5em",
-              backgroundColor: "lightslategrey",
+              backgroundColor: "#f68220",
               color: "white"
             }}
           >
@@ -85,7 +85,7 @@ const TravelersInfo = props => {
           </Card.Header>
           <Card.Body className="mb-3">
             <Form>
-              {flightOffer.travelerPricings.map(traveler => {
+              {flightOffer[0].travelerPricings.map(traveler => {
                 let type = "";
                 let passengerPosition = 0;
                 if (traveler.travelerType === "ADULT") {

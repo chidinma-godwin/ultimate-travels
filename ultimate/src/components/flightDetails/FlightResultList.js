@@ -8,35 +8,53 @@ class FlightResultList extends React.Component {
     super(props);
     this.state = {
       redirect: null,
-      queryVariable: {}
+      joinedQueryVariable: {}
     };
   }
 
   handleCheckOffer = id => {
     this.setState(() => {
-      let selectedData = this.props.flightData.filter(
-        flight => flight.id === id
-      );
+      let index;
+      let selectedData = [];
+      let firstTripData = this.props.flightData[0].filter((flight, i) => {
+        index = i;
+        return flight.id === id;
+      });
+      selectedData.push(firstTripData);
+      for (let i = 1; i < this.props.flightData.length; i++) {
+        selectedData.push([this.props.flightData[i][index]]);
+      }
+      console.log(index);
+      console.log(firstTripData);
       console.log(selectedData);
+      console.log(this.props.flightData[0]);
 
       // Format the data to match the checkOfferQuery argument before passing it
-      selectedData.map(data => {
-        delete data.averageDuration;
-        data.itineraries.map(itinerary => delete itinerary.durationMins);
-        if (data.numStops) delete data.numStops;
-        if (data.uniqueAirlinesList) delete data.uniqueAirlinesList;
-        return data;
-      });
+      selectedData.map(trip =>
+        trip.map(data => {
+          delete data.averageDuration;
+          data.itineraries.map(itinerary => delete itinerary.durationMins);
+          if (data.numStops) delete data.numStops;
+          if (data.uniqueAirlinesList) delete data.uniqueAirlinesList;
+          if (data.accumulatedPrice) delete data.accumulatedPrice;
+          return data;
+        })
+      );
 
-      let queryVariable = {};
-      queryVariable.data = {};
-      queryVariable.data.type = "flight-offers-pricing";
-      queryVariable.data.flightOffers = selectedData;
+      let joinedQueryVariable = [];
 
-      console.log(queryVariable);
+      for (let i = 0; i < selectedData.length; i++) {
+        let queryVariable = {};
+        queryVariable.data = {};
+        queryVariable.data.type = "flight-offers-pricing";
+        queryVariable.data.flightOffers = selectedData[i];
+        joinedQueryVariable.push(queryVariable);
+      }
+
+      console.log(joinedQueryVariable);
       return {
         redirect: "/checkOfferAvailability",
-        queryVariable
+        joinedQueryVariable
       };
     });
   };
@@ -50,7 +68,7 @@ class FlightResultList extends React.Component {
             to={{
               pathname: this.state.redirect,
               state: {
-                queryVariable: this.state.queryVariable,
+                joinedQueryVariable: this.state.joinedQueryVariable,
                 userInfo: this.props.userInfo
               }
             }}
@@ -99,14 +117,6 @@ class FlightResultList extends React.Component {
                 let splittedTimeArray = time.split(":");
                 return `${splittedTimeArray[0]}:${splittedTimeArray[1]}`;
               });
-              console.log(outboundDepartureTime);
-              console.log(outboundArrivalTime);
-              // console.log(
-              //   outboundItineraryArrival,
-              //   outboundItineraryDeparture,
-              //   outboundStops,
-              //   outboundStops
-              // );
 
               // declare inbound flight variables
               let inboundDuration,
@@ -150,17 +160,15 @@ class FlightResultList extends React.Component {
                 >
                   <Card.Body>
                     <Row className="mb-2">
-                      <Col sm={12} md={10}>
+                      <Col
+                        sm={12}
+                        md={10}
+                        className={length === 1 ? "align-self-center" : ""}
+                      >
                         {joinedData.map((flight, i) => {
                           return (
                             <Row key={i} className="align-items-center">
-                              <Col
-                                sm={6}
-                                md={3}
-                                className={
-                                  length === 1 ? "align-self-center" : ""
-                                }
-                              >
+                              <Col sm={6} md={3}>
                                 <Image
                                   src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${flight.itineraries[0].segments[0].carrierCode}`}
                                   fluid
@@ -169,9 +177,6 @@ class FlightResultList extends React.Component {
                               <Col
                                 sm={12}
                                 md={9}
-                                className={
-                                  length === 1 ? "align-self-center" : ""
-                                }
                                 style={{
                                   display: "flex",
                                   justifyContent: "center"
@@ -262,15 +267,28 @@ class FlightResultList extends React.Component {
                                 prices.length > 1 ? "deals" : "deal"
                               } from`} */}
                         <div>
-                          <span>&#8358;</span>
+                          {new Intl.NumberFormat("en-NG", {
+                            style: "currency",
+                            currency: this.props.currency
+                          }).format(
+                            Number(
+                              joinedData
+                                .reduce(
+                                  (total, tripData) =>
+                                    total + tripData.price.total * 1,
+                                  0
+                                )
+                                .toFixed(2)
+                            )
+                          )}
+                          {/* <span>&#8358;</span>
                           {`${joinedData
                             .reduce(
                               (total, tripData) =>
                                 total + tripData.price.total * 1,
                               0
                             )
-                            .toFixed(2)}`}
-                          {/* {`${flight.price.total}`} */}
+                            .toFixed(2)}`} */}
                         </div>
 
                         {this.props.flightData.length === 1 ? (

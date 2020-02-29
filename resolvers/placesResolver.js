@@ -6,7 +6,7 @@ const placesResolver = {
     places: (root, args, { token }, info) => {
       return axios({
         method: "GET",
-        url: "https://test.api.amadeus.com/v1/reference-data/locations",
+        url: "https://api.amadeus.com/v1/reference-data/locations",
         headers: {
           //   "content-type": "application/vnd.amadeus+json",
           Authorization: `Bearer ${token}`

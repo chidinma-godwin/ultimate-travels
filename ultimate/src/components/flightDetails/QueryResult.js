@@ -1,10 +1,11 @@
 import React from "react";
-import { Container, Row, Col, Button, Pagination } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import FilterResults from "./FilterResults";
 import FlightResultList from "./FlightResultList";
 import SortResult from "./SortResult";
 import FlightResultHeading from "./FlightResultHeading";
 import { Map } from "immutable";
+import FlightResultPagination from "./FlightResultPagination";
 
 class QueryResult extends React.Component {
   constructor(props) {
@@ -575,70 +576,6 @@ class QueryResult extends React.Component {
       trip.slice(indexOfFirstFlight, indexOfLastFlight)
     );
 
-    /* Format the array to be passed to the pagination to show only prev, first, last, next, 
-    current page and　a number before and after the current page */
-
-    let pageNumbers = [];
-    let numberOfPages = Math.ceil(flightData[0].length / flightsPerPage);
-
-    if (currentPage > 1)
-      pageNumbers.push(<Pagination.Prev onClick={this.showPrevPage} />);
-
-    for (let i = 1; i <= numberOfPages; i++) {
-      if (i === 1) {
-        pageNumbers.push(
-          <Pagination.Item
-            key={i}
-            active={i === currentPage}
-            onClick={() => this.changePage(i)}
-          >
-            {i}
-          </Pagination.Item>
-        );
-      }
-    }
-
-    if (currentPage >= 4) pageNumbers.push(<Pagination.Ellipsis />);
-
-    for (let i = 1; i <= numberOfPages; i++) {
-      if (
-        i >= currentPage - 1 &&
-        i <= currentPage + 1 &&
-        i > 1 &&
-        i < numberOfPages
-      ) {
-        pageNumbers.push(
-          <Pagination.Item
-            key={i}
-            active={i === currentPage}
-            onClick={() => this.changePage(i)}
-          >
-            {i}
-          </Pagination.Item>
-        );
-      }
-    }
-
-    if (currentPage <= numberOfPages - 3)
-      pageNumbers.push(<Pagination.Ellipsis />);
-
-    for (let i = 1; i <= numberOfPages; i++) {
-      if (i === numberOfPages) {
-        pageNumbers.push(
-          <Pagination.Item
-            key={i}
-            active={i === currentPage}
-            onClick={() => this.changePage(i)}
-          >
-            {i}
-          </Pagination.Item>
-        );
-      }
-    }
-
-    if (currentPage < numberOfPages)
-      pageNumbers.push(<Pagination.Next onClick={this.showNextPage} />);
-
     return (
       <Container
         fluid
@@ -684,6 +621,7 @@ class QueryResult extends React.Component {
               priceList={this.priceList}
               handleCheapestCardClick={this.handleCheapestCardClick}
               handleFastestCardClick={this.handleFastestCardClick}
+              currency={this.props.currency}
             />
 
             {/* Show a button to display all result only if the data has been filtered or sorted */}
@@ -699,11 +637,19 @@ class QueryResult extends React.Component {
             <FlightResultList
               flightData={currentFlights}
               userInfo={this.props.userInfo}
+              currency={this.props.currency}
             />
             <br />
             <br />
 
-            <Pagination>{pageNumbers}</Pagination>
+            <FlightResultPagination
+              currentPage={currentPage}
+              flightsPerPage={flightsPerPage}
+              flightData={flightData}
+              changePage={this.state.changePage}
+              showPrevPage={this.showPrevPage}
+              showNextPage={this.showNextPage}
+            />
           </Col>
         </Row>
       </Container>
