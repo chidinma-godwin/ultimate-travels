@@ -22,7 +22,10 @@ import {
   faStar,
   faMapMarkerAlt,
   faChevronCircleLeft,
-  faChevronCircleRight
+  faChevronCircleRight,
+  faBell,
+  faUserCircle,
+  faRedo
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import { faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
@@ -51,5 +54,8 @@ library.add(
   faStarRegular,
   faMapMarkerAlt,
   faChevronCircleLeft,
-  faChevronCircleRight
+  faChevronCircleRight,
+  faBell,
+  faUserCircle,
+  faRedo
 );

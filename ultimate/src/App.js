@@ -18,7 +18,7 @@ import FlightQuery from "./components/flightDetails/FlightQuery";
 import checkOfferAvailability from "./components/flightDetails/checkOfferAvailability";
 import VisaForm from "./components/visa/VisaForm";
 import HotelQuery from "./components/hotel/HotelQuery";
-import AdminPanel from "./components/admin/AdminPanel";
+import AdminDashBoard from "./components/admin/AdminDashBoard";
 import ShowMore from "./components/hotel/ShowMore";
 import GuestInfo from "./components/hotel/GuestInfo";
 import NetplusPayment from "./components/NetplusPayment";
@@ -118,7 +118,8 @@ class App extends React.Component {
         }
       ],
       currency: "NGN",
-      hideFooter: false
+      hideFooter: false,
+      hideHeader: false
     };
   }
 
@@ -133,14 +134,22 @@ class App extends React.Component {
     });
   };
 
+  handleHideHeader = choice => {
+    this.setState({
+      hideHeader: choice
+    });
+  };
+
   render() {
     return (
       <ApolloProvider client={client}>
         <Router>
-          <Header
-            handleCurrencyToggle={this.handleCurrencyToggle}
-            currency={this.state.currency}
-          />
+          {this.state.hideHeader ? null : (
+            <Header
+              handleCurrencyToggle={this.handleCurrencyToggle}
+              currency={this.state.currency}
+            />
+          )}
 
           <Switch>
             <Route
@@ -178,14 +187,23 @@ class App extends React.Component {
               )}
             />
 
-            <Route path="/admin" component={AdminPanel} />
+            <Route
+              path="/admin"
+              render={props => (
+                <AdminDashBoard
+                  {...props}
+                  handleHideHeader={this.handleHideHeader}
+                  handleHideFooter={this.handleHideFooter}
+                />
+              )}
+            />
             <Route path="/showMore" component={ShowMore} />
             <Route path="/guestInfo" component={GuestInfo} />
             <Route path="/netplusPayment" component={NetplusPayment} />
           </Switch>
           <br />
           <br />
-          {this.state.hideFooter ? "" : <Footer />}
+          {this.state.hideFooter ? null : <Footer />}
         </Router>
       </ApolloProvider>
     );

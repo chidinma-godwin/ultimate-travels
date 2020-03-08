@@ -584,6 +584,7 @@ class QueryResult extends React.Component {
           padding: "3em",
           paddingTop: "0"
         }}
+        className="flightResultContainer"
       >
         {/* Component showing result heading */}
         <FlightResultHeading
@@ -646,7 +647,7 @@ class QueryResult extends React.Component {
               currentPage={currentPage}
               flightsPerPage={flightsPerPage}
               flightData={flightData}
-              changePage={this.state.changePage}
+              changePage={this.changePage}
               showPrevPage={this.showPrevPage}
               showNextPage={this.showNextPage}
             />

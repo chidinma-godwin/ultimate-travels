@@ -18,7 +18,7 @@ const FlightResultPagination = props => {
   let numberOfPages = Math.ceil(flightData[0].length / flightsPerPage);
 
   if (currentPage > 1)
-    pageNumbers.push(<Pagination.Prev onClick={showPrevPage} />);
+    pageNumbers.push(<Pagination.Prev key="a" onClick={showPrevPage} />);
 
   for (let i = 1; i <= numberOfPages; i++) {
     if (i === 1) {
@@ -34,7 +34,7 @@ const FlightResultPagination = props => {
     }
   }
 
-  if (currentPage >= 4) pageNumbers.push(<Pagination.Ellipsis key="a" />);
+  if (currentPage >= 4) pageNumbers.push(<Pagination.Ellipsis key="b" />);
 
   for (let i = 1; i <= numberOfPages; i++) {
     if (
@@ -56,7 +56,7 @@ const FlightResultPagination = props => {
   }
 
   if (currentPage <= numberOfPages - 3)
-    pageNumbers.push(<Pagination.Ellipsis key="b" />);
+    pageNumbers.push(<Pagination.Ellipsis key="c" />);
 
   for (let i = 1; i <= numberOfPages; i++) {
     if (i === numberOfPages) {
@@ -72,11 +72,10 @@ const FlightResultPagination = props => {
     }
   }
 
-  let i = 0;
-  i += 1;
-
   if (currentPage < numberOfPages)
-    pageNumbers.push(<Pagination.Next key={i} onClick={showNextPage} />);
+    pageNumbers.push(<Pagination.Next key="d" onClick={showNextPage} />);
+
+  console.log(pageNumbers);
 
   return <Pagination>{pageNumbers}</Pagination>;
 };

@@ -203,6 +203,79 @@ button#currency.dropdown-toggle.btn.btn-default {
   padding: 0.75rem 1.25rem;
 }
 
+#outer-container {
+  font-family: sans-serif;
+  height: 100vh;
+  padding-top: 4rem;
+  display: flex;
+}
+
+#page-wrap {
+  text-align: center;
+  padding-left: 240px;
+  /* overflow: auto; */
+}
+
+.bm-item {
+  display: inline-block;
+  text-decoration: none;
+  margin-bottom: 10px;
+  color: #d1d1d1;
+  transition: color 0.2s;
+  width: max-content;
+}
+
+.bm-item:hover {
+  color: white;
+}
+
+.bm-burger-button {
+  position: fixed;
+  width: 1.7em;
+  height: 1.5em;
+  left: 1em;
+  top: 1.5em;
+  z-index: 1200 !important;
+}
+
+.bm-burger-bars {
+  background: whitesmoke;
+  height: 15% !important;
+}
+
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+.bm-cross {
+  background: whitesmoke;
+}
+
+.bm-menu {
+  background: #41225f;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.2em;
+  overflow: visible !important;
+}
+
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+.bm-item-list {
+  color: #b8b7ad;
+}
+
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+a:hover,
+a:focus {
+  text-decoration-line: none;
+}
+
 @media only screen and (max-width: 470px) {
   .booking-tabs a {
     margin-right: 0.1em;
@@ -211,7 +284,25 @@ button#currency.dropdown-toggle.btn.btn-default {
   .booking-tabs .nav-link {
     padding: 0.5rem 0.2rem;
   }
+
+  .booking-tabs.nav {
+    padding-left: 10px;
+  }
+
+  .card-body {
+    padding: 0;
+    padding-top: 1.25rem;
+  }
+
+  .flightResultContainer {
+    padding: 0.5em !important;
+  }
+
+  .img-fluid {
+    max-width: 70%;
+  }
 }
+
 /* input[type="text"],
 select.form-control {
   background: transparent;

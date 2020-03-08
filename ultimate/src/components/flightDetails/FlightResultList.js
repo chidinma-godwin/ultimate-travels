@@ -167,15 +167,17 @@ class FlightResultList extends React.Component {
                       >
                         {joinedData.map((flight, i) => {
                           return (
-                            <Row key={i} className="align-items-center">
-                              <Col sm={6} md={3}>
-                                <Image
-                                  src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${flight.itineraries[0].segments[0].carrierCode}`}
-                                  fluid
-                                />
+                            <Row key={i} className="align-items-center mb-3">
+                              <Col xs={6} md={3}>
+                                <div>
+                                  <Image
+                                    src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${flight.itineraries[0].segments[0].carrierCode}`}
+                                    fluid
+                                  />
+                                </div>
                               </Col>
                               <Col
-                                sm={12}
+                                xs={12}
                                 md={9}
                                 style={{
                                   display: "flex",
@@ -208,19 +210,21 @@ class FlightResultList extends React.Component {
 
                         {flight.itineraries.length > 1 ? (
                           <Row className="align-items-center">
-                            <Col sm={6} md={3}>
-                              <Image
-                                src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${
-                                  flight.itineraries[1].segments[
-                                    flight.itineraries[1].segments.length - 1
-                                  ].carrierCode
-                                }`}
-                                fluid
-                              />
+                            <Col xs={6} md={3}>
+                              <div>
+                                <Image
+                                  src={`https://daisycon.io/images/airline/?width=300&height=150&color=ffffff&iata=${
+                                    flight.itineraries[1].segments[
+                                      flight.itineraries[1].segments.length - 1
+                                    ].carrierCode
+                                  }`}
+                                  fluid
+                                />
+                              </div>
                             </Col>
 
                             <Col
-                              sm={12}
+                              xs={12}
                               md={9}
                               style={{
                                 display: "flex",
