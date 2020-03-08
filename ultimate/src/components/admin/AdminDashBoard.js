@@ -2,11 +2,11 @@ import React from "react";
 import AdminHeader from "./AdminHeader";
 import SideBar from "./SideBar";
 import TablesPage from "./TablesPage";
+import TravelersQuery from "./TravelersQuery";
 
 class AdminDashBoard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.handleHideHeader = this.props.handleHideHeader;
     this.handleHideFooter = this.props.handleHideFooter;
   }
@@ -27,8 +27,13 @@ class AdminDashBoard extends React.Component {
         <AdminHeader />
         <div id="outer-container">
           <SideBar />
-          <div id="page-wrap">
-            <TablesPage />
+          <div
+            id="page-wrap"
+            style={{
+              transition: "all 0.5s ease 0s"
+            }}
+          >
+            <TravelersQuery />
           </div>
         </div>
       </React.Fragment>
