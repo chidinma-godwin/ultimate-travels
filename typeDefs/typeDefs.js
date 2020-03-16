@@ -8,7 +8,8 @@ const traveler = require("./traveler");
 const visaProcessing = require("./visaProcessing");
 const hotels = require("./hotels");
 const hotelBooking = require("./hotelBooking");
-// const tour = require("./tour");
+const tour = require("./tour");
+const tourDetails = require("./tourDetails");
 
 module.exports = [
   root,
@@ -20,6 +21,7 @@ module.exports = [
   traveler,
   visaProcessing,
   hotels,
-  hotelBooking
-  // tour
+  hotelBooking,
+  tour,
+  tourDetails
 ];

@@ -30,7 +30,7 @@ const HotelQuery = props => {
       {({ error, loading, data }) => {
         if (loading)
           return (
-            <div className="flight_query_status">
+            <div className="query_status">
               <Spinner
                 animation="border"
                 size="lg"
@@ -44,7 +44,7 @@ const HotelQuery = props => {
         if (error) {
           console.log(error);
           return (
-            <div className="flight_query_status">
+            <div className="query_status">
               We are currently unable to complete the hotel search. Please try
               again.
             </div>

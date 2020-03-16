@@ -6,13 +6,8 @@ const Traveler = require("../models/travelers");
 
 const travelerResolver = {
   Query: {
-    Traveler: (root, args, context, info) => {
-      return Traveler.findById(args.id);
-    },
-
-    allTravelers: (root, args, context, info) => {
-      return Traveler.find({});
-    }
+    Traveler: (root, { id }, context, info) => Traveler.findById(id),
+    allTravelers: (root, args, context, info) => Traveler.find({})
   },
 
   Mutation: {

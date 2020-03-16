@@ -2,28 +2,40 @@ const { gql } = require("apollo-server-express");
 
 const traveler = gql`
   # extend type Query {
-  #   Post(id: ID!): Post
-  #   allPosts(
+  #   Traveler(id: ID!): TravelerDetails
+  #   allTravelers(
   #     page: Int
   #     perPage: Int
   #     sortField: String
   #     sortOrder: String
-  #     filter: PostFilter
-  #   ): [Post]
-  #   _allPostsMeta(
+  #     filter: TravelersFilter
+  #   ): [TravelerDetails]
+  #   _allTravelersMeta(
   #     page: Int
   #     perPage: Int
   #     sortField: String
   #     sortOrder: String
-  #     filter: PostFilter
+  #     filter: TravelersFilter
   #   ): ListMetadata
   # }
 
-  extend type Query {
-    Traveler(id: ID!): TravelerDetails
+  input TravelersFilter {
+    q: String
+    id: ID
+    firstName: String
+    views: Int
+    views_lt: Int
+    views_lte: Int
+    views_gt: Int
+    views_gte: Int
+  }
+
+  type ListMetadata {
+    count: Int!
   }
 
   extend type Query {
+    Traveler(id: ID!): TravelerDetails
     allTravelers: [TravelerDetails]
   }
 

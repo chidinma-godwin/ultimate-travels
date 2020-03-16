@@ -2,7 +2,7 @@ const { gql } = require("apollo-server-express");
 
 const tour = gql`
   extend type Query {
-    Tour: TourResult
+    Tour(name: String!, page: Int = 1): TourResult
   }
 
   type TourResult {

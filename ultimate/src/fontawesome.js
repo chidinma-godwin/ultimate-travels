@@ -25,7 +25,8 @@ import {
   faChevronCircleRight,
   faBell,
   faUserCircle,
-  faRedo
+  faRedo,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import { faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
@@ -57,5 +58,6 @@ library.add(
   faChevronCircleRight,
   faBell,
   faUserCircle,
-  faRedo
+  faRedo,
+  faTimes
 );

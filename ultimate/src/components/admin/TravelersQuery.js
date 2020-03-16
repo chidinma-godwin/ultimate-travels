@@ -10,7 +10,7 @@ const TravelersQuery = () => {
       {({ error, loading, data }) => {
         if (loading)
           return (
-            <div className="flight_query_status">
+            <div className="query_status">
               <Spinner
                 animation="border"
                 size="lg"
@@ -25,7 +25,7 @@ const TravelersQuery = () => {
         if (error) {
           console.log(error);
           return (
-            <div className="flight_query_status">
+            <div className="query_status">
               Sorry, we are currently unable to retrieve traveler's info. Please
               try again.
             </div>

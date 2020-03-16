@@ -5,6 +5,7 @@ import getInspirationPlaces from "./flightInspiration";
 import { getTravelers, addTraveler } from "./traveler";
 import { getVisaRequests, addVisaRequest } from "./visa";
 import { getHotels, getHotelOffers } from "./hotel";
+import { tourAvailabilityQuery, tourDetailsQuery } from "./tour";
 
 export {
   getPlacesQuery,
@@ -16,5 +17,7 @@ export {
   addVisaRequest,
   getVisaRequests,
   getHotels,
-  getHotelOffers
+  getHotelOffers,
+  tourAvailabilityQuery,
+  tourDetailsQuery
 };

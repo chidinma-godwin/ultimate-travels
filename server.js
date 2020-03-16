@@ -32,8 +32,6 @@ app.use(express.json());
 
 app.disable("x-powered-by");
 
-// app.use("/skyscanner", sessionRoutes);
-
 // graphql server
 const server = new ApolloServer({
   typeDefs,

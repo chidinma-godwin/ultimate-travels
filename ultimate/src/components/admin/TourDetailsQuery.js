@@ -1,12 +1,15 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { adopt } from "react-adopt";
+import { Spinner } from "react-bootstrap";
+import { tourDetailsQuery } from "../../queries/tour";
 
-const TourQuery = () => {
+const TourDetailsQuery = props => {
+  let { selectedTour } = props.location.state;
   let queryObj = {};
-  countries.map((country, i) => {
-    return (queryObj[i] = ({ render }) => (
-      <Query query={getTourDestination} variables={{ country }}>
+  selectedTour.map(id => {
+    return (queryObj[id] = ({ render }) => (
+      <Query query={tourDetailsQuery} variables={{ id }}>
         {render}
       </Query>
     ));
@@ -21,7 +24,7 @@ const TourQuery = () => {
         for (let index in queryObj) {
           if (result[index].loading)
             return (
-              <div className="flight_query_status">
+              <div className="query_status">
                 <Spinner
                   animation="border"
                   size="lg"
@@ -34,28 +37,29 @@ const TourQuery = () => {
             );
 
           if (result[index].error) {
-            console.log(result[name].error);
+            console.log(result[index].error);
             return (
-              <div className="flight_query_status">
-                Sorry, we are currently unable to retrieve flight data. Please
-                try again.
+              <div className="query_status">
+                Currently unable to return tour details. Please try again.
               </div>
             );
           }
-          allData.push(result[name].data);
+          allData.push(result[index].data);
         }
         console.log(allData);
 
         if (allData.some(tourData => tourData.tourDetails === null)) {
           return (
-            <div className="flight_query_status">
+            <div className="query_status">
               No Result Found, please try again
             </div>
           );
         }
 
-        return <TourQueryResult allData={allData} />;
+        return "it worked";
       }}
     </Composed>
   );
 };
+
+export default TourDetailsQuery;

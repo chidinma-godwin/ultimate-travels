@@ -1,8 +1,12 @@
 import React from "react";
+import { Route, Switch } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import AdminHeader from "./AdminHeader";
 import SideBar from "./SideBar";
 import TablesPage from "./TablesPage";
 import TravelersQuery from "./TravelersQuery";
+import ShowTour from "./ShowTour";
+import TourDetailsQuery from "./TourDetailsQuery";
 
 class AdminDashBoard extends React.Component {
   constructor(props) {
@@ -22,19 +26,28 @@ class AdminDashBoard extends React.Component {
   };
 
   render() {
+    let { url } = this.props.match;
     return (
       <React.Fragment>
         <AdminHeader />
         <div id="outer-container">
-          <SideBar />
-          <div
+          <SideBar url={url} />
+          <Container
             id="page-wrap"
             style={{
               transition: "all 0.5s ease 0s"
             }}
           >
-            <TravelersQuery />
-          </div>
+            <Switch>
+              <Route path={`${url}/`} exact component={TablesPage} />
+              <Route path={`${url}/travelers`} component={TravelersQuery} />
+              <Route
+                path={`${url}/showTour`}
+                render={props => <ShowTour {...props} />}
+              />
+              <Route path={`${url}/search-tour`} component={TourDetailsQuery} />
+            </Switch>
+          </Container>
         </div>
       </React.Fragment>
     );

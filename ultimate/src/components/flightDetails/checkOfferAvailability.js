@@ -30,7 +30,7 @@ const checkOfferAvailability = props => {
         for (let name in queryObj) {
           if (result[name].loading)
             return (
-              <div className="flight_query_status">
+              <div className="query_status">
                 <Spinner
                   animation="border"
                   size="lg"
@@ -44,7 +44,7 @@ const checkOfferAvailability = props => {
           if (result[name].error) {
             console.log(result[name].error);
             return (
-              <div className="flight_query_status">
+              <div className="query_status">
                 Sorry, we are currently unable to check this flight
                 availability. Please try again.
               </div>
@@ -56,7 +56,7 @@ const checkOfferAvailability = props => {
 
         if (allData.some(tripData => tripData.checkOffer === null)) {
           return (
-            <div className="flight_query_status">
+            <div className="query_status">
               No Result Found, please try again
             </div>
           );

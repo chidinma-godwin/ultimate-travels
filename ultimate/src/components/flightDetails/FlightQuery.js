@@ -43,7 +43,7 @@ function FlightQuery(props) {
         for (let name in queryObj) {
           if (result[name].loading)
             return (
-              <div className="flight_query_status">
+              <div className="query_status">
                 <Spinner
                   animation="border"
                   size="lg"
@@ -57,7 +57,7 @@ function FlightQuery(props) {
           if (result[name].error) {
             console.log(result[name].error);
             return (
-              <div className="flight_query_status">
+              <div className="query_status">
                 Sorry, we are currently unable to retrieve flight data. Please
                 try again.
               </div>
@@ -69,7 +69,7 @@ function FlightQuery(props) {
 
         if (allData.some(tripData => tripData.flightDetails === null)) {
           return (
-            <div className="flight_query_status">
+            <div className="query_status">
               No Result Found, please try again
             </div>
           );

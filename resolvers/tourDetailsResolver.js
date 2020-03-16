@@ -1,22 +1,12 @@
 const util = require("util");
 const axios = require("axios");
 
-const tourResolver = {
+const tourDetailsResolver = {
   Query: {
-    Tour: (root, { name, page }, context, info) => {
-      // dateCopy1 = new Date();
-      // dateCopy2 = new Date();
-      // dateCopy1.setDate(dateCopy1.getDate() + 1);
-      // const tomorrow = dateCopy1.toISOString().split("T")[0];
-      // dateCopy2.setDate(dateCopy2.getDate() + 60);
-      // const threeMonths = dateCopy2.toISOString().split("T")[0];
-
-      // console.log(
-      //   `https://rest.gadventures.com/departures?availability.status=AVAILABLE&start_date__gt=${tomorrow}&finish_date__lt=${threeMonths}`
-      // );
+    TourDetails: (root, { id }, context, info) => {
       return axios({
         method: "GET",
-        url: `https://rest.gadventures.com/tour_dossiers?name=${name}&page=${page}`,
+        url: `https://rest.gadventures.com//tour_dossiers/${id}`,
         headers: {
           "Access-Control-Allow-Origin": "*",
           "X-Application-Key": process.env.X_Application_Key
@@ -50,10 +40,9 @@ const tourResolver = {
             console.log("Error", error.message);
           }
           console.log(error.config);
-          //res.send(error.request);
         });
     }
   }
 };
 
-module.exports = tourResolver;
+module.exports = tourDetailsResolver;

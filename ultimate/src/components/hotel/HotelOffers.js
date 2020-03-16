@@ -97,7 +97,7 @@ class HotelOffers extends React.Component {
             </Card.Body>
           </Card>
         ) : (
-          <div className="flight_query_status">
+          <div className="query_status">
             No Rooms available for this property
           </div>
         )}

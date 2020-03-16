@@ -17,6 +17,7 @@ class SideBar extends React.Component {
   };
 
   render() {
+    console.log(this.props.url);
     let menuClass;
     if (this.state.menuOpen) menuClass = "burger-menu-open";
 
@@ -28,19 +29,19 @@ class SideBar extends React.Component {
         onStateChange={this.isMenuOpen}
         className={menuClass}
       >
-        <NavLink className="mr-3" to="/adminHome">
+        <NavLink className="mr-3" to="/admin/">
           Admin Home
         </NavLink>
-        <NavLink className="mr-3 menu-item" to="/">
+        <NavLink className="mr-3 menu-item" to="/admin/travelers">
           Flights
         </NavLink>
         <NavLink className="mr-3 menu-item" to="/">
           Visa Applications
         </NavLink>
-        <NavLink className="mr-3 menu-item" to="/">
+        <NavLink className="mr-3 menu-item" to="/admin/travelers">
           Flight Deals
         </NavLink>
-        <NavLink className="mr-3 menu-item" to="/">
+        <NavLink className="mr-3 menu-item" to="/admin/showTour">
           Tours
         </NavLink>
       </Menu>

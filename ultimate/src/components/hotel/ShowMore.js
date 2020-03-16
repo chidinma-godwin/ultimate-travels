@@ -117,7 +117,7 @@ const ShowMore = props => {
             {({ error, loading, data }) => {
               if (loading)
                 return (
-                  <div className="flight_query_status">
+                  <div className="query_status">
                     <Spinner
                       animation="border"
                       size="lg"
@@ -131,7 +131,7 @@ const ShowMore = props => {
               if (error) {
                 console.log(error);
                 return (
-                  <div className="flight_query_status">
+                  <div className="query_status">
                     More info not available presently, please try again
                   </div>
                 );

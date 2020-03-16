@@ -10,7 +10,7 @@ const getTravelers = gql`
       dateOfBirth
       title
       email
-      phone
+      phoneNum
       createdAt
     }
   }
