@@ -42,10 +42,13 @@ class AdminDashBoard extends React.Component {
               <Route path={`${url}/`} exact component={TablesPage} />
               <Route path={`${url}/travelers`} component={TravelersQuery} />
               <Route
-                path={`${url}/showTour`}
+                path={`${url}/show-tour/:city1?/:city2?/:city3?/:city4?/:city5?/:city6?`}
                 render={props => <ShowTour {...props} />}
               />
-              <Route path={`${url}/search-tour`} component={TourDetailsQuery} />
+              <Route
+                path={`${url}/search-tour:tourId1?/:tourId2?/:tourId3?/:tourId4?/:tourId5?/:tourId6?`}
+                component={TourDetailsQuery}
+              />
             </Switch>
           </Container>
         </div>

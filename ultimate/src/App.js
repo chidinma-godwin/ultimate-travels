@@ -40,7 +40,7 @@ import NetplusPayment from "./components/NetplusPayment";
 // });
 
 const uploadLink = createUploadLink({
-  uri: "http://localhost:5000/graphql"
+  uri: "http://localhost:8000/graphql"
   //includeExtensions: true
 });
 

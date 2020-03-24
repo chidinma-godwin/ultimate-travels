@@ -3,9 +3,14 @@ import { Query } from "react-apollo";
 import { adopt } from "react-adopt";
 import { Spinner } from "react-bootstrap";
 import { tourDetailsQuery } from "../../queries/tour";
+import TourDetailsResult from "./TourDetailsResult";
 
 const TourDetailsQuery = props => {
-  let { selectedTour } = props.location.state;
+  let { params } = props.match;
+  let selectedTour = [];
+  for (const key in params) {
+    if (params[key]) selectedTour.push(params[key]);
+  }
   let queryObj = {};
   selectedTour.map(id => {
     return (queryObj[id] = ({ render }) => (
@@ -56,7 +61,7 @@ const TourDetailsQuery = props => {
           );
         }
 
-        return "it worked";
+        return <TourDetailsResult allData={allData} />;
       }}
     </Composed>
   );

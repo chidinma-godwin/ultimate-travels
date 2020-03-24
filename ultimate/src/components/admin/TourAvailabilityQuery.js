@@ -6,7 +6,15 @@ import { tourAvailabilityQuery } from "../../queries/tour";
 import TourAvailabilityResult from "./TourAvailabilityResult";
 
 const TourAvailabilityQuery = props => {
-  let { selectedPlaces } = props;
+  console.log(props);
+  let { placesUrl } = props;
+  let selectedPlaces = [];
+  console.log(placesUrl);
+
+  for (const key in placesUrl) {
+    if (placesUrl[key]) selectedPlaces.push(placesUrl[key]);
+  }
+
   let queryObj = {};
 
   console.log(selectedPlaces);

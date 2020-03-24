@@ -41,7 +41,7 @@ class SideBar extends React.Component {
         <NavLink className="mr-3 menu-item" to="/admin/travelers">
           Flight Deals
         </NavLink>
-        <NavLink className="mr-3 menu-item" to="/admin/showTour">
+        <NavLink className="mr-3 menu-item" to="/admin/show-tour">
           Tours
         </NavLink>
       </Menu>

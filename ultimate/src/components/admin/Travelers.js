@@ -15,10 +15,10 @@ class Travelers extends React.Component {
     return (
       <>
         <Row>
-          <Col md="12">
-            <Card className="mt-5">
+          <Col>
+            <Card className="mt-5" style={{ width: "fit-content" }}>
               <Card.Body>
-                <Table striped>
+                <Table striped responsive>
                   <thead>
                     <tr>
                       <th>#</th>

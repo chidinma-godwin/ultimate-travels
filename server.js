@@ -3,6 +3,7 @@ const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const session = require("express-session");
 //const bodyParser = require('body-parser');
 require("dotenv").config();
 
@@ -31,6 +32,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.disable("x-powered-by");
+
+// app.use(session({
+//   store,
+//   name: process.env.SESSION_NAME,
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     maxAge: process.env.SESSION_LIFETIME,
+//     sameSite: true,
+//     secure: true,
+//   }
+// }))
 
 // graphql server
 const server = new ApolloServer({
@@ -62,7 +76,7 @@ const server = new ApolloServer({
 server.applyMiddleware({ app });
 
 // Set the port
-const Port = process.env.PORT || 5000;
+const Port = process.env.PORT || 8000;
 app.listen({ port: Port }, () =>
   console.log(
     `Server is listening on port: http://localhost:${Port}${server.graphqlPath}`

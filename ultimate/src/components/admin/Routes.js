@@ -11,7 +11,7 @@ class Routes extends React.Component {
         <Switch>
           <Route path="/adminHome" exact component={TablesPage} />
           <Route path="/admin/travelers" component={Travelers} />
-          <Route path="/admin/showTour" component={ShowTour} />
+          <Route path="/admin/show-tour" component={ShowTour} />
         </Switch>
       </BrowserRouter>
     );

@@ -1,5 +1,6 @@
 const util = require("util");
 const axios = require("axios");
+const Tours = require("../models/tour");
 
 const tourDetailsResolver = {
   Query: {
@@ -41,6 +42,23 @@ const tourDetailsResolver = {
           }
           console.log(error.config);
         });
+    },
+    getDatabaseTours: (root, args, context, info) => Tours.find({})
+  },
+  Mutation: {
+    saveTour: (parent, { input }, context, info) => {
+      console.log(input, util.inspect(input, { depth: 10 }));
+      try {
+        Tours.create(input);
+        return {
+          ok: true
+        };
+      } catch (err) {
+        console.log(err);
+        return {
+          ok: false
+        };
+      }
     }
   }
 };

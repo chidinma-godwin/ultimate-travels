@@ -3,6 +3,7 @@ const { gql } = require("apollo-server-express");
 const tourDetails = gql`
   extend type Query {
     TourDetails(id: ID!): TourDetailsResult
+    getDatabaseTours: [DatabaseToursResult]
   }
 
   type TourDetailsResult {
@@ -93,6 +94,23 @@ const tourDetails = gql`
 
   type DeparturesType {
     href: String
+  }
+
+  type DatabaseToursResult {
+    id: ID
+    name: String
+    slug: String
+    description: String
+    details: [DetailsType]
+    advertised_departures: [AdvertisedDepartures]
+    images: [ImageType]
+    site_links: [SiteLink]
+    geography: DatabaseGeographyType
+  }
+
+  type DatabaseGeographyType {
+    primary_country: NameType
+    visited_countries: [NameType]
   }
 `;
 

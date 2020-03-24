@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import { getNames } from "country-list";
 import {
   Form,
@@ -12,6 +13,7 @@ import {
 import { Picky } from "react-picky";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TourAvailabilityQuery from "./TourAvailabilityQuery";
+import TourQuery from "../TourQuery";
 
 class ShowTour extends React.Component {
   constructor() {
@@ -47,25 +49,31 @@ class ShowTour extends React.Component {
     });
   };
 
-  checkAvailability = () => {
+  checkAvailability = async () => {
     let { selectedCountries, city } = this.state;
     // If countries have been selected set chekAvailability to true
     if (selectedCountries.length || city.length) {
-      this.setState(prevState => {
+      await this.setState(prevState => {
         //　The city will come from the user as a string that is a comma seperated city names
         // Remove any white space in the string and split by the commas to get an array of cities
-        let placesList = city.replace(/ /g, "").split(",");
+        let placesList = [];
+        if (city) placesList = city.replace(/ /g, "").split(",");
 
         // Add selected tour to tour list
         let joinedData = prevState.selectedPlaces.concat(placesList);
 
         // Remove duplicates
         let uniqueJoinedData = Array.from(new Set(joinedData));
+        let citiesUrl = "/";
+        uniqueJoinedData.forEach(city => (citiesUrl += `${city}/`));
+        console.log(citiesUrl);
         return {
           selectedPlaces: uniqueJoinedData,
-          checkAvailability: true
+          redirect: `/admin/show-tour${citiesUrl}`
         };
       });
+
+      this.setState({ checkAvailability: true });
     }
   };
 
@@ -80,7 +88,8 @@ class ShowTour extends React.Component {
       selectedCountries,
       selectedPlaces,
       checkAvailability,
-      city
+      city,
+      redirect
     } = this.state;
     console.log(selectedPlaces);
 
@@ -88,6 +97,7 @@ class ShowTour extends React.Component {
       <React.Fragment>
         <h2 className="mt-3 mb-3">View and change the tour countries </h2>
         <Col className="mb-4">
+          <TourQuery />
           <Card
             className="mt-2 mb-4"
             style={{
@@ -192,8 +202,9 @@ class ShowTour extends React.Component {
             </Button>
           </Form>
         </Col>
-        {checkAvailability && (
-          <TourAvailabilityQuery selectedPlaces={selectedPlaces} />
+        {redirect && <Redirect push to={redirect} />}
+        {this.props.match.params.city1 && (
+          <TourAvailabilityQuery placesUrl={this.props.match.params} />
         )}
       </React.Fragment>
     );

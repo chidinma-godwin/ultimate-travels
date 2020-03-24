@@ -18,6 +18,10 @@ const tourDetailsQuery = gql`
       id
       name
       slug
+      images {
+        type
+        image_href
+      }
       description
       details {
         body
@@ -26,21 +30,15 @@ const tourDetailsQuery = gql`
           label
         }
       }
+      site_links {
+        type
+        href
+      }
       advertised_departures {
-        room
-        previous_amount
         currency
         amount
-        promotion {
-          id
-          name
-        }
       }
       geography {
-        region {
-          id
-          name
-        }
         primary_country {
           id
           name
@@ -54,4 +52,57 @@ const tourDetailsQuery = gql`
   }
 `;
 
-export { tourAvailabilityQuery, tourDetailsQuery };
+const saveTourToDatabase = gql`
+  mutation($input: [TourInput]) {
+    saveTour(input: $input) {
+      ok
+    }
+  }
+`;
+
+const getToursFromDatabase = gql`
+  query {
+    getDatabaseTours {
+      id
+      name
+      slug
+      images {
+        type
+        image_href
+      }
+      description
+      details {
+        body
+        detail_type {
+          id
+          label
+        }
+      }
+      site_links {
+        type
+        href
+      }
+      advertised_departures {
+        currency
+        amount
+      }
+      geography {
+        primary_country {
+          id
+          name
+        }
+        visited_countries {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export {
+  tourAvailabilityQuery,
+  tourDetailsQuery,
+  saveTourToDatabase,
+  getToursFromDatabase
+};

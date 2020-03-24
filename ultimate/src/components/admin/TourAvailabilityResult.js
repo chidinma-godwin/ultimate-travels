@@ -27,8 +27,8 @@ class TourAvailabilityResult extends React.Component {
   };
 
   searchTour = () => {
-    console.log("hello");
-    this.setState({ redirect: "/admin/search-tour" });
+    const { selectedTour } = this.state;
+    this.setState({ redirect: `/admin/search-tour/${selectedTour.join("/")}` });
   };
 
   render() {
@@ -37,13 +37,11 @@ class TourAvailabilityResult extends React.Component {
     console.log(selectedTour);
 
     if (redirect) {
-      return (
-        <Redirect push to={{ pathname: redirect, state: { selectedTour } }} />
-      );
+      return <Redirect push to={redirect} />;
     }
     return (
       <React.Fragment>
-        <p style={{ textAlign: "left", fontSize: "bold" }}>
+        <p style={{ textAlign: "left", fontStyle: "bold" }}>
           {dataArray.length} results found
         </p>
         {dataArray.length && (
