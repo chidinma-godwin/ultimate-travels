@@ -2,7 +2,10 @@ import React from "react";
 import { Table, Form, Button, Alert } from "react-bootstrap";
 import { Picky } from "react-picky";
 import { Mutation } from "react-apollo";
-import { saveTourToDatabase } from "../../queries/queries";
+import {
+  saveTourToDatabase,
+  getToursFromDatabase
+} from "../../queries/queries";
 import { Redirect } from "react-router-dom";
 
 class TourDetailsResult extends React.Component {
@@ -65,7 +68,18 @@ class TourDetailsResult extends React.Component {
       .filter(tour => selectedTourDetails.includes(tour.id));
     console.log(selectedTours);
     try {
-      data = await saveTour({ variables: { input: selectedTours } });
+      data = await saveTour({
+        variables: { input: selectedTours },
+        update: (store, { data: { saveTour } }) => {
+          const { ok } = saveTour;
+          console.log(ok);
+          if (!ok) return;
+          let data = store.readQuery({ query: getToursFromDatabase });
+          data.getDatabaseTours.push(...selectedTours);
+          console.log(data);
+          store.writeQuery({ query: getToursFromDatabase, data });
+        }
+      });
       this.setState({ saved: true });
     } catch (err) {
       console.log(err);

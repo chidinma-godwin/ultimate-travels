@@ -68,6 +68,12 @@ body {
   grid-gap: 0.5rem;
 }
 
+.holiday {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-gap: 0.5rem;
+}
+
 .flight_deal_status {
   height: 10em;
   display: flex;

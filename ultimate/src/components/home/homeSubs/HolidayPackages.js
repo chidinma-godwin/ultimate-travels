@@ -1,28 +1,46 @@
 import React from "react";
-import { Card, Button, CardColumns } from "react-bootstrap";
+import { Card, Button, CardDeck, Row, Col } from "react-bootstrap";
 
-const HolidayPackages = (props) => {
-  const { deals } = props;
-  const dealList = deals.map(deal => {
-    const city = deal.city;
+class HolidayPackages extends React.Component {
+  constructor(props) {
+    super(props);
+    const { tours } = this.props;
+    this.state = {
+      tours
+    };
+  }
+
+  render() {
+    const { tours } = this.state;
     return (
-      <Card key={deal.id}>
-        <Card.Img variant="top" src={deal.src[city]} fluid="true" thumbnail="true" />
-        <Card.Body>
-          <Card.Title>{deal.title}</Card.Title>
-          <Card.Text>
-            {deal.text}
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
-        </Card.Body>
-      </Card>
+      <CardDeck className="holiday">
+        {tours.map(tour => (
+          // const city = deal.city;
+          <Card key={tour.id} className="mb-4">
+            <Card.Img
+              variant="top"
+              src={tour.images[0].image_href}
+              thumbnail="true"
+            />
+            <Card.Body className="pb-1">
+              <Card.Title>{tour.name}</Card.Title>
+              {/* <Card.Text>{deal.text}</Card.Text> */}
+              <Button
+                variant="primary"
+                style={{
+                  display: "block",
+                  marginLeft: "auto",
+                  marginRight: "auto"
+                }}
+              >
+                View more
+              </Button>
+            </Card.Body>
+          </Card>
+        ))}
+      </CardDeck>
     );
-  });
-  return (
-    <CardColumns>
-      {dealList}
-    </CardColumns>
-  )
-};
+  }
+}
 
 export default HolidayPackages;

@@ -97,8 +97,8 @@ class ShowTour extends React.Component {
       <React.Fragment>
         <h2 className="mt-3 mb-3">View and change the tour countries </h2>
         <Col className="mb-4">
-          <TourQuery />
-          <Card
+          <TourQuery removeCountry={this.removeCountry} />
+          {/* <Card
             className="mt-2 mb-4"
             style={{
               width: "fit-content",
@@ -138,7 +138,7 @@ class ShowTour extends React.Component {
                 ))}
               </ul>
             </Card.Body>
-          </Card>
+          </Card> */}
         </Col>
 
         <Col className="mb-4">

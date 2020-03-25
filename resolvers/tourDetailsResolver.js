@@ -59,6 +59,15 @@ const tourDetailsResolver = {
           ok: false
         };
       }
+    },
+    removeTour: (parent, { id }, context, info) => {
+      try {
+        Tours.deleteOne({ id }, function(err) {});
+        return true;
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
     }
   }
 };

@@ -9,7 +9,8 @@ import {
   tourAvailabilityQuery,
   tourDetailsQuery,
   saveTourToDatabase,
-  getToursFromDatabase
+  getToursFromDatabase,
+  removeTourMutation
 } from "./tour";
 
 export {
@@ -26,5 +27,6 @@ export {
   tourAvailabilityQuery,
   tourDetailsQuery,
   saveTourToDatabase,
-  getToursFromDatabase
+  getToursFromDatabase,
+  removeTourMutation
 };

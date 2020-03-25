@@ -100,9 +100,16 @@ const getToursFromDatabase = gql`
   }
 `;
 
+const removeTourMutation = gql`
+  mutation($id: ID!) {
+    removeTour(id: $id)
+  }
+`;
+
 export {
   tourAvailabilityQuery,
   tourDetailsQuery,
   saveTourToDatabase,
-  getToursFromDatabase
+  getToursFromDatabase,
+  removeTourMutation
 };

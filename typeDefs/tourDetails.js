@@ -6,6 +6,10 @@ const tourDetails = gql`
     getDatabaseTours: [DatabaseToursResult]
   }
 
+  extend type Mutation {
+    removeTour(id: ID!): Boolean
+  }
+
   type TourDetailsResult {
     id: String
     href: String
