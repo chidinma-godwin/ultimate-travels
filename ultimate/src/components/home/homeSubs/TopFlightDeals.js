@@ -127,16 +127,14 @@ class TopFlightDeals extends React.Component {
                   </Card.Header>
                   <Card.Body>
                     <Card.Text>
-                      <span>
+                      <span className="d-block">
                         From {flight.price.total} {meta.currency}
                       </span>
                       Available from
-                      <span>
+                      <span className="d-block">
                         {`${departureDate[0]}, ${departureDate[2]} ${departureDate[1]}. ${departureDate[3]} - 
                   ${returnDate[0]}, ${returnDate[2]} ${returnDate[1]}. ${returnDate[3]}`}
                       </span>
-                      <br />
-                      Airline
                     </Card.Text>
                     <Button variant="primary" onClick={this.handleBook}>
                       Book Now

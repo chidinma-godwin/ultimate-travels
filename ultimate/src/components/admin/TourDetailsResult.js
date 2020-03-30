@@ -62,7 +62,7 @@ class TourDetailsResult extends React.Component {
         );
 
         // Get the first five details of the tour
-        tour.TourDetails.details = tour.TourDetails.details.slice(0, 5);
+        tour.TourDetails.details = tour.TourDetails.details.slice(0, 4);
         return tour.TourDetails;
       })
       .filter(tour => selectedTourDetails.includes(tour.id));

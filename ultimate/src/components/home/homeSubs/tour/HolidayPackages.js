@@ -1,17 +1,38 @@
 import React from "react";
-import { Card, Button, CardDeck, Row, Col } from "react-bootstrap";
+import { Card, Button, CardDeck } from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 
 class HolidayPackages extends React.Component {
   constructor(props) {
     super(props);
     const { tours } = this.props;
     this.state = {
-      tours
+      tours,
+      redirect: null,
+      redirectState: {}
     };
   }
 
+  viewTourDetails = tour => {
+    const { slug } = tour;
+    this.setState({
+      redirect: `/tourDetails/${slug}`,
+      redirectState: tour
+    });
+  };
+
   render() {
-    const { tours } = this.state;
+    const { tours, redirect, redirectState } = this.state;
+
+    if (redirect) {
+      return (
+        <Redirect
+          push
+          to={{ pathname: redirect, state: { tour: redirectState } }}
+        />
+      );
+    }
+
     return (
       <CardDeck className="holiday">
         {tours.map(tour => (
@@ -32,6 +53,7 @@ class HolidayPackages extends React.Component {
                   marginLeft: "auto",
                   marginRight: "auto"
                 }}
+                onClick={() => this.viewTourDetails(tour)}
               >
                 View more
               </Button>

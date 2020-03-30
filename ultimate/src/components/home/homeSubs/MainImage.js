@@ -19,12 +19,8 @@ class MainImage extends React.Component {
   }
 
   changeImageHeight = height => {
-    this.setState(prevState => {
-      console.log(height);
-      // let numericPreviousHeight = Number(prevState.height.split("px")[0]);
-      return {
-        height: height < 500 ? "500px" : `${height}px`
-      };
+    this.setState({
+      height: height < 500 ? "500px" : `${height}px`
     });
   };
 

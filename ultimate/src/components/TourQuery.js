@@ -4,7 +4,7 @@ import { Spinner } from "react-bootstrap";
 
 import { getToursFromDatabase } from "../queries/tour";
 import TourTable from "../components/admin/TourTable";
-import HolidayPackages from "../components/home/homeSubs/HolidayPackages";
+import HolidayPackages from "../components/home/homeSubs/tour/HolidayPackages";
 
 export default class TourQuery extends React.Component {
   constructor() {

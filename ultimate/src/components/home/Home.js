@@ -1,6 +1,5 @@
 import React from "react";
 import MainImage from "./homeSubs/MainImage";
-import HolidayPackages from "./homeSubs/HolidayPackages";
 import FlightDealsQuery from "./homeSubs/FlightDealsQuery";
 import { Container } from "react-bootstrap";
 import TourQuery from "../TourQuery";

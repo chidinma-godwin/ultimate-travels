@@ -85,7 +85,6 @@ class FlightDealsQuery extends React.Component {
             pageNumbers.push(i);
           }
 
-          console.log(pageNumbers);
           console.log(this.state.currentPage);
 
           // const emptyData = {};
