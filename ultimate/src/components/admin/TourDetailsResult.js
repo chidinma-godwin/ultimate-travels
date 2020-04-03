@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Form, Button, Alert } from "react-bootstrap";
+import { Card, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { Picky } from "react-picky";
 import { Mutation } from "react-apollo";
 import {
@@ -111,25 +111,123 @@ class TourDetailsResult extends React.Component {
     return (
       <Mutation mutation={saveTourToDatabase}>
         {(saveTour, { loading, error, data }) => (
+          // <>
+          //   <Table
+          //     bordered
+          //     striped
+          //     className="text-left"
+          //     style={{ fontSize: 14 }}
+          //   >
+          //     <thead>
+          //       <tr>
+          // <th>Name</th>
+          // <th>Description</th>
+          // <th>Price</th>
+          // <th>Country</th>
+          // <th>Visited Countries</th>
+          // <th>Include</th>
+          // <th>Link</th>
+          //       </tr>
+          //     </thead>
+          //     <tbody>
+          // {allData.map(tour => {
+          //   let tourDetails = tour.TourDetails;
+          //   let selectedCurrency = {};
+          //   let price = "";
+          //   if (tourDetails.advertised_departures) {
+          //     if (tourDetails.advertised_departures.length) {
+          //       selectedCurrency = tourDetails.advertised_departures.filter(
+          //         item => item.currency === "USD"
+          //       );
+
+          //       price = new Intl.NumberFormat("en-NG", {
+          //         style: "currency",
+          //         currency: selectedCurrency[0].currency
+          //       }).format(Number(selectedCurrency[0].amount).toFixed(2));
+          //     }
+          //   }
+
+          //   const visitedCountries = tourDetails.geography.visited_countries.map(
+          //     country => country.name
+          //   );
+
+          //   const tourOverviewLink = tourDetails.site_links.filter(
+          //     link => link.type === "OVERVIEW"
+          //   );
+
+          //   console.log(tourOverviewLink);
+          //   return (
+          //     <tr key={tourDetails.id}>
+          //       <td>{tourDetails.name}</td>
+          //       <td>{tourDetails.description}</td>
+          //       <td>{price ? price : "No price available"}</td>
+          //       <td>{tourDetails.geography.primary_country.name}</td>
+          //       <td>{visitedCountries.join(", ")}</td>
+          //       <td>
+          //         <Form.Check
+          //           type="checkbox"
+          //           name={tourDetails.id}
+          //           onChange={this.onChange}
+          //         />
+          //       </td>
+          //       <td>
+          //         <a
+          //           style={{ textDecoration: "none" }}
+          //           href={tourOverviewLink[0].href}
+          //           target="_blank"
+          //         >
+          //           {tourOverviewLink[0].href}
+          //         </a>
+          //       </td>
+          //     </tr>
+          //   );
+          // })}
+          //     </tbody>
+          //   </Table>
+          // <Button
+          //   className="mb-5"
+          //   onClick={() => this.handleAddTour(saveTour, data)}
+          //   disabled={loading}
+          // >
+          //   {loading ? "saving" : "Add to database"}
+          // </Button>
+          // {this.state.saved ? (
+          //   <Alert
+          //     dismissible
+          //     variant="success"
+          //     onClose={this.closeSuccessAlert}
+          //   >
+          //     <p>
+          //       {this.state.errorText
+          //         ? this.state.errorText
+          //         : "Tour details successfully saved to database"}
+          //     </p>
+          //     <Button onClick={this.handleShowTours}>See saved tours</Button>
+          //   </Alert>
+          // ) : null}
+          // </>
           <>
-            <Table
-              bordered
-              striped
-              className="text-left"
-              style={{ fontSize: 14 }}
+            <Card
+              className="mt-2 mb-4"
+              style={{
+                width: "fit-content",
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto"
+              }}
             >
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Country</th>
-                  <th>Visited Countries</th>
-                  <th>Include</th>
-                  <th>Link</th>
-                </tr>
-              </thead>
-              <tbody>
+              <Card.Header className="d-none d-lg-block">
+                <Row style={{ fontWeight: "bold" }}>
+                  <Col lg={2}>Name</Col>
+                  <Col lg={4}>Description</Col>
+                  <Col lg={1}>Price</Col>
+                  <Col lg={1}>Country</Col>
+                  <Col lg={1}>Visited Countries</Col>
+                  <Col lg={1}>Include</Col>
+                  <Col lg={2}>Link</Col>
+                </Row>
+              </Card.Header>
+              <Card.Body className="p-3">
                 {allData.map(tour => {
                   let tourDetails = tour.TourDetails;
                   let selectedCurrency = {};
@@ -157,33 +255,69 @@ class TourDetailsResult extends React.Component {
 
                   console.log(tourOverviewLink);
                   return (
-                    <tr key={tourDetails.id}>
-                      <td>{tourDetails.name}</td>
-                      <td>{tourDetails.description}</td>
-                      <td>{price ? price : "No price available"}</td>
-                      <td>{tourDetails.geography.primary_country.name}</td>
-                      <td>{visitedCountries.join(", ")}</td>
-                      <td>
-                        <Form.Check
-                          type="checkbox"
-                          name={tourDetails.id}
-                          onChange={this.onChange}
-                        />
-                      </td>
-                      <td>
-                        <a
-                          style={{ textDecoration: "none" }}
-                          href={tourOverviewLink[0].href}
-                          target="_blank"
-                        >
-                          {tourOverviewLink[0].href}
-                        </a>
-                      </td>
-                    </tr>
+                    <React.Fragment key={tourDetails.id}>
+                      <Row>
+                        <Col lg={2} className="text-left">
+                          <Row>
+                            <Col sm="2" className="d-lg-none font-weight-bold">
+                              Name:
+                            </Col>
+                            <Col>{tourDetails.name} </Col>
+                          </Row>
+                        </Col>
+
+                        <Col lg={4} className="text-left">
+                          <Row>
+                            <Col sm="2" className="d-lg-none font-weight-bold">
+                              Description:
+                            </Col>
+                            <Col> {tourDetails.description}</Col>
+                          </Row>
+                        </Col>
+
+                        <Col lg={1} className="text-left">
+                          <Row>
+                            <Col sm="2" className="d-lg-none font-weight-bold">
+                              Price:
+                            </Col>
+                            <Col> {price ? price : "No price available"}</Col>
+                          </Row>
+                        </Col>
+
+                        <Col lg={1} className="text-left">
+                          <span className="d-lg-none">Country</span>
+                          {tourDetails.geography.primary_country.name}
+                        </Col>
+                        <Col lg={1} className="text-left">
+                          <span className="d-lg-none">Visited Countries</span>
+                          {visitedCountries.join(", ")}
+                        </Col>
+                        <Col lg={1} className="text-left">
+                          <span className="d-lg-none">Include</span>
+                          <Form.Check
+                            type="checkbox"
+                            name={tourDetails.id}
+                            onChange={this.onChange}
+                          />
+                        </Col>
+                        <Col lg={2} className="text-left">
+                          <span className="d-lg-none">Link</span>
+                          <a
+                            style={{ textDecoration: "none" }}
+                            href={tourOverviewLink[0].href}
+                            target="_blank"
+                          >
+                            {tourOverviewLink[0].href}
+                          </a>
+                        </Col>
+                      </Row>
+                      <hr />
+                    </React.Fragment>
                   );
                 })}
-              </tbody>
-            </Table>
+              </Card.Body>
+            </Card>
+
             <Button
               className="mb-5"
               onClick={() => this.handleAddTour(saveTour, data)}

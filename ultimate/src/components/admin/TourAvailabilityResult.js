@@ -16,12 +16,15 @@ class TourAvailabilityResult extends React.Component {
     console.log(checked, name);
     this.setState(prevState => {
       // Add selected tour to tour list
-      let joinedData = prevState.selectedTour.concat(name);
+      let joinedData = [];
+      if (checked) joinedData = prevState.selectedTour.concat(name);
+      if (!checked)
+        joinedData = prevState.selectedTour.filter(tour => tour !== name);
 
       // Remove duplicates
       let uniqueJoinedData = Array.from(new Set(joinedData));
       return {
-        selectedTour: checked ? uniqueJoinedData : prevState.selectedTour
+        selectedTour: uniqueJoinedData
       };
     });
   };
@@ -41,12 +44,12 @@ class TourAvailabilityResult extends React.Component {
     }
     return (
       <React.Fragment>
-        <p style={{ textAlign: "left", fontStyle: "bold" }}>
+        <p style={{ textAlign: "left", fontWeight: "bold" }}>
           {dataArray.length} results found
         </p>
         {dataArray.length && (
           <>
-            <Table bordered>
+            <Table style={{ backgroundColor: "#fff" }} bordered>
               <thead>
                 <tr>
                   <th>Tour ID</th>
@@ -72,14 +75,23 @@ class TourAvailabilityResult extends React.Component {
                 })}
               </tbody>
             </Table>
+
             <Form>
-              <Form.Control
-                plaintext
-                readOnly
-                value={selectedTour.join(", ")}
-                label="Selected tour"
-              />
-              <Button onClick={this.searchTour}>Search</Button>
+              {selectedTour.length ? (
+                <Form.Control
+                  plaintext
+                  readOnly
+                  className="selected-tour"
+                  value={selectedTour.join(", ")}
+                  label="Selected tour"
+                />
+              ) : null}
+              <Button
+                onClick={this.searchTour}
+                disabled={selectedTour.length === 0}
+              >
+                Search
+              </Button>
             </Form>
           </>
         )}

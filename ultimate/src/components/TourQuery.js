@@ -6,6 +6,7 @@ import { getToursFromDatabase } from "../queries/tour";
 import TourTable from "../components/admin/TourTable";
 import HolidayPackages from "../components/home/homeSubs/tour/HolidayPackages";
 
+// TODO: Authorization to determine the component that will be showed depending on the user role
 export default class TourQuery extends React.Component {
   constructor() {
     super();

@@ -162,6 +162,15 @@ button#currency.dropdown-toggle.btn.btn-default {
   width: 20%;
 }
 
+input.form-check-input {
+  width: 1.5em;
+  height: 1.5em;
+}
+.selected-tour {
+  padding-left: 1em;
+  background-color: #fff;
+}
+
 /* .travelers-info {
   background: transparent;
   border: none;
