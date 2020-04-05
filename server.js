@@ -8,6 +8,7 @@ const redis = require("redis");
 const RedisStore = require("connect-redis")(session);
 const passport = require("passport");
 const { GraphQLLocalStrategy, buildContext } = require("graphql-passport");
+const path = require("path");
 require("dotenv").config();
 
 // import from files
@@ -40,6 +41,12 @@ passport.deserializeUser(async function (id, done) {
 });
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 const IN_PROD = process.env.NODE_ENV === "production";
 
@@ -99,11 +106,11 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req, res }) => {
-    // let token = await getToken();
+    let token = await getToken();
     return buildContext({
       req,
       res,
-      // token,
+      token,
       // token: token === undefined ? getToken() : token,
     });
   },

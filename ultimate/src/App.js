@@ -17,6 +17,7 @@ import AdminDashBoard from "./components/admin/AdminDashBoard";
 import ShowMore from "./components/hotel/ShowMore";
 import GuestInfo from "./components/hotel/GuestInfo";
 import NetplusPayment from "./components/NetplusPayment";
+import Login from "./components/users/Login";
 
 // const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
 //   return new Observable(observer => {
@@ -93,6 +94,7 @@ class App extends React.Component {
               )}
             />
             <Route path="/tourDetails/:slug" component={TourDetails} />
+            <Route path="/login" component={Login} />
             <Route
               path="/flightDetails"
               render={(props) => (

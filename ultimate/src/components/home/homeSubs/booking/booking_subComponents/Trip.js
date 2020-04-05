@@ -6,7 +6,7 @@ import {
   Button,
   ButtonToolbar,
   OverlayTrigger,
-  Popover
+  Popover,
 } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -23,72 +23,72 @@ class Trip extends React.Component {
       from: new Map(),
       destination: new Map(),
       date: new Map([["firstCity", new Date()]]),
-      returnDate: new Date(),
+      returnDate: new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000),
       cabin: "ECONOMY",
       adults: 1,
       infants: 0,
       children: 0,
-      redirect: null
+      redirect: null,
     };
   }
 
   handleDateChange = (name, date) => {
     const item = name;
     const value = date;
-    this.setState(prevState => ({
-      date: prevState.date.set(item, value)
+    this.setState((prevState) => ({
+      date: prevState.date.set(item, value),
     }));
   };
 
-  handleReturnDateChange = returnDate => {
+  handleReturnDateChange = (returnDate) => {
     this.setState({
-      returnDate: returnDate
+      returnDate: returnDate,
     });
   };
 
   handleFromLocationChange = (name, selected) => {
     const item = name;
     const value = selected[0];
-    this.setState(prevState => ({
-      from: prevState.from.set(item, value)
+    this.setState((prevState) => ({
+      from: prevState.from.set(item, value),
     }));
   };
 
   handleToLocationChange = (name, selected) => {
     const item = name;
     const value = selected[0];
-    this.setState(prevState => ({
-      destination: prevState.destination.set(item, value)
+    this.setState((prevState) => ({
+      destination: prevState.destination.set(item, value),
     }));
   };
 
-  increment = evt => {
+  increment = (evt) => {
     const className = evt.target.className.split(" ")[0];
-    this.setState(prevState => ({
-      [className]: prevState[className] + 1
+    this.setState((prevState) => ({
+      [className]: prevState[className] + 1,
     }));
   };
 
-  decrement = evt => {
+  decrement = (evt) => {
     const className = evt.target.className.split(" ")[0];
     if (className === "adults") {
-      this.setState(prevState => ({
-        [className]: prevState[className] > 1 ? prevState[className] - 1 : 1
+      this.setState((prevState) => ({
+        [className]: prevState[className] > 1 ? prevState[className] - 1 : 1,
       }));
     } else {
-      this.setState(prevState => ({
-        [className]: prevState[className] ? prevState[className] - 1 : 0
+      this.setState((prevState) => ({
+        [className]: prevState[className] ? prevState[className] - 1 : 0,
       }));
     }
   };
 
-  handleChange = evt => {
+  handleChange = (evt) => {
     this.setState({
-      [evt.target.id]: evt.target.value
+      [evt.target.id]: evt.target.value,
     });
   };
 
-  handleSubmit = evt => {
+  handleSubmit = (evt) => {
     evt.preventDefault();
 
     // Declare variables to store the inputted traveler info
@@ -118,7 +118,7 @@ class Trip extends React.Component {
         : this.state.returnDate.toISOString().split("T")[0],
       adults: this.state.adults,
       from: origin,
-      to: destination
+      to: destination,
     };
     console.log(this.userInfo);
     this.setState({ redirect: "/flightDetails" });
@@ -133,8 +133,8 @@ class Trip extends React.Component {
             pathname: this.state.redirect,
             state: {
               userInfo: this.userInfo,
-              singleTrip: this.props.singleTrip
-            }
+              singleTrip: this.props.singleTrip,
+            },
           }}
         />
       );
@@ -212,6 +212,7 @@ class Trip extends React.Component {
                   >
                     <DatePicker
                       calenderClassName="form-control"
+                      dateFormat="dd/MM/yyyy"
                       selected={this.state.date.get(city)}
                       value={this.state.date.get(city)}
                       name={city}
@@ -235,11 +236,14 @@ class Trip extends React.Component {
               >
                 <DatePicker
                   calenderClassName="form-control"
+                  dateFormat="dd/MM/yyyy"
                   selected={
                     this.props.singleTrip ? null : this.state.returnDate
                   }
                   onChange={this.handleReturnDateChange}
-                  minDate={new Date()}
+                  minDate={
+                    new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+                  }
                   showDisabledMonthNavigation
                   placeholderText="(oneway)"
                   disabled={this.props.singleTrip}
