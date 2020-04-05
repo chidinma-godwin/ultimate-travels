@@ -8,6 +8,7 @@ const hotelsResolver = require("./hotelsResolver");
 const hotelBookingResolver = require("./hotelBookingResolver");
 const tourResolver = require("./tourResolver");
 const tourDetailsResolver = require("./tourDetailsResolver");
+const userResolver = require("./userResolver");
 
 module.exports = [
   placesResolver,
@@ -19,5 +20,6 @@ module.exports = [
   hotelsResolver,
   hotelBookingResolver,
   tourResolver,
-  tourDetailsResolver
+  tourDetailsResolver,
+  userResolver,
 ];

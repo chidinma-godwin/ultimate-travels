@@ -1,6 +1,5 @@
 const util = require("util");
-const multer = require("multer");
-const validateVisaRequest = require("../schemas/validateVisaRequest");
+const validateVisaRequest = require("../joiSchemas/validateVisaRequest");
 const Visa = require("../models/visas");
 
 const visaProcessingResolver = {
@@ -11,18 +10,18 @@ const visaProcessingResolver = {
 
     allVisaRequest: (root, args, context, info) => {
       return Visa.find({});
-    }
+    },
   },
 
   Mutation: {
     addVisaRequest: async (root, args, context, info) => {
       console.log(args, util.inspect(args, { depth: 10 }));
       await validateVisaRequest.validateAsync(args.input, {
-        abortEarly: false
+        abortEarly: false,
       });
       return Visa.create(args.input);
-    }
-  }
+    },
+  },
 };
 
 module.exports = visaProcessingResolver;

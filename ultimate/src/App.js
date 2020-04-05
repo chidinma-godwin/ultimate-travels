@@ -35,15 +35,15 @@ import NetplusPayment from "./components/NetplusPayment";
 // });
 
 const uploadLink = createUploadLink({
-  uri: "http://localhost:8000/graphql"
+  uri: "http://localhost:4000/graphql",
   //includeExtensions: true
 });
 
 const client = new ApolloClient({
   link: uploadLink,
   cache: new InMemoryCache({
-    addTypename: false
-  })
+    addTypename: false,
+  }),
 });
 
 class App extends React.Component {
@@ -52,24 +52,24 @@ class App extends React.Component {
     this.state = {
       currency: "NGN",
       hideFooter: false,
-      hideHeader: false
+      hideHeader: false,
     };
   }
 
-  handleCurrencyToggle = selected => {
+  handleCurrencyToggle = (selected) => {
     console.log(selected);
     this.setState({ currency: selected });
   };
 
-  handleHideFooter = choice => {
+  handleHideFooter = (choice) => {
     this.setState({
-      hideFooter: choice
+      hideFooter: choice,
     });
   };
 
-  handleHideHeader = choice => {
+  handleHideHeader = (choice) => {
     this.setState({
-      hideHeader: choice
+      hideHeader: choice,
     });
   };
 
@@ -88,14 +88,14 @@ class App extends React.Component {
             <Route
               exact
               path="/"
-              render={props => (
+              render={(props) => (
                 <Home {...props} currency={this.state.currency} />
               )}
             />
             <Route path="/tourDetails/:slug" component={TourDetails} />
             <Route
               path="/flightDetails"
-              render={props => (
+              render={(props) => (
                 <FlightQuery {...props} currency={this.state.currency} />
               )}
             />
@@ -105,21 +105,21 @@ class App extends React.Component {
             />
             <Route
               path="/visaApplicationForm"
-              render={props => (
+              render={(props) => (
                 <VisaForm {...props} handleHideFooter={this.handleHideFooter} />
               )}
             />
 
             <Route
               path="/hotels"
-              render={props => (
+              render={(props) => (
                 <HotelQuery {...props} currency={this.state.currency} />
               )}
             />
 
             <Route
               path="/admin"
-              render={props => (
+              render={(props) => (
                 <AdminDashBoard
                   {...props}
                   handleHideHeader={this.handleHideHeader}

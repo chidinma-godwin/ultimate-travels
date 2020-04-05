@@ -4,15 +4,44 @@ const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const session = require("express-session");
-//const bodyParser = require('body-parser');
+const redis = require("redis");
+const RedisStore = require("connect-redis")(session);
+const passport = require("passport");
+const { GraphQLLocalStrategy, buildContext } = require("graphql-passport");
 require("dotenv").config();
 
-// import required files
+// import from files
+const User = require("./models/user");
 const typeDefs = require("./typeDefs/typeDefs");
 const resolvers = require("./resolvers/resolvers");
 const getToken = require("./amadeusToken");
 
+passport.use(
+  new GraphQLLocalStrategy(async (email, password, done) => {
+    const user = await User.findOne({ email });
+    let error;
+
+    if (!user) error = new Error("Incorrect username or password");
+
+    if (!(await user.passwordMatch(password)))
+      error = new Error("Incorrect username or password");
+    done(error, user);
+    console.log("sign in");
+    console.log(user.passwordMatch(password));
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async function (id, done) {
+  await User.findById(id, (err, user) => done(err, user));
+});
+
 const app = express();
+
+const IN_PROD = process.env.NODE_ENV === "production";
 
 // Setup the database
 mongoose.connect(
@@ -33,50 +62,64 @@ app.use(express.json());
 
 app.disable("x-powered-by");
 
-// app.use(session({
-//   store,
-//   name: process.env.SESSION_NAME,
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//     maxAge: process.env.SESSION_LIFETIME,
-//     sameSite: true,
-//     secure: true,
-//   }
-// }))
+let redisClient = redis.createClient({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASSWORD,
+  db: parseInt(process.env.REDIS_DB),
+});
+
+//  redisClient.unref();
+redisClient.on("error", console.log);
+
+const store = new RedisStore({ client: redisClient });
+
+app.use(
+  session({
+    store,
+    name: process.env.SESS_NAME,
+    secret: process.env.SESS_SECRET,
+    saveUninitialized: false,
+    resave: true,
+    rolling: true,
+    cookie: {
+      maxAge: parseInt(process.env.SESS_LIFETIME),
+      sameSite: true,
+      secure: IN_PROD,
+    },
+  })
+);
+
+// Initialize passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // graphql server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async () => {
-    let token = await getToken();
-    return {
-      token: token === undefined ? getToken() : token
-    };
-  }
-  // context: ({ req, res }) => {
-  //   res.set({ "Access-Control-Expose-Headers": "*" });
-  // },
-  // formatResponse: (response, requestContext) => {
-  //   const location = requestContext.context.res.location
-  //     ? requestContext.context.res.location
-  //     : "no location header";
-  //   response = Object.assign(response, {
-  //     extensions: {
-  //       headers: {
-  //         location: location
-  //       }
-  //     }
-  //   });
-  //   return response;
-  // }
+  context: async ({ req, res }) => {
+    // let token = await getToken();
+    return buildContext({
+      req,
+      res,
+      // token,
+      // token: token === undefined ? getToken() : token,
+    });
+  },
+  playground: true,
+  // IN_PROD
+  //   ? false
+  //   : {
+  //       settings: {
+  //         "request.credentials": "include",
+  //       },
+  //     },
 });
 server.applyMiddleware({ app });
 
 // Set the port
-const Port = process.env.PORT || 8000;
+const Port = process.env.PORT || 4000;
 app.listen({ port: Port }, () =>
   console.log(
     `Server is listening on port: http://localhost:${Port}${server.graphqlPath}`

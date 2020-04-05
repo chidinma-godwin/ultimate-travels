@@ -11,6 +11,7 @@ const hotelBooking = require("./hotelBooking");
 const tour = require("./tour");
 const tourDetails = require("./tourDetails");
 const addTourTodatabase = require("./addTourToDatabase");
+const user = require("./user");
 
 module.exports = [
   root,
@@ -25,5 +26,6 @@ module.exports = [
   hotelBooking,
   tour,
   tourDetails,
-  addTourTodatabase
+  addTourTodatabase,
+  user,
 ];

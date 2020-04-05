@@ -20,11 +20,11 @@ const visaSchema = new Schema(
     travelHistory: String,
     destination: String,
     passportExpiryDate: String,
-    passportNum: String
+    passportNum: String,
     // selectedFile: String
   },
   {
-    timestamps: true
+    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
   }
 );
 

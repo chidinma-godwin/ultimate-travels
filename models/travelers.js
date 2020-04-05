@@ -10,11 +10,9 @@ const travelerSchema = new Schema(
     title: [[]],
     email: String,
     phoneNum: String,
-    createdAt: Number,
-    updatedAt: Number
   },
   {
-    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) }
+    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) },
   }
 );
 
