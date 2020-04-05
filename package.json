@@ -14,6 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/chidinma-godwin/ultimate-travels.git"
   },
+  "heroku-postbuild": "cd client/ && npm install && npm run build",
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -114,7 +114,7 @@ const server = new ApolloServer({
       // token: token === undefined ? getToken() : token,
     });
   },
-  playground: true,
+  playground: false,
   // IN_PROD
   //   ? false
   //   : {
@@ -128,7 +128,5 @@ server.applyMiddleware({ app });
 // Set the port
 const Port = process.env.PORT || 4000;
 app.listen({ port: Port }, () =>
-  console.log(
-    `Server is listening on port: http://localhost:${Port}${server.graphqlPath}`
-  )
+  console.log(`Server is listening on port: http://localhost:${Port}`)
 );

@@ -36,7 +36,7 @@ import Login from "./components/users/Login";
 // });
 
 const uploadLink = createUploadLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "/graphql",
   //includeExtensions: true
 });
 
