@@ -61,9 +61,9 @@ function PassengersCabinPopover(props) {
               value={cabin}
             >
               <option>--Choose a cabin class--</option>
-              <option>ECONOMY</option>
+              <option>Economy</option>
               <option>Premium Economy</option>
-              <option>BUSINESS</option>
+              <option>Business</option>
               <option>First Class</option>
             </Form.Control>
           </Col>

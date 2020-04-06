@@ -86,6 +86,11 @@ class Trip extends React.Component {
     this.setState({
       [evt.target.id]: evt.target.value,
     });
+    if (evt.target.id === "cabin") {
+      this.setState({
+        [evt.target.id]: evt.target.value.toUpperCase().replace(/ +/g, ""),
+      });
+    }
   };
 
   handleSubmit = (evt) => {
