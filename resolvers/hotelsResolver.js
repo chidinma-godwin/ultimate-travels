@@ -8,7 +8,7 @@ const hotelsResolver = {
         method: "Get",
         url: "https://api.amadeus.com/v2/shopping/hotel-offers",
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         params: {
           cityCode: args.cityCode,
@@ -17,17 +17,17 @@ const hotelsResolver = {
           roomQuantity: args.roomQuantity,
           adults: args.adults,
           hotelName: args.hotelName,
-          currency: args.currency
-        }
+          currency: args.currency,
+        },
       })
-        .then(response => {
+        .then((response) => {
           console.log(
             response.data,
             util.inspect(response.data, { depth: 10 })
           );
           return response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
@@ -58,7 +58,7 @@ const hotelsResolver = {
         method: "Get",
         url: "https://api.amadeus.com/v2/shopping/hotel-offers/by-hotel",
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         params: {
           hotelId: args.hotelId,
@@ -66,17 +66,17 @@ const hotelsResolver = {
           checkOutDate: args.checkOutDate,
           roomQuantity: args.roomQuantity,
           adults: args.adults,
-          currency: args.currency
-        }
+          currency: args.currency,
+        },
       })
-        .then(response => {
+        .then((response) => {
           console.log(
             response.data,
             util.inspect(response.data, { depth: 10 })
           );
           return response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
@@ -100,8 +100,8 @@ const hotelsResolver = {
           console.log(error.config);
           //res.send(error.request);
         });
-    }
-  }
+    },
+  },
 };
 
 module.exports = hotelsResolver;

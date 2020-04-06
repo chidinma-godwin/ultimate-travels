@@ -8,12 +8,12 @@ import {
   Tooltip,
   Button,
   Col,
-  Row
+  Row,
 } from "react-bootstrap";
 import { Picky } from "react-picky";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TourAvailabilityQuery from "./TourAvailabilityQuery";
-import TourQuery from "../TourQuery";
+import TourQuery from "./TourQuery";
 
 class ShowTour extends React.Component {
   constructor() {
@@ -24,27 +24,27 @@ class ShowTour extends React.Component {
       selectedPlaces: [],
       city: "",
       checkAvailability: false,
-      redirect: null
+      redirect: null,
     };
   }
 
-  removeCountry = country => {
-    this.setState(prevState => {
+  removeCountry = (country) => {
+    this.setState((prevState) => {
       let newCountriesList = prevState.countries.filter(
-        item => country != item
+        (item) => country != item
       );
       return {
-        countries: newCountriesList
+        countries: newCountriesList,
       };
     });
   };
 
-  onSelect = values => {
-    this.setState(prevState => {
+  onSelect = (values) => {
+    this.setState((prevState) => {
       return {
         selectedCountries: values,
         selectedPlaces: prevState.selectedPlaces.concat(values),
-        checkAvailability: false
+        checkAvailability: false,
       };
     });
   };
@@ -53,7 +53,7 @@ class ShowTour extends React.Component {
     let { selectedCountries, city } = this.state;
     // If countries have been selected set chekAvailability to true
     if (selectedCountries.length || city.length) {
-      await this.setState(prevState => {
+      await this.setState((prevState) => {
         //　The city will come from the user as a string that is a comma seperated city names
         // Remove any white space in the string and split by the commas to get an array of cities
         let placesList = [];
@@ -65,11 +65,11 @@ class ShowTour extends React.Component {
         // Remove duplicates
         let uniqueJoinedData = Array.from(new Set(joinedData));
         let citiesUrl = "/";
-        uniqueJoinedData.forEach(city => (citiesUrl += `${city}/`));
+        uniqueJoinedData.forEach((city) => (citiesUrl += `${city}/`));
         console.log(citiesUrl);
         return {
           selectedPlaces: uniqueJoinedData,
-          redirect: `/admin/show-tour${citiesUrl}`
+          redirect: `/admin/show-tour${citiesUrl}`,
         };
       });
 
@@ -77,7 +77,7 @@ class ShowTour extends React.Component {
     }
   };
 
-  handleCityChange = evt => {
+  handleCityChange = (evt) => {
     let value = evt.target.value;
     this.setState({ city: value, checkAvailability: false });
   };
@@ -89,7 +89,7 @@ class ShowTour extends React.Component {
       selectedPlaces,
       checkAvailability,
       city,
-      redirect
+      redirect,
     } = this.state;
     console.log(selectedPlaces);
 
@@ -148,7 +148,7 @@ class ShowTour extends React.Component {
               display: "block",
               marginLeft: "auto",
               marginRight: "auto",
-              textAlign: "left"
+              textAlign: "left",
             }}
           >
             <Row className="mb-4">

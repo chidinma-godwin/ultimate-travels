@@ -9,7 +9,7 @@ class OfferAvailabilityResult extends React.Component {
     super(props);
     this.state = {
       flightOffer: this.props.data.map(
-        trip => trip.checkOffer.data.flightOffers[0]
+        (trip) => trip.checkOffer.data.flightOffers[0]
       ),
       dateOfBirth: new Map(),
       showAlert: true,
@@ -18,49 +18,49 @@ class OfferAvailabilityResult extends React.Component {
       lastName: new Map(),
       title: new Map(),
       email: "",
-      phone: ""
+      phone: "",
     };
     this.traveler = {};
   }
 
-  handleChangeFirstName = evt => {
+  handleChangeFirstName = (evt) => {
     const item = evt.target.name;
     const value = evt.target.value;
-    this.setState(prevState => ({
-      firstName: prevState.firstName.set(item, value)
+    this.setState((prevState) => ({
+      firstName: prevState.firstName.set(item, value),
     }));
   };
 
-  handleChangeMiddleName = evt => {
+  handleChangeMiddleName = (evt) => {
     const item = evt.target.name;
     const value = evt.target.value;
-    this.setState(prevState => ({
-      middleName: prevState.middleName.set(item, value)
+    this.setState((prevState) => ({
+      middleName: prevState.middleName.set(item, value),
     }));
   };
 
-  handleChangeLastName = evt => {
+  handleChangeLastName = (evt) => {
     const item = evt.target.name;
     const value = evt.target.value;
-    this.setState(prevState => ({
-      lastName: prevState.lastName.set(item, value)
+    this.setState((prevState) => ({
+      lastName: prevState.lastName.set(item, value),
     }));
   };
 
-  handleChangeTitle = evt => {
+  handleChangeTitle = (evt) => {
     const item = evt.target.name;
     const value = evt.target.value;
-    this.setState(prevState => ({
-      title: prevState.title.set(item, value)
+    this.setState((prevState) => ({
+      title: prevState.title.set(item, value),
     }));
   };
 
-  handleEmailChange = evt => {
+  handleEmailChange = (evt) => {
     this.setState({ email: evt.target.value });
     console.log(this.state);
   };
 
-  onChangePhone = phone => {
+  onChangePhone = (phone) => {
     this.setState({ phone });
     console.log(this.state);
   };
@@ -68,8 +68,8 @@ class OfferAvailabilityResult extends React.Component {
   handleDateChange = (name, date) => {
     const item = name;
     const value = date;
-    this.setState(prevState => ({
-      dateOfBirth: prevState.dateOfBirth.set(item, value)
+    this.setState((prevState) => ({
+      dateOfBirth: prevState.dateOfBirth.set(item, value),
     }));
   };
 
@@ -102,7 +102,7 @@ class OfferAvailabilityResult extends React.Component {
 
   render() {
     const flightOffer = this.state.flightOffer;
-    const warnings = this.props.data.map(trip => trip.checkOffer.warnings);
+    const warnings = this.props.data.map((trip) => trip.checkOffer.warnings);
     const userInfo = this.props.userInfo;
     console.log(this.state);
     console.log(warnings);
@@ -116,15 +116,16 @@ class OfferAvailabilityResult extends React.Component {
     return (
       <Container
         fluid
+        // classname="p-4"
         style={{
           marginTop: "2em",
-          padding: "5em",
-          paddingTop: "0"
+          //  padding: "1.5em",
+          paddingTop: "0",
         }}
       >
         {this.state.showAlert && hasWarnings
-          ? warnings.map(warnList =>
-              warnList.map(warn => {
+          ? warnings.map((warnList) =>
+              warnList.map((warn) => {
                 if (warn.status === 200) {
                   return (
                     <Alert

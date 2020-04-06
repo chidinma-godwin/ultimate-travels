@@ -8,14 +8,14 @@ class HotelResultList extends React.Component {
     super();
     this.state = {
       redirect: null,
-      redirectHotelData: null
+      redirectHotelData: null,
     };
   }
 
-  showMore = hotel => {
+  showMore = (hotel) => {
     this.setState({
       redirect: "/showMore",
-      redirectHotelData: hotel
+      redirectHotelData: hotel,
     });
   };
 
@@ -31,8 +31,8 @@ class HotelResultList extends React.Component {
             pathname: this.state.redirect,
             state: {
               hotelData: this.state.redirectHotelData,
-              userInfo: { userInfo }
-            }
+              userInfo: { userInfo },
+            },
           }}
         />
       );
@@ -42,7 +42,7 @@ class HotelResultList extends React.Component {
       <React.Fragment>
         {/* present the flight result in an array of cards */}
         {hotelData.length > 0
-          ? hotelData.map(hotel => {
+          ? hotelData.map((hotel, index) => {
               if (hotel.hotel.media === null) return "";
               // Display star ratings
               let ratings = [];
@@ -74,7 +74,7 @@ class HotelResultList extends React.Component {
 
               return (
                 <Card
-                  key={hotel.id}
+                  key={index}
                   className="mb-3"
                   style={{ fontWeight: "bold" }}
                   // style={{ width: "68%", marginLeft: "auto" }}
@@ -122,7 +122,7 @@ class HotelResultList extends React.Component {
                             width: "fit-content",
                             backgroundColor: "orange",
                             border: "none",
-                            color: "white"
+                            color: "white",
                           }}
                           onClick={this.showMore.bind(this, hotel)}
                         >
@@ -143,7 +143,7 @@ class HotelResultList extends React.Component {
                           From{" "}
                           {new Intl.NumberFormat("en-NG", {
                             style: "currency",
-                            currency: hotel.offers[0].price.currency
+                            currency: hotel.offers[0].price.currency,
                           }).format(hotel.offers[0].price.total * 1)}
                           {/* {new Intl.NumberFormat("en-US", {
                             style: "currency",

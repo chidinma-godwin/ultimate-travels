@@ -8,7 +8,7 @@ function SelectedFlightInfo(props) {
   let countAdult = 0;
   let countChildren = 0;
   let countInfant = 0;
-  flightOffer[0].travelerPricings.map(traveler => {
+  flightOffer[0].travelerPricings.map((traveler) => {
     if (traveler.travelerType === "ADULT") countAdult += 1;
     if (traveler.travelerType === "CHILD") countChildren += 1;
     if (traveler.travelerType === "HELD_INFANT") countInfant += 1;
@@ -20,7 +20,7 @@ function SelectedFlightInfo(props) {
     (accumulator, traveler) =>
       accumulator.concat(
         accumulator.find(
-          travelerObj => travelerObj.travelerType === traveler.travelerType
+          (travelerObj) => travelerObj.travelerType === traveler.travelerType
         )
           ? []
           : [traveler]
@@ -28,12 +28,12 @@ function SelectedFlightInfo(props) {
     []
   );
 
-  const uniqueTravelerPricings = flightOffer.map(flight =>
+  const uniqueTravelerPricings = flightOffer.map((flight) =>
     flight.travelerPricings.reduce(
       (accumulator, traveler) =>
         accumulator.concat(
           accumulator.find(
-            travelerObj => travelerObj.travelerType === traveler.travelerType
+            (travelerObj) => travelerObj.travelerType === traveler.travelerType
           )
             ? []
             : [traveler]
@@ -51,20 +51,19 @@ function SelectedFlightInfo(props) {
         style={{
           fontSize: "1.5em",
           backgroundColor: "#f68220",
-          color: "white"
+          color: "white",
         }}
       >
         Selected Flight
       </Card.Header>
 
-      <Card.Title style={{ paddingLeft: "2em" }}>
-        {`${userInfo.from[0][1].address.cityName} to ${
-          userInfo.to[userInfo.to.length - 1][1].address.cityName
-        } - Round Trip`}
-        <hr />
-      </Card.Title>
-
-      <Card.Body style={{ paddingLeft: "2em" }}>
+      <Card.Body className="mb-3 p-3">
+        <Card.Title>
+          {`${userInfo.from[0][1].address.cityName} to ${
+            userInfo.to[userInfo.to.length - 1][1].address.cityName
+          } - Round Trip`}
+          <hr />
+        </Card.Title>
         {uniqueTravelerPricings[0].map((traveler, index) => {
           // Check if the passenger is an infant and put the name in the right format
           if (traveler.travelerType === "HELD_INFANT")
@@ -107,14 +106,14 @@ function SelectedFlightInfo(props) {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  marginBottom: "1em"
+                  marginBottom: "1em",
                 }}
               >
                 <span>{` Price per ${traveler.travelerType.toLowerCase()}`}</span>
                 <span>
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
-                    currency: currency
+                    currency: currency,
                   }).format(Number(basePrice.toFixed(2)))}
                 </span>
                 {/* <span>{traveler.price.base}</span> */}
@@ -124,14 +123,14 @@ function SelectedFlightInfo(props) {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  marginBottom: "1em"
+                  marginBottom: "1em",
                 }}
               >
                 <span>{`Taxes and fees per ${traveler.travelerType.toLowerCase()}`}</span>
                 <span>
                   {new Intl.NumberFormat("en-NG", {
                     style: "currency",
-                    currency: currency
+                    currency: currency,
                   }).format(Number(taxAndFees.toFixed(2)))}
                 </span>
               </div>
@@ -141,14 +140,14 @@ function SelectedFlightInfo(props) {
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
-                    marginBottom: "1em"
+                    marginBottom: "1em",
                   }}
                 >
                   <span>{`Refundable taxes per ${traveler.travelerType.toLowerCase()}`}</span>
                   <span>
                     {new Intl.NumberFormat("en-NG", {
                       style: "currency",
-                      currency: currency
+                      currency: currency,
                     }).format(Number(refundableTaxes.toFixed(2)))}
                   </span>
                 </div>
@@ -162,14 +161,14 @@ function SelectedFlightInfo(props) {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontWeight: "bold"
+            fontWeight: "bold",
           }}
         >
           <span>Total Price</span>
           <span>
             {new Intl.NumberFormat("en-NG", {
               style: "currency",
-              currency: uniqueTravelerPricings[0][0].price.currency
+              currency: uniqueTravelerPricings[0][0].price.currency,
             }).format(
               flightOffer.reduce(
                 (total, flightPrice) =>
@@ -181,8 +180,8 @@ function SelectedFlightInfo(props) {
         </div>
 
         <hr />
-        {flightOffer.map(trip =>
-          trip.itineraries.map(itinerary => {
+        {flightOffer.map((trip) =>
+          trip.itineraries.map((itinerary) => {
             return (
               <div key={itinerary.segments[0].id}>
                 {`${itinerary.segments[0].departure.iataCode} -
