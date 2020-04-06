@@ -5,7 +5,7 @@ import {
   Button,
   Popover,
   ButtonToolbar,
-  OverlayTrigger
+  OverlayTrigger,
 } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import Autocomplete from "../home/homeSubs/booking/booking_subComponents/Autocomplete";
@@ -18,69 +18,90 @@ class HotelForm extends React.Component {
     this.state = {
       from: {},
       checkIn: new Date(),
-      checkOut: new Date(),
+      checkOut: new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000),
       adults: 1,
       children: 0,
+      childrenAges: [],
+      c_age: 0,
       rooms: 1,
       age: 0,
-      redirect: null
+      redirect: null,
     };
   }
 
   handleDateChange = (name, date) => {
     console.log(date);
     this.setState({
-      [name]: date
+      [name]: date,
     });
+
+    // Make the checkout date a day more than the checkin date
+    if (name === "checkIn") {
+      this.setState({
+        checkOut: date.getTime() + 1 * 24 * 60 * 60 * 1000,
+      });
+    }
   };
 
-  handleDestinationChange = selected => {
+  handleDestinationChange = (selected) => {
     this.setState({
-      from: selected[0]
+      from: selected[0],
     });
   };
 
-  increment = evt => {
+  increment = (evt) => {
     const className = evt.target.className.split(" ")[0];
-    this.setState(prevState => {
+    this.setState((prevState) => {
       if (className === "adults") {
         return {
-          [className]: prevState[className] + 1
+          [className]: prevState[className] + 1,
         };
       } else {
         return {
           [className]: prevState[className] + 1,
-          age: prevState.age + 1
+          age: prevState.age + 1,
         };
       }
     });
   };
 
-  decrement = evt => {
+  decrement = (evt) => {
     const className = evt.target.className.split(" ")[0];
     if (className === "adults") {
-      this.setState(prevState => ({
-        [className]: prevState[className] > 1 ? prevState[className] - 1 : 1
+      this.setState((prevState) => ({
+        [className]: prevState[className] > 1 ? prevState[className] - 1 : 1,
       }));
     } else {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         [className]: prevState[className] ? prevState[className] - 1 : 0,
-        age: prevState.age - 1
+        age: prevState.age - 1,
+        childrenAges: prevState.childrenAges.filter(
+          (age, i) => i !== prevState.childrenAges.length - 1
+        ),
       }));
     }
   };
 
-  handleChange = evt => {
+  handleChange = (evt) => {
     this.setState({
-      [evt.target.id]: evt.target.value
+      [evt.target.id]: evt.target.value,
     });
   };
 
-  handleSubmit = evt => {
+  handleChildrenChange = (evt) => {
+    this.setState((prevState) => {
+      return {
+        [evt.target.id]: evt.target.value,
+        childrenAges: prevState.childrenAges.concat(evt.target.value),
+      };
+    });
+  };
+
+  handleSubmit = (evt) => {
     evt.preventDefault();
     console.log(this.state);
     this.setState({
-      redirect: "/hotels"
+      redirect: "/hotels",
     });
   };
 
@@ -91,7 +112,7 @@ class HotelForm extends React.Component {
           push
           to={{
             pathname: this.state.redirect,
-            state: { searchParams: this.state }
+            state: { searchParams: this.state },
           }}
         />
       );
@@ -104,6 +125,9 @@ class HotelForm extends React.Component {
           adults={this.state.adults}
           children={this.state.children}
           infants={this.state.infants}
+          handleChildrenChange={this.handleChildrenChange}
+          childrenAges={this.state.childrenAges}
+          c_age={this.state.c_age}
           numAdults={9}
           numChildren={4}
           age={this.state.age}
@@ -111,6 +135,8 @@ class HotelForm extends React.Component {
         />
       </Popover>
     );
+
+    console.log(this.state.childrenAges);
 
     let travellers = this.state.adults + this.state.children;
     return (
@@ -145,12 +171,12 @@ class HotelForm extends React.Component {
               <DatePicker
                 calenderClassName="form-control"
                 selected={this.state.checkIn}
-                // onChange={this.handleDateChange}
+                dateFormat="dd/MM/yyyy"
                 minDate={new Date()}
                 showDisabledMonthNavigation
                 name="checkIn"
                 value={this.state.checkIn}
-                id="checkIn"
+                id="checkInDate"
                 onChange={this.handleDateChange.bind(this, "checkIn")}
               />
             </Form.Control>
@@ -172,13 +198,18 @@ class HotelForm extends React.Component {
             >
               <DatePicker
                 calenderClassName="form-control"
+                dateFormat="dd/MM/yyyy"
                 selected={this.state.checkOut}
-                // onChange={this.handleReturnDateChange}
-                minDate={new Date()}
+                // minDate={new Date()}
+                minDate={
+                  new Date(
+                    this.state.checkIn.getTime() + 1 * 24 * 60 * 60 * 1000
+                  )
+                }
                 showDisabledMonthNavigation
                 name="checkOut"
                 value={this.state.checkOut}
-                id="checkIn"
+                id="checkOutDate"
                 onChange={this.handleDateChange.bind(this, "checkOut")}
               />
             </Form.Control>

@@ -5,7 +5,7 @@ class HotelResultHeading extends React.Component {
   constructor() {
     super();
     this.state = {
-      redirect: null
+      redirect: null,
     };
   }
 
@@ -21,7 +21,7 @@ class HotelResultHeading extends React.Component {
           backgroundColor: "#dee2e6",
           padding: "1.5em",
           marginTop: "1.5em",
-          marginBottom: "1.5em"
+          marginBottom: "1.5em",
         }}
       >
         <thead>

@@ -19,24 +19,8 @@ import GuestInfo from "./components/hotel/GuestInfo";
 import NetplusPayment from "./components/NetplusPayment";
 import Login from "./components/users/Login";
 
-// const ForwardExtensionsLink = new ApolloLink((operation, forward) => {
-//   return new Observable(observer => {
-//     const sub = forward(operation).subscribe({
-//       next: result => {
-//         result.data.extensions = ()=>　result.extensions;
-//         observer.next(result)
-//         console.log(result);
-//       },
-//       complete: observer.complete.bind(observer),
-//     })
-//     return () => {
-//       if (sub) sub.unsubscribe()
-//     }
-//   })
-// });
-
 const uploadLink = createUploadLink({
-  uri: "/graphql",
+  uri: "http://localhost:4000/graphql",
   //includeExtensions: true
 });
 

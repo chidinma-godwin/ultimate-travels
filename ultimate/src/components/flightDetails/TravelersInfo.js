@@ -7,8 +7,8 @@ import { Mutation } from "react-apollo";
 import { addTraveler } from "../../queries/queries";
 import CustomForm from "../CustomForm";
 
-const TravelersInfo = props => {
-  const stringifyNumber = n => {
+const TravelersInfo = (props) => {
+  const stringifyNumber = (n) => {
     let special = [
       "Zeroth",
       "First",
@@ -29,7 +29,7 @@ const TravelersInfo = props => {
       "Sixteenth",
       "Seventeenth",
       "Eighteenth",
-      "Nineteenth"
+      "Nineteenth",
     ];
     let deca = [
       "Twent",
@@ -39,7 +39,7 @@ const TravelersInfo = props => {
       "Sixt",
       "Sevent",
       "Eight",
-      "Ninet"
+      "Ninet",
     ];
 
     if (n < 20) return special[n];
@@ -55,7 +55,7 @@ const TravelersInfo = props => {
     lastName,
     title,
     email,
-    phone
+    phone,
   } = props.data;
   let {
     handleDateChange,
@@ -65,27 +65,27 @@ const TravelersInfo = props => {
     handleChangeLastName,
     handleChangeTitle,
     onChangePhone,
-    handleSubmit
+    handleSubmit,
   } = props;
   flightOffer.countAdult = 0;
   flightOffer.countChildren = 0;
   flightOffer.countInfant = 0;
   return (
     <Mutation mutation={addTraveler}>
-      {addTraveler => (
+      {(addTraveler) => (
         <Card>
           <Card.Header
             style={{
               fontSize: "1.5em",
               backgroundColor: "#f68220",
-              color: "white"
+              color: "white",
             }}
           >
             TRAVELLER'S INFORMATION
           </Card.Header>
-          <Card.Body className="mb-3">
+          <Card.Body className="mb-3 p-3">
             <Form>
-              {flightOffer[0].travelerPricings.map(traveler => {
+              {flightOffer[0].travelerPricings.map((traveler) => {
                 let type = "";
                 let passengerPosition = 0;
                 if (traveler.travelerType === "ADULT") {
@@ -227,11 +227,11 @@ const TravelersInfo = props => {
                                 id: `phonenumber${traveler.travelerId}`,
                                 className: "form-control phone-form-control",
                                 required: true,
-                                autoFocus: true
+                                autoFocus: true,
                               }}
                               country={"ng"}
                               value={phone}
-                              onChange={phone => onChangePhone(phone)}
+                              onChange={(phone) => onChangePhone(phone)}
                             />
                           </Form.Group>
                         </>
@@ -245,7 +245,7 @@ const TravelersInfo = props => {
 
               <Button
                 type="submit"
-                onClick={async evt => {
+                onClick={async (evt) => {
                   evt.preventDefault();
                   handleSubmit();
                   await addTraveler({ variables: { input: props.traveler } });

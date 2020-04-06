@@ -9,7 +9,7 @@ const flightResolver = {
         method: "GET",
         url: "https://api.amadeus.com/v2/shopping/flight-offers",
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         params: {
           destinationLocationCode: args.destinationLocationCode,
@@ -23,11 +23,10 @@ const flightResolver = {
           includeAirlineCodes: args.includeAirlineCodes,
           excludeAirlineCodes: args.excludeAirlineCodes,
           nonStop: args.nonStop,
-          currencyCode: args.currencyCode
-          // max: 20
-        }
+          currencyCode: args.currencyCode,
+        },
       })
-        .then(response => {
+        .then((response) => {
           let carriers = response.data.dictionaries.carriers;
           let carriersArray = [];
           for (let i in carriers) carriersArray.push([i, carriers[i]]);
@@ -38,7 +37,7 @@ const flightResolver = {
           );
           return response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
@@ -61,8 +60,8 @@ const flightResolver = {
           console.log(error.config);
           //res.send(error.request);
         });
-    }
-  }
+    },
+  },
 };
 
 module.exports = flightResolver;

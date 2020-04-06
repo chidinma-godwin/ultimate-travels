@@ -1,26 +1,19 @@
 import React from "react";
-// import waterpark from "../../../images/waterpark.jpg";
-// import oman from "../../../images/oman.jpg";
-// import kuvajt from "../../../images/kuvajt.jpg";
-// import beirutLebanon from "../../../images/beirut-lebanon.jpg";
-// import iran from "../../../images/iran.jpg";
-// import dohaQatar from "../../../images/doha-qatar.jpg";
+import { Image } from "react-bootstrap";
 import bahrain from "../../../images/bahrain.jpg";
-// import ritadhSaudi from "../../../images/ritadh-saudi.jpg";
-// import { Carousel, Modal, Image, Container } from "react-bootstrap";
 import Booking from "../homeSubs/booking/Booking";
 
 class MainImage extends React.Component {
   constructor() {
     super();
     this.state = {
-      height: "500px"
+      height: "500px",
     };
   }
 
-  changeImageHeight = height => {
+  changeImageHeight = (height) => {
     this.setState({
-      height: height < 500 ? "500px" : `${height}px`
+      height: height < 500 ? "500px" : `${height}px`,
     });
   };
 
@@ -30,15 +23,15 @@ class MainImage extends React.Component {
         className="d-flex flex-column justify-content-center position-relative align-items-center p-0 clearfix"
         style={{ height: this.state.height }}
       >
-        <img
-          style={{ height: "inherit" }}
+        <Image
+          style={{ height: "inherit", maxWidth: "100%" }}
           src={bahrain}
           alt="Dubai water park"
           className="d-block w-100"
         />
         <Booking
           currency={this.props.currency}
-          changeImageHeight={height => this.changeImageHeight(height)}
+          changeImageHeight={(height) => this.changeImageHeight(height)}
         />
       </div>
       // <Carousel interval={7000}>

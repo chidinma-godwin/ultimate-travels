@@ -6,29 +6,39 @@ function PassengersCabinPopover(props) {
     increment,
     decrement,
     handleChange,
+    handleChildrenChange,
     cabin,
     adults,
     children,
+    c_age,
     infants,
     show,
     numAdults,
     numChildren,
-    age
+    age,
   } = props;
-  let childAge = [];
+
+  // Put children ages option in an array
+  let childrenAge = [];
   for (let i = 0; i < 18; i++) {
-    childAge.push(i);
+    childrenAge.push(i);
   }
 
+  // Put form groups for selecting children ages in an array
   let ageForm = [];
   for (let i = 0; i < age; i++) {
     ageForm.push(
       <Form.Group key={i} as={Col} sm="6">
-        <Form.Control as="select" size="sm">
-          {childAge.map(age => (
-            <>
-              <option>{age}</option>
-            </>
+        <Form.Control
+          as="select"
+          name="c_age"
+          id="c_age"
+          // onChange={handleChildrenChange}
+          value={c_age}
+          size="sm"
+        >
+          {childrenAge.map((age, i) => (
+            <option key={i}>{age}</option>
           ))}
         </Form.Control>
       </Form.Group>

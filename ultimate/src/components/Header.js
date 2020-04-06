@@ -1,30 +1,34 @@
 import React from "react";
 import logo from "../images/logo.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Navbar, Nav, Container, ButtonGroup, Dropdown } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Header = props => {
+const Header = (props) => {
   return (
     <Navbar variant="dark" expand="lg" className="main-nav">
-      <Container>
-        <Navbar.Brand href="/" className="d-flex">
+      <Container fluid>
+        <Navbar.Brand as={Link} to="/" className="d-flex">
           <img
             alt=""
             src={logo}
             width="64"
             // height="64"
-            className="d-inline-block align-top mr-4"
+            // style={{ marginRight: "0.4em" }}
+            className="d-inline-block align-top mr-2"
           />
           <span className="align-self-center">Ultimate Travels</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <FontAwesomeIcon icon={["fas", "bars"]} size="lg" color="#fff" />
+        </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-md-auto">
             <NavLink
               className="mr-3 header-link"
               style={{
                 marginTop: "auto",
-                marginBottom: "auto"
+                marginBottom: "auto",
               }}
               to="/"
             >
@@ -45,35 +49,35 @@ const Header = props => {
             </Dropdown.Toggle>
             <Dropdown.Menu className="currency-btn">
               <Dropdown.Item
-                onClick={evt =>
+                onClick={(evt) =>
                   props.handleCurrencyToggle(evt.target.textContent)
                 }
               >
                 NGN
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={evt =>
+                onClick={(evt) =>
                   props.handleCurrencyToggle(evt.target.textContent)
                 }
               >
                 USD
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={evt =>
+                onClick={(evt) =>
                   props.handleCurrencyToggle(evt.target.textContent)
                 }
               >
                 GBP
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={evt =>
+                onClick={(evt) =>
                   props.handleCurrencyToggle(evt.target.textContent)
                 }
               >
                 EUR
               </Dropdown.Item>
               <Dropdown.Item
-                onClick={evt =>
+                onClick={(evt) =>
                   props.handleCurrencyToggle(evt.target.textContent)
                 }
               >
