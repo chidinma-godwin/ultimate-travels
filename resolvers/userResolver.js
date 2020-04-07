@@ -1,10 +1,10 @@
-const qs = require("qs");
+const { AuthenticationError } = require("apollo-server-express");
 const User = require("../models/user");
 const {
   validateSignUp,
   validateSignIn,
 } = require("../joiSchemas/validateUser");
-const { checkSignedIn, attemptSignUp } = require("../auth");
+const { validateReCaptcha, attemptSignUp } = require("../auth");
 
 const userResolver = {
   Query: {
@@ -32,9 +32,13 @@ const userResolver = {
     },
     signIn: async (root, args, context, info) => {
       await validateSignIn.validate(args, { abortEarly: false });
-      const { user } = await context.authenticate("graphql-local", args);
-      await context.login(user);
-      return user;
+      if (await validateReCaptcha(args.token)) {
+        const { user } = await context.authenticate("graphql-local", args);
+        await context.login(user);
+        return user;
+      } else {
+        throw new AuthenticationError("Action forbidden");
+      }
     },
     signOut: async (root, args, context, info) => {
       try {

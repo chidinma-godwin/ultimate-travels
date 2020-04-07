@@ -2,10 +2,10 @@ import React from "react";
 import { Query } from "react-apollo";
 import { Spinner } from "react-bootstrap";
 import { adopt } from "react-adopt";
-import { checkOfferQuery } from "../../queries/queries";
+import { checkOfferQuery } from "../../queries";
 import OfferAvailabilityResult from "./OfferAvailabilityResult";
 
-const checkOfferAvailability = props => {
+const checkOfferAvailability = (props) => {
   let { joinedQueryVariable, userInfo } = props.location.state;
   let queryObj = {};
 
@@ -25,7 +25,7 @@ const checkOfferAvailability = props => {
 
   return (
     <Composed>
-      {result => {
+      {(result) => {
         let allData = [];
         for (let name in queryObj) {
           if (result[name].loading)
@@ -54,7 +54,7 @@ const checkOfferAvailability = props => {
         }
         console.log(allData);
 
-        if (allData.some(tripData => tripData.checkOffer === null)) {
+        if (allData.some((tripData) => tripData.checkOffer === null)) {
           return (
             <div className="query_status">
               No Result Found, please try again

@@ -60,7 +60,7 @@ const TablesPage = () => {
                 by adding .text-white class.
               </p>
               <Table>
-                <thead color="primary-color" textWhite>
+                <thead color="primary-color">
                   <tr>
                     <th>#</th>
                     <th>First</th>

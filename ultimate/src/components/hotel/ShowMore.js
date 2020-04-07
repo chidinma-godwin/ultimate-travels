@@ -1,15 +1,15 @@
 import React from "react";
 import { Container, Row, Col, Card, Spinner, Table } from "react-bootstrap";
 import { Query } from "react-apollo";
-import { getHotelOffers } from "../../queries/queries";
+import { getHotelOffers } from "../../queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import HotelOffers from "./HotelOffers";
 
-const ShowMore = props => {
+const ShowMore = (props) => {
   let { hotelData, userInfo } = props.location.state;
   let args = {};
   let searchParams = hotelData.self.split("?")[1].split("&");
-  searchParams.map(item => {
+  searchParams.map((item) => {
     let str = item.split("=");
     if (str[0] === "adults") str[1] = str[1] * 1;
     if (str[0] === "roomQuantity") str[1] = str[1] * 1;
@@ -70,7 +70,7 @@ const ShowMore = props => {
                     <td className="font-weight-bold">
                       {new Intl.NumberFormat("en-NG", {
                         style: "currency",
-                        currency: hotelData.offers[0].price.currency
+                        currency: hotelData.offers[0].price.currency,
                       }).format(Number(hotelData.offers[0].price.total))}
                     </td>
                   </tr>

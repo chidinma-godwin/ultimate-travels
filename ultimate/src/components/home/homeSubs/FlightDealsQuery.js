@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { Row, Spinner } from "react-bootstrap";
-import { getInspirationPlaces } from "../../../queries/queries";
+import { getInspirationPlaces } from "../../../queries";
 import TopFlightDeals from "./TopFlightDeals";
 import ErrorBoundary from "../../ErrorBoundary";
 
@@ -10,24 +10,24 @@ class FlightDealsQuery extends React.Component {
     super();
     this.state = {
       currentPage: 1,
-      dealsPerpage: 6
+      dealsPerpage: 6,
     };
   }
 
   showNextPage = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       console.log(this.state.currentPage);
       return {
-        currentPage: prevState.currentPage + 1
+        currentPage: prevState.currentPage + 1,
       };
     });
   };
 
   showPreviousPage = () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       console.log(this.state.currentPage);
       return {
-        currentPage: prevState.currentPage - 1
+        currentPage: prevState.currentPage - 1,
       };
     });
   };
@@ -39,7 +39,7 @@ class FlightDealsQuery extends React.Component {
         variables={{
           origin: "LON",
           //   departureDate: String
-          viewBy: "COUNTRY"
+          viewBy: "COUNTRY",
         }}
       >
         {({ error, loading, data }) => {

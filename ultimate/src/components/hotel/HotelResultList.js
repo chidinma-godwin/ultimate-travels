@@ -79,7 +79,7 @@ class HotelResultList extends React.Component {
                   style={{ fontWeight: "bold" }}
                   // style={{ width: "68%", marginLeft: "auto" }}
                 >
-                  <Card.Body>
+                  <Card.Body classname="p-3">
                     <Row className="mb-2">
                       <Col xs={3}>
                         <Image src={hotel.hotel.media[0].uri} fluid />

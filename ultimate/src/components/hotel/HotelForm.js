@@ -136,7 +136,7 @@ class HotelForm extends React.Component {
       </Popover>
     );
 
-    console.log(this.state.childrenAges);
+    // console.log(this.state.childrenAges);
 
     let travellers = this.state.adults + this.state.children;
     return (

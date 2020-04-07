@@ -88,7 +88,7 @@ class OfferAvailabilityResult extends React.Component {
     this.state.dateOfBirth.forEach((val, key) => dateOfBirth.push([key, val]));
     this.state.title.forEach((val, key) => title.push([key, val]));
 
-    // Store the formatted variable in an objectthis.
+    // Store the formatted variable in an object.
     this.traveler.firstName = firstName;
     this.traveler.middleName = middleName;
     this.traveler.lastName = lastName;

@@ -13,7 +13,7 @@ const user = gql`
       password: String
       confirmPassword: String
     ): User
-    signIn(email: String!, password: String!): User
+    signIn(email: String!, password: String!, token: String): User
     signOut: Boolean
   }
 

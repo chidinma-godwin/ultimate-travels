@@ -110,10 +110,10 @@ class HotelResult extends React.Component {
     return (
       <Container>
         <Row>
-          <Col lg={12}>
+          <Col lg={12} className="mb-4">
             <HotelResultHeading userInfo={this.state.userInfo} />
           </Col>
-          <Col lg={3}>
+          <Col lg={3} classname="mb-4">
             <FilterHotels
               hotelData={this.state.hotelData}
               stars={this.state.stars}

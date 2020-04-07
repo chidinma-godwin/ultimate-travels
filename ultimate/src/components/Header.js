@@ -12,10 +12,10 @@ const Header = (props) => {
           <img
             alt=""
             src={logo}
-            width="64"
+            width="32"
             // height="64"
             // style={{ marginRight: "0.4em" }}
-            className="d-inline-block align-top mr-2"
+            className="d-inline-block align-top mr-4"
           />
           <span className="align-self-center">Ultimate Travels</span>
         </Navbar.Brand>
@@ -33,6 +33,16 @@ const Header = (props) => {
               to="/"
             >
               Home
+            </NavLink>
+            <NavLink
+              className="mr-3 header-link"
+              style={{
+                marginTop: "auto",
+                marginBottom: "auto",
+              }}
+              to="/login"
+            >
+              Login
             </NavLink>
             <Nav.Link className="mr-3 header-link" href="#contact">
               Contact

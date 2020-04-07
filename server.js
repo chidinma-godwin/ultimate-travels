@@ -28,7 +28,7 @@ passport.use(
       error = new Error("Incorrect username or password");
     done(error, user);
     console.log("sign in");
-    console.log(user.passwordMatch(password));
+    console.log(await user.passwordMatch(password));
   })
 );
 
@@ -42,13 +42,15 @@ passport.deserializeUser(async function (id, done) {
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "build")));
-
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 const IN_PROD = process.env.NODE_ENV === "production";
+
+if (IN_PROD) {
+  app.use(express.static(path.join(__dirname, "build")));
+
+  app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+}
 
 // Setup the database
 mongoose.connect(
@@ -75,8 +77,7 @@ let redisClient = redis.createClient({
   password: process.env.REDIS_PASSWORD,
   db: parseInt(process.env.REDIS_DB),
 });
-
-//  redisClient.unref();
+redisClient.unref();
 redisClient.on("error", console.log);
 
 const store = new RedisStore({ client: redisClient });
@@ -91,7 +92,7 @@ app.use(
     rolling: true,
     cookie: {
       maxAge: parseInt(process.env.SESS_LIFETIME),
-      sameSite: true,
+      sameSite: IN_PROD,
       secure: IN_PROD,
     },
   })
@@ -111,7 +112,6 @@ const server = new ApolloServer({
       req,
       res,
       token,
-      // token: token === undefined ? getToken() : token,
     });
   },
   playground: false,

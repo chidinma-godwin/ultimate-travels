@@ -24,7 +24,7 @@ class Trip extends React.Component {
       destination: new Map(),
       date: new Map([["firstCity", new Date()]]),
       returnDate: new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000),
-      cabin: "ECONOMY",
+      cabin: "Economy",
       adults: 1,
       infants: 0,
       children: 0,
@@ -37,6 +37,7 @@ class Trip extends React.Component {
     const value = date;
     this.setState((prevState) => ({
       date: prevState.date.set(item, value),
+      returnDate: date.getTime() + 1 * 24 * 60 * 60 * 1000,
     }));
   };
 
@@ -86,11 +87,6 @@ class Trip extends React.Component {
     this.setState({
       [evt.target.id]: evt.target.value,
     });
-    if (evt.target.id === "cabin") {
-      this.setState({
-        [evt.target.id]: evt.target.value.toUpperCase().replace(/ +/g, ""),
-      });
-    }
   };
 
   handleSubmit = (evt) => {
@@ -106,8 +102,15 @@ class Trip extends React.Component {
     this.state.destination.forEach((val, key) => destination.push([key, val]));
     this.state.date.forEach((val, key) => departureDate.push([key, val]));
 
+    const cabin = this.state.cabin.toUpperCase();
+
     this.userInfo = {
-      travelClass: this.state.cabin,
+      travelClass:
+        cabin === "Premium Economy"
+          ? cabin.trim().split(" ").join("_")
+          : cabin === "First Class"
+          ? cabin.trim().split(" ")[0]
+          : cabin,
       children: this.state.children,
       infants: this.state.infants,
       currencyCode: this.props.currency,
@@ -247,7 +250,10 @@ class Trip extends React.Component {
                   }
                   onChange={this.handleReturnDateChange}
                   minDate={
-                    new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+                    new Date(
+                      this.state.date.get("firstCity").getTime() +
+                        1 * 24 * 60 * 60 * 1000
+                    )
                   }
                   showDisabledMonthNavigation
                   placeholderText="(oneway)"

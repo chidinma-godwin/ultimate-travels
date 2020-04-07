@@ -82,9 +82,10 @@ body {
   grid-gap: 1rem;
 }
 
-.flight_deals .card-deck {
+.flight_deals .card-deck,
+.tour .card-deck {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(17.3em, 1fr));
   grid-gap: 0.5rem;
 }
 
@@ -293,7 +294,8 @@ input.form-check-input {
 
 .bm-menu {
   background: #41225f;
-  padding: 2.5em 1.5em 0;
+  position: fixed;
+  padding: 1.5em 1em 0;
   font-size: 1.2em;
   overflow: visible !important;
 }

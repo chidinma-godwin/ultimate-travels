@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import { Mutation } from "react-apollo";
-import { addVisaRequest } from "../../queries/queries";
+import { addVisaRequest } from "../../queries";
 import PersonalInfo from "./PersonalInfo";
 import TravelInfo from "./TravelInfo";
 
@@ -26,7 +26,7 @@ class VisaForm extends React.Component {
       destination: "United Arab Emirates",
       passportExpiryDate: "",
       passportNum: "",
-      email: ""
+      email: "",
       // selectedFile: null
     };
     this.handleHideFooter = this.props.handleHideFooter;
@@ -40,21 +40,21 @@ class VisaForm extends React.Component {
     this.handleHideFooter(false);
   };
 
-  handleChange = evt => {
+  handleChange = (evt) => {
     let value = evt.target.value;
     this.setState({
-      [evt.target.name]: value
+      [evt.target.name]: value,
     });
   };
 
-  onChangePhone = phone => {
+  onChangePhone = (phone) => {
     this.setState({ phoneNum: phone });
   };
 
   handleDateChange = (name, date) => {
     console.log(date);
     this.setState({
-      [name]: date
+      [name]: date,
     });
   };
 
@@ -69,7 +69,7 @@ class VisaForm extends React.Component {
     console.log(this.state);
     return (
       <Mutation mutation={addVisaRequest}>
-        {addVisaRequest => (
+        {(addVisaRequest) => (
           <Container fluid className="p-0">
             <Container>
               <h2 className="mb-5 mt-5">UAE Visa Application Form</h2>
@@ -80,7 +80,7 @@ class VisaForm extends React.Component {
                     // backgroundColor: "#f68220",
                     backgroundColor: "#41225f",
                     color: "white",
-                    fontSize: "18px"
+                    fontSize: "18px",
                   }}
                 >
                   <p>Fill this form to get Visa processing assistance</p>
@@ -89,12 +89,12 @@ class VisaForm extends React.Component {
                     <span className="font-weight-bold">NO DOWN PAYMENT</span>
                   </p>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body className="p-3">
                   <h3 className="font-weight-bold mb-4">
                     PERSONAL INFORMATION
                   </h3>
                   <Form
-                    onSubmit={async evt => {
+                    onSubmit={async (evt) => {
                       evt.preventDefault();
                     }}
                   >
@@ -137,11 +137,11 @@ class VisaForm extends React.Component {
                     <Button
                       variant="primary"
                       type="submit"
-                      onClick={async evt => {
+                      onClick={async (evt) => {
                         evt.preventDefault();
                         console.log("it is working");
                         await addVisaRequest({
-                          variables: { input: this.state }
+                          variables: { input: this.state },
                         });
                       }}
                     >
@@ -158,7 +158,7 @@ class VisaForm extends React.Component {
                 color: "#fff",
                 marginTop: "8em",
                 marginBottom: "-500px",
-                padding: "2em"
+                padding: "2em",
               }}
             >
               <h3>Visa Processing Service</h3>

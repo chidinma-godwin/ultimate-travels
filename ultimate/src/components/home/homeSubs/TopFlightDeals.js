@@ -7,7 +7,7 @@ class TopFlightDeals extends React.Component {
   constructor() {
     super();
     this.state = {
-      redirect: null
+      redirect: null,
     };
     this.userInfo = {};
   }
@@ -23,7 +23,7 @@ class TopFlightDeals extends React.Component {
           push
           to={{
             pathname: this.state.redirect,
-            state: { userInfo: this.userInfo }
+            state: { userInfo: this.userInfo },
           }}
         />
       );
@@ -36,8 +36,9 @@ class TopFlightDeals extends React.Component {
       showNextPage,
       showPreviousPage,
       pageNumbers,
-      currentPage
+      currentPage,
     } = this.props;
+    console.log(pageNumbers, currentPage);
     return (
       <Row>
         {currentPage == 1 ? (
@@ -49,24 +50,26 @@ class TopFlightDeals extends React.Component {
                 icon={["fas", "chevron-circle-left"]}
                 style={{
                   color: "purple",
-                  fontSize: "4em"
+                  fontSize: "4em",
                 }}
               />
             </div>
           </Col>
         )}
         <Col
-          sm={10}
+          sm={
+            currentPage != 1 || currentPage < Math.max(...pageNumbers) ? 10 : 11
+          }
           className="flight_deals"
           style={{ marginLeft: "auto", marginRight: "auto" }}
         >
           <CardDeck>
-            {data.map(flight => {
+            {data.map((flight) => {
               let originLocation = dictionaries.locations.filter(
-                location => flight.origin === location.id
+                (location) => flight.origin === location.id
               );
               let destinationLocation = dictionaries.locations.filter(
-                location => flight.destination === location.id
+                (location) => flight.destination === location.id
               );
               let departureDate = new Date(flight.departureDate)
                 .toString()
@@ -81,12 +84,12 @@ class TopFlightDeals extends React.Component {
               let variables = flightUrl
                 .split("?")[1]
                 .split("&")
-                .map(v => v.split("="));
-              variables.map(v => {
+                .map((v) => v.split("="));
+              variables.map((v) => {
                 this.userInfo[v[0]] = v[1];
               });
               this.userInfo.departureDate = [
-                ["firstCity", new Date(this.userInfo.departureDate)]
+                ["firstCity", new Date(this.userInfo.departureDate)],
               ];
               this.userInfo.from = [
                 [
@@ -94,10 +97,10 @@ class TopFlightDeals extends React.Component {
                   {
                     iataCode: this.userInfo.originLocationCode,
                     address: {
-                      cityName: originLocation[0].details.detailedName
-                    }
-                  }
-                ]
+                      cityName: originLocation[0].details.detailedName,
+                    },
+                  },
+                ],
               ];
               this.userInfo.to = [
                 [
@@ -105,10 +108,10 @@ class TopFlightDeals extends React.Component {
                   {
                     iataCode: this.userInfo.destinationLocationCode,
                     address: {
-                      cityName: originLocation[0].details.detailedName
-                    }
-                  }
-                ]
+                      cityName: originLocation[0].details.detailedName,
+                    },
+                  },
+                ],
               ];
               this.userInfo.travelClass = "ECONOMY";
               this.userInfo.originCity = originLocation[0].details.detailedName;
@@ -118,14 +121,14 @@ class TopFlightDeals extends React.Component {
 
               return (
                 // <Col md={4} lg={3} key={flight.destination} className="mb-3">
-                <Card key={flight.destination}>
+                <Card key={flight.destination} className="mb-4">
                   <Card.Header
                     style={{ backgroundColor: "#f68220", color: "white" }}
                   >
                     {originLocation[0].details.detailedName} to{" "}
                     {destinationLocation[0].details.detailedName}
                   </Card.Header>
-                  <Card.Body>
+                  <Card.Body className="p-3">
                     <Card.Text>
                       <span className="d-block">
                         From {flight.price.total} {meta.currency}
@@ -153,7 +156,7 @@ class TopFlightDeals extends React.Component {
                 icon={["fas", "chevron-circle-right"]}
                 style={{
                   color: "purple",
-                  fontSize: "4em"
+                  fontSize: "4em",
                 }}
               />
             </span>

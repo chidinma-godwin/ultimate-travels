@@ -2,7 +2,7 @@ import React from "react";
 import { ProgressBar, Container, Spinner } from "react-bootstrap";
 import { Query } from "react-apollo";
 import { adopt } from "react-adopt";
-import { getFlightDetails } from "../../queries/queries";
+import { getFlightDetails } from "../../queries";
 import QueryResult from "./QueryResult";
 
 function FlightQuery(props) {
@@ -25,7 +25,7 @@ function FlightQuery(props) {
           children: userInfo.children ? userInfo.children * 1 : undefined,
           infants: userInfo.infants ? userInfo.infants * 1 : undefined,
           travelClass: userInfo.travelClass ? userInfo.travelClass : undefined,
-          currencyCode: currency
+          currencyCode: currency,
         }}
       >
         {render}
@@ -38,7 +38,7 @@ function FlightQuery(props) {
 
   return (
     <Composed>
-      {result => {
+      {(result) => {
         let allData = [];
         for (let name in queryObj) {
           if (result[name].loading)
@@ -67,7 +67,7 @@ function FlightQuery(props) {
         }
         console.log(allData);
 
-        if (allData.some(tripData => tripData.flightDetails === null)) {
+        if (allData.some((tripData) => tripData.flightDetails === null)) {
           return (
             <div className="query_status">
               No Result Found, please try again

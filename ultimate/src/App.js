@@ -4,6 +4,7 @@ import { ApolloClient } from "apollo-client";
 import { createUploadLink } from "apollo-upload-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
+import { loadReCaptcha } from "react-recaptcha-google";
 //import { ApolloLink, Observable } from 'apollo-link';
 import Header from "./components/Header";
 import Home from "./components/home/Home";
@@ -13,7 +14,7 @@ import FlightQuery from "./components/flightDetails/FlightQuery";
 import checkOfferAvailability from "./components/flightDetails/checkOfferAvailability";
 import VisaForm from "./components/visa/VisaForm";
 import HotelQuery from "./components/hotel/HotelQuery";
-import AdminDashBoard from "./components/admin/AdminDashBoard";
+import UserPage from "./components/users/userPage/UserPage";
 import ShowMore from "./components/hotel/ShowMore";
 import GuestInfo from "./components/hotel/GuestInfo";
 import NetplusPayment from "./components/NetplusPayment";
@@ -39,6 +40,10 @@ class App extends React.Component {
       hideFooter: false,
       hideHeader: false,
     };
+  }
+
+  componentDidMount() {
+    loadReCaptcha();
   }
 
   handleCurrencyToggle = (selected) => {
@@ -104,15 +109,16 @@ class App extends React.Component {
             />
 
             <Route
-              path="/admin"
+              path="/users/:username"
               render={(props) => (
-                <AdminDashBoard
+                <UserPage
                   {...props}
                   handleHideHeader={this.handleHideHeader}
                   handleHideFooter={this.handleHideFooter}
                 />
               )}
             />
+
             <Route path="/showMore" component={ShowMore} />
             <Route path="/guestInfo" component={GuestInfo} />
             <Route path="/netplusPayment" component={NetplusPayment} />

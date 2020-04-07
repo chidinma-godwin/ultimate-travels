@@ -1,17 +1,17 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { getHotels } from "../../queries/queries";
+import { getHotels } from "../../queries";
 import { Spinner } from "react-bootstrap";
 import HotelResult from "./HotelResult";
 
-const HotelQuery = props => {
+const HotelQuery = (props) => {
   let {
     from,
     checkIn,
     checkOut,
     adults,
     children,
-    rooms
+    rooms,
   } = props.location.state.searchParams;
   let { currency } = props;
   return (
@@ -24,7 +24,7 @@ const HotelQuery = props => {
         roomQuantity: rooms,
         adults: adults,
         // hotelName: hotelName,
-        currency: currency
+        currency: currency,
       }}
     >
       {({ error, loading, data }) => {

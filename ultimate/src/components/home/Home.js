@@ -4,8 +4,8 @@ import FlightDealsQuery from "./homeSubs/FlightDealsQuery";
 import { Container } from "react-bootstrap";
 import TourQuery from "../TourQuery";
 
-const Home = props => {
-  const { deals, currency } = props;
+const Home = (props) => {
+  const { currency } = props;
   return (
     <React.Fragment>
       <MainImage currency={currency} />

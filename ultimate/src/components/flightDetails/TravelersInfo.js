@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Mutation } from "react-apollo";
-import { addTraveler } from "../../queries/queries";
+import { addTraveler } from "../../queries";
 import CustomForm from "../CustomForm";
 
 const TravelersInfo = (props) => {
