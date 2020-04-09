@@ -18,17 +18,20 @@ const resolvers = require("./resolvers/resolvers");
 const getToken = require("./amadeusToken");
 
 passport.use(
-  new GraphQLLocalStrategy(async (email, password, done) => {
+  new GraphQLLocalStrategy(async (email, password) => {
     const user = await User.findOne({ email });
     let error;
 
-    if (!user) error = new Error("Incorrect username or password");
-
-    if (!(await user.passwordMatch(password)))
+    if (!user) {
       error = new Error("Incorrect username or password");
-    done(error, user);
-    console.log("sign in");
-    console.log(await user.passwordMatch(password));
+      return error;
+    }
+
+    if (!(await user.passwordMatch(password))) {
+      error = new Error("Incorrect username or password");
+      return error;
+    }
+    return user;
   })
 );
 
@@ -114,14 +117,7 @@ const server = new ApolloServer({
       token,
     });
   },
-  playground: false,
-  // IN_PROD
-  //   ? false
-  //   : {
-  //       settings: {
-  //         "request.credentials": "include",
-  //       },
-  //     },
+  playground: true,
 });
 server.applyMiddleware({ app });
 

@@ -23,9 +23,18 @@ const User = require("./models/user");
 const attemptSignUp = async (email) => {
   const user = await User.findOne({ email });
 
-  if (user)
-    throw new AuthenticationError("user with this email already exists");
-  return user;
+  if (user) {
+    return {
+      ok: false,
+      errors: [
+        { path: "email", message: "A user with this email already exists" },
+      ],
+    };
+  }
+  return {
+    ok: true,
+    user: user,
+  };
 };
 
 const validateReCaptcha = async (token) => {
@@ -33,8 +42,16 @@ const validateReCaptcha = async (token) => {
   const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
 
   const response = await axios({ method: "post", url });
-  console.log(response.data);
   return response.data.success;
 };
 
-module.exports = { attemptSignUp, validateReCaptcha };
+// Format graphql errors and show users
+const formatErrors = (err) =>
+  err.details.map((detail) => {
+    return {
+      path: detail.path[0],
+      message: detail.message,
+    };
+  });
+
+module.exports = { attemptSignUp, validateReCaptcha, formatErrors };

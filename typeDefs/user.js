@@ -10,10 +10,11 @@ const user = gql`
     signUp(
       username: String!
       email: String!
-      password: String
-      confirmPassword: String
-    ): User
-    signIn(email: String!, password: String!, token: String): User
+      password: String!
+      confirmPassword: String!
+      token: String!
+    ): UserResponse
+    signIn(email: String!, password: String!, token: String!): UserResponse
     signOut: Boolean
   }
 
@@ -21,6 +22,17 @@ const user = gql`
     id: ID!
     username: String!
     email: String!
+  }
+
+  type UserResponse {
+    ok: Boolean!
+    errors: [Error!]
+    user: User
+  }
+
+  type Error {
+    path: String!
+    message: String!
   }
 `;
 

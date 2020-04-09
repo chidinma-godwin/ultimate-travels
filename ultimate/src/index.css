@@ -121,14 +121,17 @@ body {
   margin-right: 1em;
 }
 
-.header-link {
+.header-link,
+.account-link .nav-link {
   color: white !important;
   text-decoration: "none";
   width: fit-content;
 }
 
 .header-link:hover,
-.header-link:focus {
+.header-link:focus,
+.account-link .nav-link:hover,
+.account-link .nav-link:focus {
   color: #fbc1ac !important;
 }
 

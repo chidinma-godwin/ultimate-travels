@@ -1,7 +1,14 @@
 import React from "react";
 import logo from "../images/logo.svg";
 import { NavLink, Link } from "react-router-dom";
-import { Navbar, Nav, Container, ButtonGroup, Dropdown } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  Container,
+  ButtonGroup,
+  Dropdown,
+} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Header = (props) => {
@@ -24,8 +31,9 @@ const Header = (props) => {
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-md-auto">
-            <NavLink
-              className="mr-3 header-link"
+            <Nav.Link
+              as={Link}
+              className="header-link"
               style={{
                 marginTop: "auto",
                 marginBottom: "auto",
@@ -33,8 +41,8 @@ const Header = (props) => {
               to="/"
             >
               Home
-            </NavLink>
-            <NavLink
+            </Nav.Link>
+            {/* <NavLink
               className="mr-3 header-link"
               style={{
                 marginTop: "auto",
@@ -43,10 +51,22 @@ const Header = (props) => {
               to="/login"
             >
               Login
-            </NavLink>
-            <Nav.Link className="mr-3 header-link" href="#contact">
+            </NavLink> */}
+            <Nav.Link className="header-link" href="#contact">
               Contact
             </Nav.Link>
+            <NavDropdown
+              title="Account"
+              id="account-dropdown"
+              className="mr-2 account-link"
+            >
+              <NavDropdown.Item as={Link} to="/login">
+                Login
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/signup">
+                Sign Up
+              </NavDropdown.Item>
+            </NavDropdown>
           </Nav>
 
           <Dropdown as={ButtonGroup}>

@@ -4,7 +4,6 @@ import { ApolloClient } from "apollo-client";
 import { createUploadLink } from "apollo-upload-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
-import { loadReCaptcha } from "react-recaptcha-google";
 //import { ApolloLink, Observable } from 'apollo-link';
 import Header from "./components/Header";
 import Home from "./components/home/Home";
@@ -19,9 +18,10 @@ import ShowMore from "./components/hotel/ShowMore";
 import GuestInfo from "./components/hotel/GuestInfo";
 import NetplusPayment from "./components/NetplusPayment";
 import Login from "./components/users/Login";
+import SignUp from "./components/users/SignUp";
 
 const uploadLink = createUploadLink({
-  uri: "/graphql",
+  uri: "http://localhost:4000/graphql",
   //includeExtensions: true
 });
 
@@ -40,10 +40,6 @@ class App extends React.Component {
       hideFooter: false,
       hideHeader: false,
     };
-  }
-
-  componentDidMount() {
-    loadReCaptcha();
   }
 
   handleCurrencyToggle = (selected) => {
@@ -84,6 +80,7 @@ class App extends React.Component {
             />
             <Route path="/tourDetails/:slug" component={TourDetails} />
             <Route path="/login" component={Login} />
+            <Route path="/signup" component={SignUp} />
             <Route
               path="/flightDetails"
               render={(props) => (
