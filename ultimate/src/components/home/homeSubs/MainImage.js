@@ -32,6 +32,7 @@ class MainImage extends React.Component {
         <Booking
           currency={this.props.currency}
           changeImageHeight={(height) => this.changeImageHeight(height)}
+          queryVariables={this.props.queryVariables}
         />
       </div>
       // <Carousel interval={7000}>

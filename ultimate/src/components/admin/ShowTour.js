@@ -19,7 +19,6 @@ class ShowTour extends React.Component {
   constructor() {
     super();
     this.state = {
-      countries: ["Oman", "London", "Paris"],
       selectedCountries: [],
       selectedPlaces: [],
       city: "",
@@ -69,7 +68,7 @@ class ShowTour extends React.Component {
         console.log(citiesUrl);
         return {
           selectedPlaces: uniqueJoinedData,
-          redirect: `/admin/show-tour${citiesUrl}`,
+          redirect: this.props.match.url + citiesUrl,
         };
       });
 
@@ -84,7 +83,6 @@ class ShowTour extends React.Component {
 
   render() {
     let {
-      countries,
       selectedCountries,
       selectedPlaces,
       checkAvailability,
@@ -98,47 +96,6 @@ class ShowTour extends React.Component {
         <h2 className="mt-3 mb-3">View and change the tour countries </h2>
         <Col className="mb-4">
           <TourQuery removeCountry={this.removeCountry} />
-          {/* <Card
-            className="mt-2 mb-4"
-            style={{
-              width: "fit-content",
-              display: "block",
-              marginLeft: "auto",
-              marginRight: "auto"
-            }}
-          >
-            <Card.Header>
-              Countries currently displayed on the tour page are:
-            </Card.Header>
-            <Card.Body className="p-3">
-              <ul style={{ listStyle: "none", paddingLeft: 0 }}>
-                {countries.map((country, i) => (
-                  <React.Fragment key={i}>
-                    <div className="d-flex justify-content-between">
-                      <li className="text-left">{country}</li>
-                      <OverlayTrigger
-                        placement="right"
-                        delay={{ show: 250, hide: 400 }}
-                        overlay={
-                          <Tooltip>
-                            Remove this country from tour destinations
-                          </Tooltip>
-                        }
-                      >
-                        <FontAwesomeIcon
-                          icon={["fas", "times"]}
-                          size="lg"
-                          style={{ color: "rgb(168, 38, 38)" }}
-                          onClick={() => this.removeCountry(country)}
-                        />
-                      </OverlayTrigger>
-                    </div>
-                    <hr />
-                  </React.Fragment>
-                ))}
-              </ul>
-            </Card.Body>
-          </Card> */}
         </Col>
 
         <Col className="mb-4">
@@ -203,7 +160,7 @@ class ShowTour extends React.Component {
           </Form>
         </Col>
         {redirect && <Redirect push to={redirect} />}
-        {this.props.match.params.city1 && (
+        {this.props.match.params.city1 && checkAvailability && (
           <TourAvailabilityQuery placesUrl={this.props.match.params} />
         )}
       </React.Fragment>

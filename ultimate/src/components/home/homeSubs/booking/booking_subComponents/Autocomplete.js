@@ -11,14 +11,15 @@ class Autocomplete extends React.Component {
       multiple: false,
       isLoading: false,
       useCache: true,
-      //selected: [],
+      // selected: [],
       options: [],
     };
   }
 
-  onChange = (selected) => {
-    let selectedOption = selected;
-    this.setState({ selected });
+  onChange = (selectedOption) => {
+    // let selectedOption = selected;
+    console.log(selectedOption);
+    // this.setState({ selected: selectedOption });
     this.props.handleAsyncChange(selectedOption);
   };
 
@@ -65,7 +66,10 @@ class Autocomplete extends React.Component {
                 });
             }}
             placeholder="Enter city name"
-            selected={this.state.selected}
+            selected={
+              this.props.selectedOptions && [this.props.selectedOptions]
+              // : this.state.selected
+            }
             //  ref={(ref) => this._typeahead = ref}
             options={this.state.options}
           ></AsyncTypeahead>

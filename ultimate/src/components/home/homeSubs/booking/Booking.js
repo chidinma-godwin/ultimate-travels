@@ -223,6 +223,7 @@ class Booking extends React.Component {
                   selectedCityOptions={selectedCityOptions}
                   singleTrip={this.state.singleTrip}
                   multipletrip={this.state.multipletrip}
+                  queryVariables={this.props.queryVariables}
                 />
               </div>
             </Tab>

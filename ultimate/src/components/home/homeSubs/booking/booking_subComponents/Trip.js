@@ -16,18 +16,32 @@ import { Redirect } from "react-router-dom";
 import { Map } from "immutable";
 
 class Trip extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.userInfo = {};
+    let {
+      from,
+      to,
+      travelClass,
+      departureDate,
+      returnDate,
+      adults,
+      infants,
+      children,
+    } = this.props.queryVariables;
     this.state = {
-      from: new Map(),
-      destination: new Map(),
-      date: new Map([["firstCity", new Date()]]),
-      returnDate: new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000),
-      cabin: "Economy",
-      adults: 1,
-      infants: 0,
-      children: 0,
+      from: from ? from : new Map(),
+      destination: to ? to : new Map(),
+      date: departureDate
+        ? departureDate
+        : new Map([["firstCity", new Date()]]),
+      returnDate: returnDate
+        ? returnDate
+        : new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000),
+      cabin: travelClass ? travelClass : "Economy",
+      adults: adults ? adults : 1,
+      infants: infants ? infants : 0,
+      children: children ? children : 0,
       redirect: null,
     };
   }
@@ -114,10 +128,6 @@ class Trip extends React.Component {
       children: this.state.children,
       infants: this.state.infants,
       currencyCode: this.props.currency,
-      // originLocationCode: this.state.from,
-      // destinationLocationCode: this.state.destination,
-      // originCity: this.state.from.address.cityName,
-      // destinationCity: this.state.destination.address.cityName,
       departureDate: departureDate,
       returnDate: this.props.singleTrip
         ? undefined
@@ -133,6 +143,7 @@ class Trip extends React.Component {
   };
 
   render() {
+    console.log(this.state);
     if (this.state.redirect) {
       return (
         <Redirect
@@ -149,7 +160,9 @@ class Trip extends React.Component {
     }
 
     let travellers =
-      this.state.adults + this.state.children + this.state.infants;
+      Number(this.state.adults) +
+      Number(this.state.children) +
+      Number(this.state.infants);
     const popover = (
       <Popover style={{ width: "fitContent", padding: "1em" }}>
         <PassengersCabinPopover
@@ -182,6 +195,10 @@ class Trip extends React.Component {
                 >
                   <Form.Label className="mr-1">Flying from</Form.Label>
                   <Autocomplete
+                    selectedOptions={
+                      this.props.queryVariables.from &&
+                      this.state.from.get(city)
+                    }
                     handleAsyncChange={this.handleFromLocationChange.bind(
                       this,
                       city
@@ -198,6 +215,10 @@ class Trip extends React.Component {
                 >
                   <Form.Label className="mr-1">Flying to</Form.Label>
                   <Autocomplete
+                    selectedOptions={
+                      this.props.queryVariables.to &&
+                      this.state.destination.get(city)
+                    }
                     handleAsyncChange={this.handleToLocationChange.bind(
                       this,
                       city

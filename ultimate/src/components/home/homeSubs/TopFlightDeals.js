@@ -8,22 +8,23 @@ class TopFlightDeals extends React.Component {
     super();
     this.state = {
       redirect: null,
+      redirectState: {},
     };
-    this.userInfo = {};
   }
 
-  handleBook = () => {
-    this.setState({ redirect: "/flightDetails" });
+  handleBook = (userInfo) => {
+    this.setState({ redirect: "/flightDetails", redirectState: userInfo });
   };
 
   render() {
-    if (this.state.redirect) {
+    const { redirect, redirectState } = this.state;
+    if (redirect) {
       return (
         <Redirect
           push
           to={{
-            pathname: this.state.redirect,
-            state: { userInfo: this.userInfo },
+            pathname: redirect,
+            state: { userInfo: redirectState },
           }}
         />
       );
@@ -79,45 +80,53 @@ class TopFlightDeals extends React.Component {
                 .split(" ");
               //let from = ["firstCity", {iataCode: }]
 
-              // Collect the query variables from the link provided in the data and save them in an object
+              // Collect the query variables from the link provided in the data and save them in a userInfo object
               let flightUrl = flight.links.flightOffers;
               let variables = flightUrl
                 .split("?")[1]
                 .split("&")
                 .map((v) => v.split("="));
+
+              const userInfo = {};
+
               variables.map((v) => {
-                this.userInfo[v[0]] = v[1];
+                userInfo[v[0]] = v[1];
               });
-              this.userInfo.departureDate = [
-                ["firstCity", new Date(this.userInfo.departureDate)],
+
+              userInfo.departureDate = [
+                ["firstCity", new Date(userInfo.departureDate)],
               ];
-              this.userInfo.from = [
+              userInfo.from = [
                 [
                   "firstCity",
                   {
-                    iataCode: this.userInfo.originLocationCode,
+                    subType: originLocation[0].details.subType,
+                    name: originLocation[0].details.detailedName,
+                    iataCode: userInfo.originLocationCode,
                     address: {
                       cityName: originLocation[0].details.detailedName,
                     },
                   },
                 ],
               ];
-              this.userInfo.to = [
+              userInfo.to = [
                 [
                   "firstCity",
                   {
-                    iataCode: this.userInfo.destinationLocationCode,
+                    subType: destinationLocation[0].details.subType,
+                    name: destinationLocation[0].details.detailedName,
+                    iataCode: userInfo.destinationLocationCode,
                     address: {
-                      cityName: originLocation[0].details.detailedName,
+                      cityName: destinationLocation[0].details.detailedName,
                     },
                   },
                 ],
               ];
-              this.userInfo.travelClass = "ECONOMY";
-              this.userInfo.originCity = originLocation[0].details.detailedName;
-              this.userInfo.destinationCity =
+              userInfo.travelClass = "ECONOMY";
+              userInfo.originCity = originLocation[0].details.detailedName;
+              userInfo.destinationCity =
                 destinationLocation[0].details.detailedName;
-              console.log(this.userInfo);
+              console.log(userInfo);
 
               return (
                 // <Col md={4} lg={3} key={flight.destination} className="mb-3">
@@ -139,7 +148,10 @@ class TopFlightDeals extends React.Component {
                   ${returnDate[0]}, ${returnDate[2]} ${returnDate[1]}. ${returnDate[3]}`}
                       </span>
                     </Card.Text>
-                    <Button variant="primary" onClick={this.handleBook}>
+                    <Button
+                      variant="primary"
+                      onClick={() => this.handleBook(userInfo)}
+                    >
                       Book Now
                     </Button>
                   </Card.Body>

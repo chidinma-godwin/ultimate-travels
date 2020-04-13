@@ -2,17 +2,19 @@ import React from "react";
 import { Row, Col, Button, Card, Image, CardDeck } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { displayTime } from "../../utils";
 
 class FlightResultList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       redirect: null,
-      joinedQueryVariable: {}
+      joinedQueryVariable: {},
     };
+    this.displayTime = displayTime;
   }
 
-  handleCheckOffer = id => {
+  handleCheckOffer = (id) => {
     this.setState(() => {
       let index;
       let selectedData = [];
@@ -24,16 +26,12 @@ class FlightResultList extends React.Component {
       for (let i = 1; i < this.props.flightData.length; i++) {
         selectedData.push([this.props.flightData[i][index]]);
       }
-      console.log(index);
-      console.log(firstTripData);
-      console.log(selectedData);
-      console.log(this.props.flightData[0]);
 
       // Format the data to match the checkOfferQuery argument before passing it
-      selectedData.map(trip =>
-        trip.map(data => {
+      selectedData.map((trip) =>
+        trip.map((data) => {
           delete data.averageDuration;
-          data.itineraries.map(itinerary => delete itinerary.durationMins);
+          data.itineraries.map((itinerary) => delete itinerary.durationMins);
           if (data.numStops) delete data.numStops;
           if (data.uniqueAirlinesList) delete data.uniqueAirlinesList;
           if (data.accumulatedPrice) delete data.accumulatedPrice;
@@ -50,11 +48,9 @@ class FlightResultList extends React.Component {
         queryVariable.data.flightOffers = selectedData[i];
         joinedQueryVariable.push(queryVariable);
       }
-
-      console.log(joinedQueryVariable);
       return {
         redirect: "/checkOfferAvailability",
-        joinedQueryVariable
+        joinedQueryVariable,
       };
     });
   };
@@ -69,8 +65,8 @@ class FlightResultList extends React.Component {
               pathname: this.state.redirect,
               state: {
                 joinedQueryVariable: this.state.joinedQueryVariable,
-                userInfo: this.props.userInfo
-              }
+                userInfo: this.props.userInfo,
+              },
             }}
           />
         );
@@ -80,43 +76,46 @@ class FlightResultList extends React.Component {
       <CardDeck>
         {/* present the flight result in an array of cards */}
         {/* a[0].map((b,c)=> {let k=[]; k.push(b); for(let i=1; i<a.length; i++){k.push(a[i][c])}; w.push(k)}) */}
-        {this.props.flightData[0].length > 0
+        {this.props.flightData[0].length
           ? this.props.flightData[0].map((flight, index) => {
               let joinedData = [];
               joinedData.push(flight);
               for (let i = 1; i < this.props.flightData.length; i++) {
                 joinedData.push(this.props.flightData[i][index]);
               }
+
               // declare outbound flight variables
-              let outboundDuration = joinedData.map(flight =>
+              let outboundDuration = joinedData.map((flight) =>
                 flight.itineraries[0].duration.slice(2).split("H")
               );
+
+              let outboundDurationMins = outboundDuration.map(
+                (duration) =>
+                  duration[0] * 60 + Number(duration[1].slice(0, -1))
+              );
+
               let outboundItineraryDeparture = joinedData.map(
-                flight => flight.itineraries[0].segments[0].departure
+                (flight) => flight.itineraries[0].segments[0].departure
               );
-              let outboundDepartureTime = joinedData.map(flight => {
-                let time = flight.itineraries[0].segments[0].departure.at.split(
-                  "T"
-                )[1];
-                let splittedTimeArray = time.split(":");
-                return `${splittedTimeArray[0]}:${splittedTimeArray[1]}`;
-              });
+
+              let splittedOutboundDepartTimeArray = outboundItineraryDeparture.map(
+                (departure) => departure.at.split("T")[1].split(":")
+              );
+
+              let outboundDepartureTime = splittedOutboundDepartTimeArray.map(
+                (arr) => `${arr[0]}:${arr[1]}`
+              );
+
               let outboundStops = joinedData.map(
-                flight => flight.itineraries[0].segments.length - 1
+                (flight) => flight.itineraries[0].segments.length - 1
               );
+
               let outboundItineraryArrival = joinedData.map(
-                flight =>
+                (flight) =>
                   flight.itineraries[0].segments[
                     flight.itineraries[0].segments.length - 1
                   ].arrival
               );
-              let outboundArrivalTime = joinedData.map(flight => {
-                let time = flight.itineraries[0].segments[
-                  flight.itineraries[0].segments.length - 1
-                ].arrival.at.split("T")[1];
-                let splittedTimeArray = time.split(":");
-                return `${splittedTimeArray[0]}:${splittedTimeArray[1]}`;
-              });
 
               // declare inbound flight variables
               let inboundDuration,
@@ -129,15 +128,17 @@ class FlightResultList extends React.Component {
                 let departureTime = flight.itineraries[0].segments[0].departure.at.split(
                   "T"
                 )[1];
-                let arrivalTime = flight.itineraries[1].segments[
-                  flight.itineraries[1].segments.length - 1
-                ].arrival.at.split("T")[1];
 
                 let splittedDepartureTimeArray = departureTime.split(":");
-                let splittedArrivalTimeArray = arrivalTime.split(":");
+
                 inboundDuration = flight.itineraries[1].duration
                   .slice(2)
                   .split("H");
+
+                let inboundDurationMins =
+                  inboundDuration[0] * 60 +
+                  Number(inboundDuration[1].slice(0, 2));
+
                 inboundItineraryDeparture =
                   flight.itineraries[1].segments[0].departure;
                 inboundDepartureTime = `${splittedDepartureTimeArray[0]}:${splittedDepartureTimeArray[1]}`;
@@ -147,7 +148,16 @@ class FlightResultList extends React.Component {
                   flight.itineraries[1].segments[
                     flight.itineraries[1].segments.length - 1
                   ].arrival;
-                inboundArrivalTime = `${splittedArrivalTimeArray[0]}:${splittedArrivalTimeArray[1]}`;
+
+                let inboundArrivalTimeMins =
+                  splittedDepartureTimeArray[0] * 60 +
+                  splittedDepartureTimeArray[1] * 1 +
+                  inboundDurationMins;
+
+                inboundArrivalTime = this.displayTime(
+                  inboundArrivalTimeMins,
+                  "time"
+                );
               }
               let length = flight.itineraries.length;
 
@@ -166,6 +176,19 @@ class FlightResultList extends React.Component {
                         className={length === 1 ? "align-self-center" : ""}
                       >
                         {joinedData.map((flight, i) => {
+                          let outboundTimeArray =
+                            splittedOutboundDepartTimeArray[i];
+
+                          let outboundItineraryArrivalMins =
+                            outboundTimeArray[0] * 60 +
+                            Number(outboundTimeArray[1]) +
+                            outboundDurationMins[i];
+
+                          let outboundArrivalTime = this.displayTime(
+                            Number(outboundItineraryArrivalMins),
+                            "time"
+                          );
+
                           return (
                             <Row key={i} className="align-items-center mb-3">
                               <Col xs={6} md={3}>
@@ -181,7 +204,7 @@ class FlightResultList extends React.Component {
                                 md={9}
                                 style={{
                                   display: "flex",
-                                  justifyContent: "center"
+                                  justifyContent: "center",
                                 }}
                               >
                                 {`${outboundItineraryDeparture[i].iataCode} ${outboundDepartureTime[i]}`}
@@ -202,7 +225,7 @@ class FlightResultList extends React.Component {
                                   style={{ color: "blue" }}
                                   size="lg"
                                 />{" "}
-                                {`${outboundItineraryArrival[i].iataCode} ${outboundArrivalTime[i]}`}
+                                {`${outboundItineraryArrival[i].iataCode} ${outboundArrivalTime}`}
                               </Col>
                             </Row>
                           );
@@ -228,7 +251,7 @@ class FlightResultList extends React.Component {
                               md={9}
                               style={{
                                 display: "flex",
-                                justifyContent: "center"
+                                justifyContent: "center",
                               }}
                             >
                               {`${inboundItineraryDeparture.iataCode} ${inboundDepartureTime}`}{" "}
@@ -264,7 +287,7 @@ class FlightResultList extends React.Component {
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "flex-end",
-                          paddingRight: "1.5em"
+                          paddingRight: "1.5em",
                         }}
                       >
                         {/* {`${prices.length} ${
@@ -273,7 +296,7 @@ class FlightResultList extends React.Component {
                         <div>
                           {new Intl.NumberFormat("en-NG", {
                             style: "currency",
-                            currency: this.props.currency
+                            currency: this.props.currency,
                           }).format(
                             Number(
                               joinedData
@@ -301,7 +324,7 @@ class FlightResultList extends React.Component {
                             style={{
                               border: "1px solid green",
                               width: "fit-content",
-                              padding: "0.5em"
+                              padding: "0.5em",
                             }}
                           >
                             {`${flight.numberOfBookableSeats} seats left`}

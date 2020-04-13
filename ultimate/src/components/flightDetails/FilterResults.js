@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
 import CheckBox from "../CheckBox";
+import { displayTime } from "../../utils";
 
 class FilterResults extends React.Component {
   constructor() {
@@ -13,101 +14,52 @@ class FilterResults extends React.Component {
       airlines: true,
       prices: false,
       flightTimes: true,
-      priceValue: [0, 100],
       priceRange: { min: 0, max: 100 },
-      durationValue: [0, 100],
       durationRange: { min: 0, max: 100 },
-      outboundTime: [0, 1439],
       outboundTimeRange: { min: 0, max: 1439 },
-      inboundTime: [0, 1439],
-      inboundTimeRange: { min: 0, max: 1439 }
+      inboundTimeRange: { min: 0, max: 1439 },
     };
+    this.displayTime = displayTime;
   }
 
   onClick = () => {
-    this.setState(prevState => ({
-      open: !prevState.open
+    this.setState((prevState) => ({
+      open: !prevState.open,
     }));
   };
 
-  onClickAirline = evt => {
-    this.setState(prevState => ({
-      airlines: !prevState.airlines
+  onClickAirline = (evt) => {
+    this.setState((prevState) => ({
+      airlines: !prevState.airlines,
     }));
   };
 
   onClickPrices = () => {
     let priceList = this.props.priceList;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       prices: !prevState.prices,
-      priceValue: [Math.min(...priceList), Math.max(...priceList)],
       priceRange: {
         min: Math.min(...priceList),
-        max: Math.max(...priceList)
-      }
+        max: Math.max(...priceList),
+      },
     }));
   };
 
   onClickDuration = () => {
     let durationList = this.props.durationList;
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       duration: !prevState.duration,
-      durationValue: [
-        Math.round(Math.min(...durationList.map(item => item[1]))),
-        Math.round(Math.max(...durationList.map(item => item[1])))
-      ],
       durationRange: {
-        min: Math.min(...durationList.map(item => item[1])),
-        max: Math.max(...durationList.map(item => item[1]))
-      }
+        min: Math.min(...durationList.map((item) => item[1])),
+        max: Math.max(...durationList.map((item) => item[1])),
+      },
     }));
   };
 
-  onClickFlightTimes = evt => {
-    this.setState(prevState => ({
-      flightTimes: !prevState.flightTimes
+  onClickFlightTimes = (evt) => {
+    this.setState((prevState) => ({
+      flightTimes: !prevState.flightTimes,
     }));
-  };
-
-  onPriceSlide = (render, handle, value, un, percent) => {
-    this.setState({
-      priceValue: [value[0].toFixed(2), value[1].toFixed(2)]
-    });
-  };
-
-  onDurationSlide = (render, handle, value, un, percent) => {
-    this.setState({
-      durationValue: [
-        Math.min(Math.round(...this.props.durationList.map(item => item[1]))),
-        Math.round(value[0])
-      ]
-    });
-  };
-
-  onOutboundTimeSlide = (render, handle, value, un, percent) => {
-    console.log(value);
-    this.setState({
-      outboundTime: [Math.round(value[0]), Math.round(value[1])]
-    });
-  };
-
-  onInboundTimeSlide = (render, handle, value, un, percent) => {
-    console.log(value);
-    this.setState({
-      inboundTime: [Math.floor(value[0]), Math.floor(value[1])]
-    });
-  };
-
-  displayTime = number => {
-    let hour = Math.floor(number / 60);
-    let min = number % 60;
-    let calcTime;
-    if (min < 10) {
-      calcTime = `${hour}.0${min}`;
-    } else {
-      calcTime = `${hour}.${min}`;
-    }
-    return calcTime;
   };
 
   render() {
@@ -118,18 +70,12 @@ class FilterResults extends React.Component {
     let joinedCarrierCodes = dictionaryData[0].concat(
       ...dictionaryData.filter((item, index) => index >= 1)
     );
-    // if (index >= 1) {
-    //   return item;
-    // }
-    // })
-    // );
 
     // Remove duplicate airlines
     let uniqueCarrierCodes = Array.from(
-      new Set(joinedCarrierCodes.map(airline => airline[0]))
-    ).map(code => joinedCarrierCodes.find(airline => airline[0] === code));
+      new Set(joinedCarrierCodes.map((airline) => airline[0]))
+    ).map((code) => joinedCarrierCodes.find((airline) => airline[0] === code));
 
-    console.log(uniqueCarrierCodes);
     return (
       <React.Fragment>
         <div
@@ -155,7 +101,7 @@ class FilterResults extends React.Component {
               width: "inherit",
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             <span>Stops</span>
@@ -171,8 +117,8 @@ class FilterResults extends React.Component {
               {[
                 ["1", "None"],
                 ["2", "1 Stop"],
-                ["3", "2+ Stops"]
-              ].map(stop => (
+                ["3", "2+ Stops"],
+              ].map((stop) => (
                 <CheckBox
                   key={stop[0]}
                   type="checkbox"
@@ -198,7 +144,7 @@ class FilterResults extends React.Component {
               width: "inherit",
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             <span>Airlines</span>
@@ -211,7 +157,7 @@ class FilterResults extends React.Component {
 
           <Collapse in={this.state.airlines}>
             <div id="airlines" style={{ paddingLeft: "3em" }}>
-              {uniqueCarrierCodes.map(airline => (
+              {uniqueCarrierCodes.map((airline) => (
                 <CheckBox
                   key={airline[0]}
                   type="checkbox"
@@ -222,16 +168,6 @@ class FilterResults extends React.Component {
                   onChange={this.props.onChangeAirline}
                 />
               ))}
-              {/* {this.props.flightDetails.dictionaries.carriers.map(airline => (
-                <FormCheck
-                  key={airline[0]}
-                  type="checkbox"
-                  label={airline[1]}
-                  id={airline[0]}
-                  checked={this.state.airlineChecked}
-                  onChange={()=> this.props.onChangeAirline()}
-                />
-              ))} */}
             </div>
           </Collapse>
 
@@ -247,7 +183,7 @@ class FilterResults extends React.Component {
               width: "inherit",
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             <span>Price Range</span>
@@ -264,17 +200,17 @@ class FilterResults extends React.Component {
                   display: "flex",
                   justifyContent: "space-between",
                   marginLeft: "2em",
-                  marginRight: "2em"
+                  marginRight: "2em",
                 }}
               >
-                <span>{this.state.priceValue[0]}</span>
-                <span>{this.state.priceValue[1]}</span>
+                <span>{this.props.priceValue[0]}</span>
+                <span>{this.props.priceValue[1]}</span>
               </div>
               <Nouislider
                 accessibility
-                start={this.state.priceValue}
+                start={this.props.priceValue}
                 range={this.state.priceRange}
-                onSlide={this.onPriceSlide}
+                onSlide={this.props.onPriceSlide}
                 onChange={this.props.onChangePrice}
                 // pips={{ mode: "count", values: 5 }}
                 connect
@@ -294,7 +230,7 @@ class FilterResults extends React.Component {
               width: "inherit",
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             <span>Journey Duration</span>
@@ -312,14 +248,14 @@ class FilterResults extends React.Component {
                   display: "flex",
                   justifyContent: "space-between",
                   marginLeft: "2em",
-                  marginRight: "2em"
+                  marginRight: "2em",
                 }}
               >
                 <span>{`${this.displayTime(
-                  this.state.durationValue[0]
+                  this.props.durationValue[0]
                 )} hours`}</span>
                 <span>
-                  {`${this.displayTime(this.state.durationValue[1])} hours`}}
+                  {`${this.displayTime(this.props.durationValue[1])} hours`}
                 </span>
               </div>
               {/* <div
@@ -332,9 +268,9 @@ class FilterResults extends React.Component {
               <Nouislider
                 accessibility
                 // step={1}
-                start={this.state.durationValue[1]}
+                start={this.props.durationValue[1]}
                 range={this.state.durationRange}
-                onSlide={this.onDurationSlide}
+                onSlide={this.props.onDurationSlide}
                 connect="lower"
                 onChange={this.props.onChangeDuration}
               />
@@ -353,7 +289,7 @@ class FilterResults extends React.Component {
               width: "inherit",
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             <span>Flight Times</span>
@@ -371,20 +307,20 @@ class FilterResults extends React.Component {
                   display: "flex",
                   justifyContent: "space-between",
                   marginLeft: "2em",
-                  marginRight: "2em"
+                  marginRight: "2em",
                 }}
               >
-                <span>{this.displayTime(this.state.outboundTime[0])}</span>
+                <span>{this.displayTime(this.props.outboundTime[0])}</span>
                 <span>Departure</span>
-                <span>{this.displayTime(this.state.outboundTime[1])}</span>
+                <span>{this.displayTime(this.props.outboundTime[1])}</span>
               </div>
 
               <Nouislider
                 accessibility
                 step={1}
-                start={this.state.outboundTime}
+                start={this.props.outboundTime}
                 range={this.state.outboundTimeRange}
-                onSlide={this.onOutboundTimeSlide}
+                onSlide={this.props.onOutboundTimeSlide}
                 onChange={this.props.onChangeDepartureTime}
                 connect
               />
@@ -395,19 +331,19 @@ class FilterResults extends React.Component {
                       display: "flex",
                       justifyContent: "space-between",
                       marginLeft: "2em",
-                      marginRight: "2em"
+                      marginRight: "2em",
                     }}
                   >
-                    <span>{this.displayTime(this.state.inboundTime[0])}</span>
+                    <span>{this.displayTime(this.props.inboundTime[0])}</span>
                     <span>Arrival</span>
-                    <span>{this.displayTime(this.state.inboundTime[1])}</span>
+                    <span>{this.displayTime(this.props.inboundTime[1])}</span>
                   </div>
                   <Nouislider
                     accessibility
                     step={1}
-                    start={this.state.inboundTime}
+                    start={this.props.inboundTime}
                     range={this.state.inboundTimeRange}
-                    onSlide={this.onInboundTimeSlide}
+                    onSlide={this.props.onInboundTimeSlide}
                     onChange={this.props.onChangeArrivalTime}
                     connect
                   />

@@ -1,5 +1,5 @@
 import React from "react";
-import { ProgressBar, Container, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { Query } from "react-apollo";
 import { adopt } from "react-adopt";
 import { getFlightDetails } from "../../queries";

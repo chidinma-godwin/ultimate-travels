@@ -1,14 +1,14 @@
 import React from "react";
 import { Pagination } from "react-bootstrap";
 
-const FlightResultPagination = props => {
+const FlightResultPagination = (props) => {
   let {
     currentPage,
     flightsPerPage,
     flightData,
     changePage,
     showPrevPage,
-    showNextPage
+    showNextPage,
   } = props;
 
   /* Format the array to be passed to the pagination to show only prev, first, last, next, 
@@ -58,7 +58,7 @@ const FlightResultPagination = props => {
   if (currentPage <= numberOfPages - 3)
     pageNumbers.push(<Pagination.Ellipsis key="c" />);
 
-  for (let i = 1; i <= numberOfPages; i++) {
+  for (let i = 2; i <= numberOfPages; i++) {
     if (i === numberOfPages) {
       pageNumbers.push(
         <Pagination.Item
@@ -74,8 +74,6 @@ const FlightResultPagination = props => {
 
   if (currentPage < numberOfPages)
     pageNumbers.push(<Pagination.Next key="d" onClick={showNextPage} />);
-
-  console.log(pageNumbers);
 
   return <Pagination>{pageNumbers}</Pagination>;
 };

@@ -6,9 +6,14 @@ import TourQuery from "../TourQuery";
 
 const Home = (props) => {
   const { currency } = props;
+  let queryVariables = {};
+  if (props.location.state) {
+    queryVariables = props.location.state.queryVariables;
+  }
+
   return (
     <React.Fragment>
-      <MainImage currency={currency} />
+      <MainImage currency={currency} queryVariables={queryVariables} />
       <Container fluid>
         {/* <Booking /> */}
         <br />

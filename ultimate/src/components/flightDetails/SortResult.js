@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
+import { displayTime } from "../../utils";
 
 function SortResult(props) {
   let {
@@ -7,18 +8,20 @@ function SortResult(props) {
     handleSortFastest,
     handleFastestCardClick,
     handleCheapestCardClick,
-    durationList,
-    priceList,
-    displayTime,
-    currency
+    durationArray,
+    priceArray,
+    durationOfFastest,
+    durationOfCheapest,
+    currency,
   } = props;
 
   // Get the duration and price of the cheapest and fastest flight
   let lowestPrice = 0;
   let lestDuration = 0;
-  for (let i = 1; i < durationList.length; i++) {
-    if (durationList[i][0] < durationList[lowestPrice][0]) lowestPrice = i;
-    if (durationList[i][1] < durationList[lestDuration][1]) lestDuration = i;
+  console.log(durationArray);
+  for (let i = 1; i < durationArray.length; i++) {
+    if (durationArray[i][0] < durationArray[lowestPrice][0]) lowestPrice = i;
+    if (durationArray[i][1] < durationArray[lestDuration][1]) lestDuration = i;
   }
 
   return (
@@ -29,7 +32,7 @@ function SortResult(props) {
           position: "relative",
           width: "100%",
           justifyContent: "space-between",
-          marginBottom: "1.7em"
+          marginBottom: "1.7em",
         }}
       >
         <Card style={{ width: "45%" }} onClick={() => handleFastestCardClick()}>
@@ -41,25 +44,33 @@ function SortResult(props) {
                 color: "blue",
                 fontSize: "18px",
                 paddingLeft: "1em",
-                paddingTop: "1em"
+                paddingTop: "1em",
               }}
             >
-              {durationList.length > 0
+              {durationArray.length > 0
                 ? new Intl.NumberFormat("en-NG", {
                     style: "currency",
-                    currency: currency
-                  }).format(Number(durationList[lestDuration][0].toFixed(2)))
+                    currency: currency,
+                  }).format(
+                    Number(
+                      durationOfFastest.length
+                        ? durationOfFastest[0]
+                        : durationArray[lestDuration][0].toFixed(2)
+                    )
+                  )
                 : null}
               {/* <span>&#8358;</span>
-              {durationList.length > 0
-                ? Number(durationList[lestDuration][0].toFixed(2))
+              {durationArray.length > 0
+                ? Number(durationArray[lestDuration][0].toFixed(2))
                 : ""} */}
             </div>
           </Card.Title>
 
           <Card.Body>
             {displayTime(
-              Math.round(Math.min(...durationList.map(item => item[1])))
+              durationOfFastest.length
+                ? Math.round(durationOfFastest[1])
+                : Math.round(Math.min(...durationArray.map((item) => item[1])))
             )}
           </Card.Body>
         </Card>
@@ -76,22 +87,32 @@ function SortResult(props) {
                 color: "blue",
                 fontSize: "18px",
                 paddingLeft: "1em",
-                paddingTop: "1em"
+                paddingTop: "1em",
               }}
             >
               {new Intl.NumberFormat("en-NG", {
                 style: "currency",
-                currency: currency
-              }).format(Math.min(...priceList))}
+                currency: currency,
+              }).format(
+                durationOfCheapest.length
+                  ? durationOfCheapest[0]
+                  : Math.min(...priceArray)
+              )}
               {/* <span>&#8358;</span>
 
-              {Math.min(...priceList)} */}
+              {Math.min(...priceArray)} */}
             </div>
           </Card.Title>
 
           <Card.Body>
-            {durationList.length > 0
-              ? displayTime(Math.floor(durationList[lowestPrice][1]))
+            {durationArray.length > 0
+              ? displayTime(
+                  Math.floor(
+                    durationOfCheapest.length
+                      ? durationOfCheapest[1]
+                      : durationArray[lowestPrice][1]
+                  )
+                )
               : ""}
           </Card.Body>
         </Card>
@@ -102,7 +123,7 @@ function SortResult(props) {
           width: "fit-content",
           marginLeft: "auto",
           marginBottom: "1.5em",
-          display: "flex"
+          display: "flex",
         }}
       >
         <span

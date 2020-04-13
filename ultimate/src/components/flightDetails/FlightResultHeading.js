@@ -7,13 +7,43 @@ class FlightResultHeading extends React.Component {
   constructor() {
     super();
     this.state = {
-      redirect: null
+      redirect: null,
+      redirectState: null,
     };
   }
 
   changeFlightQuery = () => {
+    const {
+      from,
+      to,
+      departureDate,
+      returnDate,
+      travelClass,
+      children,
+      infants,
+      adults,
+    } = this.props.userInfo;
+    const redirectState = {
+      from: new Map(from),
+      to: new Map(to),
+      departureDate: new Map(departureDate),
+      returnDate: returnDate ? new Date(returnDate) : undefined,
+      travelClass:
+        travelClass === "PREMIUM_ECONOMY"
+          ? "Premium Economy"
+          : travelClass === "First"
+          ? "First Class"
+          : travelClass,
+      children,
+      infants,
+      adults,
+      currencyCode: this.props.currency,
+    };
+    console.log(redirectState);
+
     this.setState({
-      redirect: "/"
+      redirect: "/",
+      redirectState,
     });
   };
 
@@ -25,8 +55,8 @@ class FlightResultHeading extends React.Component {
           to={{
             pathname: this.state.redirect,
             state: {
-              userInfo: this.props.userInfo
-            }
+              queryVariables: this.state.redirectState,
+            },
           }}
         />
       );
@@ -55,7 +85,7 @@ class FlightResultHeading extends React.Component {
           marginBottom: "1.5em",
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center"
+          alignItems: "center",
         }}
       >
         <div>
@@ -97,7 +127,7 @@ class FlightResultHeading extends React.Component {
               // backgroundColor: "#41225f",
               display: "block",
               marginLeft: "auto",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
             onClick={this.changeFlightQuery}
           >
