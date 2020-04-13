@@ -3,15 +3,24 @@ const {
   validateSignUp,
   validateSignIn,
 } = require("../joiSchemas/validateUser");
-const { validateReCaptcha, attemptSignUp, formatErrors } = require("../auth");
+const {
+  validateReCaptcha,
+  attemptSignUp,
+  attemptSignIn,
+  formatErrors,
+  requireAdminAuth,
+  attemptSignout,
+} = require("../auth");
+const util = require("util");
 
 const userResolver = {
   Query: {
-    user: (root, args, context, info) => {
+    user: requireAdminAuth((root, args, context, info) => {
       return User.findById(id);
-    },
+    }),
 
-    users: (root, args, context, info) => {
+    users: (root, args, { req }, info) => {
+      console.log(req.session);
       return User.find();
     },
   },
@@ -44,15 +53,15 @@ const userResolver = {
             username: args.username,
             email: args.email,
             password: args.password,
+            role: "Member",
           });
-          console.log(newUser);
-          // await context.login(newUser);
           return {
             ok: true,
-            user: user,
+            user: newUser,
           };
         } catch (err) {
           let email_err = [];
+          console.log(err.errors);
           if (err.errors.email) {
             email_err = [
               {
@@ -80,31 +89,44 @@ const userResolver = {
             {
               path: "recaptcha",
               message:
-                "Recaptcha verification failed! Please verify you're not a robot",
+                "Recaptcha verification failed! Please check the recaptcha box",
             },
           ],
         };
       }
     },
-    signIn: async (root, args, context, info) => {
-      const joiArgs = { email: args.email, password: args.password };
 
+    signIn: async (root, { email, password }, { req, res }, info) => {
       if (await validateReCaptcha(args.token)) {
         try {
-          await validateSignIn.validateAsync(joiArgs, {
-            abortEarly: false,
-          });
+          await validateSignIn.validateAsync(
+            { email, password },
+            {
+              abortEarly: false,
+            }
+          );
         } catch (err) {
           const formattedError = formatErrors(err);
-          console.log(formattedError);
           return {
             ok: false,
             errors: formattedError,
           };
         }
         try {
-          const { user } = await context.authenticate("graphql-local", args);
-          await context.login(user);
+          const user = await attemptSignIn(email, password);
+          new Promise(function (resolve, reject) {
+            req.session.userID = user.id;
+            req.session.save(function (err) {
+              if (err) {
+                console.log("Error saving session to store", err);
+                return reject(err); // some error object
+              }
+              console.log("session saved");
+              return resolve(req.session); // some success object
+            });
+          });
+          console.log(req.sessionID);
+          console.log(req.session);
           return {
             ok: true,
             user: user,
@@ -133,15 +155,7 @@ const userResolver = {
         };
       }
     },
-    signOut: async (root, args, context, info) => {
-      try {
-        await context.logout();
-        return true;
-      } catch (err) {
-        console.log(err);
-        return false;
-      }
-    },
+    signOut: async (root, args, { req, res }, info) => attemptSignout(req, res),
   },
 };
 

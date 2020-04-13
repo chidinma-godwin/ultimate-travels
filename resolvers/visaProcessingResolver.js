@@ -1,16 +1,17 @@
 const util = require("util");
 const validateVisaRequest = require("../joiSchemas/validateVisaRequest");
 const Visa = require("../models/visas");
+const { requireAdminAuth } = require("../auth");
 
 const visaProcessingResolver = {
   Query: {
-    visaProcessing: (root, args, context, info) => {
+    visaProcessing: requireAdminAuth((root, args, context, info) => {
       return Visa.findById(args.id);
-    },
+    }),
 
-    allVisaRequest: (root, args, context, info) => {
+    allVisaRequest: requireAdminAuth((root, args, context, info) => {
       return Visa.find({});
-    },
+    }),
   },
 
   Mutation: {

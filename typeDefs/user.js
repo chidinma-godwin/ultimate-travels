@@ -14,7 +14,7 @@ const user = gql`
       confirmPassword: String!
       token: String!
     ): UserResponse
-    signIn(email: String!, password: String!, token: String!): UserResponse
+    signIn(email: String!, password: String!, token: String): UserResponse
     signOut: Boolean
   }
 
@@ -22,6 +22,7 @@ const user = gql`
     id: ID!
     username: String!
     email: String!
+    role: String!
   }
 
   type UserResponse {

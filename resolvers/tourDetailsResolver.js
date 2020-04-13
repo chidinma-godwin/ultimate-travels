@@ -1,26 +1,27 @@
 const util = require("util");
 const axios = require("axios");
 const Tours = require("../models/tour");
+const { requireAdminAuth } = require("../auth");
 
 const tourDetailsResolver = {
   Query: {
-    TourDetails: (root, { id }, context, info) => {
+    TourDetails: requireAdminAuth((root, { id }, context, info) => {
       return axios({
         method: "GET",
         url: `https://rest.gadventures.com//tour_dossiers/${id}`,
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "X-Application-Key": process.env.X_Application_Key
-        }
+          "X-Application-Key": process.env.X_Application_Key,
+        },
       })
-        .then(response => {
+        .then((response) => {
           console.log(
             response.data,
             util.inspect(response.data, { depth: 10 })
           );
           return response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
@@ -42,34 +43,37 @@ const tourDetailsResolver = {
           }
           console.log(error.config);
         });
+    }),
+    getDatabaseTours: (root, args, context, info) => {
+      console.log(context.req.sessionID);
+      return Tours.find({});
     },
-    getDatabaseTours: (root, args, context, info) => Tours.find({})
   },
   Mutation: {
-    saveTour: (parent, { input }, context, info) => {
+    saveTour: requireAdminAuth((parent, { input }, context, info) => {
       console.log(input, util.inspect(input, { depth: 10 }));
       try {
         Tours.create(input);
         return {
-          ok: true
+          ok: true,
         };
       } catch (err) {
         console.log(err);
         return {
-          ok: false
+          ok: false,
         };
       }
-    },
-    removeTour: (parent, { id }, context, info) => {
+    }),
+    removeTour: requireAdminAuth((parent, { id }, context, info) => {
       try {
-        Tours.deleteOne({ id }, function(err) {});
+        Tours.deleteOne({ id }, function (err) {});
         return true;
       } catch (err) {
         console.log(err);
         return false;
       }
-    }
-  }
+    }),
+  },
 };
 
 module.exports = tourDetailsResolver;

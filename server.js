@@ -6,8 +6,6 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const redis = require("redis");
 const RedisStore = require("connect-redis")(session);
-const passport = require("passport");
-const { GraphQLLocalStrategy, buildContext } = require("graphql-passport");
 const path = require("path");
 require("dotenv").config();
 
@@ -16,32 +14,6 @@ const User = require("./models/user");
 const typeDefs = require("./typeDefs/typeDefs");
 const resolvers = require("./resolvers/resolvers");
 const getToken = require("./amadeusToken");
-
-passport.use(
-  new GraphQLLocalStrategy(async (email, password) => {
-    const user = await User.findOne({ email });
-    let error;
-
-    if (!user) {
-      error = new Error("Incorrect username or password");
-      return error;
-    }
-
-    if (!(await user.passwordMatch(password))) {
-      error = new Error("Incorrect username or password");
-      return error;
-    }
-    return user;
-  })
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async function (id, done) {
-  await User.findById(id, (err, user) => done(err, user));
-});
 
 const app = express();
 
@@ -67,7 +39,7 @@ mongoose.connection
   .on("error", () => console.log("Mongoose connection error"));
 
 // middlewares
-app.use(cors());
+app.use(cors({ origin: "http://localhost:4000", credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
@@ -80,7 +52,7 @@ let redisClient = redis.createClient({
   password: process.env.REDIS_PASSWORD,
   db: parseInt(process.env.REDIS_DB),
 });
-redisClient.unref();
+// redisClient.unref();
 redisClient.on("error", console.log);
 
 const store = new RedisStore({ client: redisClient });
@@ -93,32 +65,34 @@ app.use(
     saveUninitialized: false,
     resave: true,
     rolling: true,
+    proxy: true,
     cookie: {
       maxAge: parseInt(process.env.SESS_LIFETIME),
-      sameSite: IN_PROD,
+      sameSite: "strict",
       secure: IN_PROD,
+      httpOnly: true,
     },
   })
 );
-
-// Initialize passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 // graphql server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req, res }) => {
-    let token = await getToken();
-    return buildContext({
+    // req.session.userId = req.userId;
+    console.log(req.sessionID);
+    console.log(req.session);
+    const token = await getToken();
+    return {
       req,
       res,
       token,
-    });
+    };
   },
-  playground: true,
+  playground: false,
 });
+
 server.applyMiddleware({ app });
 
 // Set the port

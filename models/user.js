@@ -21,6 +21,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password required"],
     },
+    role: {
+      type: String,
+      default: "Member",
+    },
   },
   {
     timestamps: { currentTime: () => Math.floor(new Date() / 1000) },
