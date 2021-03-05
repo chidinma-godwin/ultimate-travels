@@ -11,7 +11,7 @@ export default class TourQuery extends React.Component {
   constructor() {
     super();
     this.state = {
-      isAdmin: false
+      isAdmin: false,
     };
   }
   render() {
@@ -34,7 +34,6 @@ export default class TourQuery extends React.Component {
             );
           }
           if (error) {
-            console.log(error);
             return (
               <div className="query_status">
                 Sorry, we are currently unable to show available tours. Please
@@ -42,8 +41,6 @@ export default class TourQuery extends React.Component {
               </div>
             );
           }
-
-          console.log(data);
 
           const tours = data.getDatabaseTours;
           if (!tours.length)

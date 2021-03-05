@@ -53,7 +53,6 @@ const formatErrors = (err) =>
 const requireAdminAuth = (resolver) => async (parent, args, context, info) => {
   const userId = context.req.session.userID;
   const user = await User.findById(userId);
-  console.log(user);
   if (
     user &&
     user.role === "Administrator" &&
@@ -68,7 +67,6 @@ const requireAdminAuth = (resolver) => async (parent, args, context, info) => {
 const requireAuth = (resolver) => async (parent, args, context, info) => {
   const userId = context.req.session.userID;
   const user = await User.findById(userId);
-  console.log(user);
 
   if (user) {
     return resolver(parent, args, context, info);

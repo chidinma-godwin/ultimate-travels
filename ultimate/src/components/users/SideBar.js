@@ -19,7 +19,6 @@ class SideBar extends React.Component {
   render() {
     let menuClass;
     if (this.state.menuOpen) menuClass = "burger-menu-open";
-    console.log(this.props.url);
 
     return (
       <Menu

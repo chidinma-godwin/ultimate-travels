@@ -1,7 +1,6 @@
 // Function to put all flight prices in an array
 const getPrices = (tripData) => {
   let priceArray = [];
-  console.log(tripData);
   let resizedTripData = resizeData(tripData);
 
   resizedTripData[0].map((trip, index) => {
@@ -70,8 +69,6 @@ const mergeData = (prevData, newData) => {
     (trip) => [].concat(...resizeData(newData)).concat(trip)
     // trip.concat(...resizeData(newData))
   );
-  console.log(newArrayChecked);
-  console.log(resizeData(newData));
 
   // Remove duplicates
   let uniqueArrayChecked = newArrayChecked.map((checkedArray) => {
@@ -92,7 +89,6 @@ const resizeData = (data) => {
     //   : (trip.length = trip.length);
     return newTrip;
   });
-  console.log(sameSizeData);
   return sameSizeData;
 };
 

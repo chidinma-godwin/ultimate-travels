@@ -10,7 +10,6 @@ const HotelQuery = (props) => {
     checkIn,
     checkOut,
     adults,
-    children,
     rooms,
   } = props.location.state.searchParams;
   let { currency } = props;
@@ -42,7 +41,6 @@ const HotelQuery = (props) => {
             </div>
           );
         if (error) {
-          console.log(error);
           return (
             <div className="query_status">
               We are currently unable to complete the hotel search. Please try
@@ -54,8 +52,6 @@ const HotelQuery = (props) => {
         let emptyData = {};
         emptyData.hotels = {};
         emptyData.hotels.data = [];
-
-        console.log(data);
 
         return (
           <HotelResult

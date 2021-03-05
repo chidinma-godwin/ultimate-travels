@@ -16,7 +16,6 @@ const visaProcessingResolver = {
 
   Mutation: {
     addVisaRequest: async (root, args, context, info) => {
-      console.log(args, util.inspect(args, { depth: 10 }));
       await validateVisaRequest.validateAsync(args.input, {
         abortEarly: false,
       });

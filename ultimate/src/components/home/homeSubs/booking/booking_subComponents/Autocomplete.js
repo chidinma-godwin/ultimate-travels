@@ -17,19 +17,14 @@ class Autocomplete extends React.Component {
   }
 
   onChange = (selectedOption) => {
-    // let selectedOption = selected;
-    console.log(selectedOption);
-    // this.setState({ selected: selectedOption });
     this.props.handleAsyncChange(selectedOption);
   };
 
   onKeyUp = (evt) => {
-    console.log(evt);
     let key = evt.keyCode || evt.charCode;
 
     if (key === 8 || key === 46) {
       evt.target.select();
-      console.log(true);
     }
   };
 
@@ -55,7 +50,6 @@ class Autocomplete extends React.Component {
                   variables: { keyword: value },
                 })
                 .then((res) => {
-                  console.log(res.data);
                   this.setState({
                     isLoading: false,
                     options: res.data.places ? res.data.places : [],

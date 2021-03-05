@@ -6,7 +6,6 @@ import { removeTourMutation, getToursFromDatabase } from "../../queries/tour";
 
 export default class TourTable extends React.Component {
   removeTour = async (removeTour, id, data) => {
-    console.log(id);
     try {
       data = await removeTour({
         variables: { id },
@@ -14,14 +13,15 @@ export default class TourTable extends React.Component {
           if (!removeTour) return;
 
           let data = store.readQuery({ query: getToursFromDatabase });
-          data = data.getDatabaseTours.filter(tour => tour.id != id);
+          data = data.getDatabaseTours.filter(
+            (tour) => Number(tour.id) !== Number(id)
+          );
           let newData = {};
           newData.getDatabaseTours = data;
 
           store.writeQuery({ query: getToursFromDatabase, data: newData });
-        }
+        },
       });
-      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -36,14 +36,14 @@ export default class TourTable extends React.Component {
               width: "fit-content",
               display: "block",
               marginLeft: "auto",
-              marginRight: "auto"
+              marginRight: "auto",
             }}
           >
             <Card.Header>
               Tours currently displayed on the home page are:
             </Card.Header>
             <Card.Body className="p-3">
-              {this.props.tours.map(tour => (
+              {this.props.tours.map((tour) => (
                 <React.Fragment key={tour.id}>
                   <Row>
                     <Col sm={3} className="text-left">
@@ -61,7 +61,7 @@ export default class TourTable extends React.Component {
                       {tour.advertised_departures.length
                         ? new Intl.NumberFormat("en-NG", {
                             style: "currency",
-                            currency: tour.advertised_departures[0].currency
+                            currency: tour.advertised_departures[0].currency,
                           }).format(
                             Math.round(
                               Number(tour.advertised_departures[0].amount)

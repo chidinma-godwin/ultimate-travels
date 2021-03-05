@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
     destinationPlace,
     outboundDate,
     adults,
-    groupPricing
+    groupPricing,
   } = req.body;
   axios
     .post(
@@ -32,7 +32,7 @@ router.post("/", (req, res) => {
         destinationPlace,
         outboundDate,
         adults,
-        groupPricing
+        groupPricing,
       }),
       {
         headers: {
@@ -41,23 +41,22 @@ router.post("/", (req, res) => {
           "Access-Control-Allow-Origin": "*",
           "x-rapidapi-host":
             "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-          "x-rapidapi-key": "0c514d99b0mshbd049a32f91e13fp154323jsn1ac37a3785c9"
-        }
+          "x-rapidapi-key":
+            "0c514d99b0mshbd049a32f91e13fp154323jsn1ac37a3785c9",
+        },
       }
     )
-    .then(response => {
-      console.log(response.headers.location);
+    .then((response) => {
       res.send(response.headers.location);
     })
-    .catch(error => {
+    .catch((error) => {
       if (error.response) {
         /*
          * The request was made and the server responded with a
          * status code that falls out of the range of 2xx
          */
+        // TODO: Use sentry for error notification
         console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
       } else if (error.request) {
         /*
          * The request was made but no response was received, `error.request`

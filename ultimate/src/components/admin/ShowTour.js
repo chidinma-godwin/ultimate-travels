@@ -65,7 +65,6 @@ class ShowTour extends React.Component {
         let uniqueJoinedData = Array.from(new Set(joinedData));
         let citiesUrl = "/";
         uniqueJoinedData.forEach((city) => (citiesUrl += `${city}/`));
-        console.log(citiesUrl);
         return {
           selectedPlaces: uniqueJoinedData,
           redirect: this.props.match.url + citiesUrl,
@@ -89,7 +88,6 @@ class ShowTour extends React.Component {
       city,
       redirect,
     } = this.state;
-    console.log(selectedPlaces);
 
     return (
       <React.Fragment>

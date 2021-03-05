@@ -53,7 +53,6 @@ class SignUp extends React.Component {
       data = await signUp({
         variables: { username, email, password, confirmPassword, token },
       });
-      console.log(data);
       const signupData = data.data.signUp;
       if (signupData.ok) {
         this.setState({
@@ -72,9 +71,9 @@ class SignUp extends React.Component {
     } catch (err) {
       if (this.signupRecaptcha) this.signupRecaptcha.current.reset();
       // Format graphql errors and show users
+      // TODO: Use sentry for error notification
       console.log(err.message);
       console.log(err.graphQLErrors);
-      console.log(Object.keys(err));
       // Format graphql errors and show users
       const unexpectedError = [
         {

@@ -23,7 +23,6 @@ const TravelersQuery = () => {
           );
 
         if (error) {
-          console.log(error);
           return (
             <div className="query_status">
               Sorry, we are currently unable to retrieve traveler's info. Please
@@ -32,7 +31,6 @@ const TravelersQuery = () => {
           );
         }
 
-        console.log(data);
         return <Travelers data={data.allTravelers} />;
       }}
     </Query>

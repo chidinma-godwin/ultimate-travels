@@ -9,26 +9,21 @@ const hotelBookingResolver = {
         method: "POST",
         url: "https://api.amadeus.com/v1/booking/hotel-bookings",
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        data: qs.stringify(args.input)
+        data: qs.stringify(args.input),
       })
-        .then(response => {
-          console.log(
-            response.data,
-            util.inspect(response.data, { depth: 10 })
-          );
+        .then((response) => {
           return response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
+            // TODO: Use sentry for error notification
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             /*
              * The request was made but no response was received, `error.request`
@@ -43,8 +38,8 @@ const hotelBookingResolver = {
           console.log(error.config);
           //res.send(error.request);
         });
-    }
-  }
+    },
+  },
 };
 
 module.exports = hotelBookingResolver;

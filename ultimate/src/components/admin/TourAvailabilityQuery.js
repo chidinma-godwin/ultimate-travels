@@ -5,11 +5,9 @@ import { Spinner, Table } from "react-bootstrap";
 import { tourAvailabilityQuery } from "../../queries/tour";
 import TourAvailabilityResult from "./TourAvailabilityResult";
 
-const TourAvailabilityQuery = props => {
-  console.log(props);
+const TourAvailabilityQuery = (props) => {
   let { placesUrl } = props;
   let selectedPlaces = [];
-  console.log(placesUrl);
 
   for (const key in placesUrl) {
     if (placesUrl[key]) selectedPlaces.push(placesUrl[key]);
@@ -17,10 +15,8 @@ const TourAvailabilityQuery = props => {
 
   let queryObj = {};
 
-  console.log(selectedPlaces);
-
   selectedPlaces.map(
-    country =>
+    (country) =>
       (queryObj[country] = ({ render }) => (
         <Query query={tourAvailabilityQuery} variables={{ name: country }}>
           {render}
@@ -32,7 +28,7 @@ const TourAvailabilityQuery = props => {
 
   return (
     <Composed>
-      {result => {
+      {(result) => {
         let allData = [];
         for (let name in queryObj) {
           if (result[name].loading)
@@ -49,7 +45,6 @@ const TourAvailabilityQuery = props => {
               </div>
             );
           if (result[name].error) {
-            console.log(result[name].error);
             return (
               <div>
                 Currently unable to check tour availability. Please try again.
@@ -58,16 +53,13 @@ const TourAvailabilityQuery = props => {
           }
           allData.push(result[name].data);
         }
-        console.log(allData);
 
         let dataArray = [];
-        allData.forEach(data => {
+        allData.forEach((data) => {
           if (data.Tour) {
             dataArray.push(...data.Tour.results);
           }
         });
-
-        console.log(dataArray);
 
         return <TourAvailabilityResult dataArray={dataArray} />;
       }}

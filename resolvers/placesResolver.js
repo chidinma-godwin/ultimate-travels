@@ -9,27 +9,25 @@ const placesResolver = {
         url: "https://api.amadeus.com/v1/reference-data/locations",
         headers: {
           //   "content-type": "application/vnd.amadeus+json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         params: {
           subType: "AIRPORT,CITY",
           keyword: args.keyword,
-          view: "LIGHT"
-        }
+          view: "LIGHT",
+        },
       })
-        .then(res => {
+        .then((res) => {
           return res.data.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
-
+            // TODO: Use sentry for error notification
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             /*
              * The request was made but no response was received, `error.request`
@@ -43,8 +41,8 @@ const placesResolver = {
           }
           console.log(error.config);
         });
-    }
-  }
+    },
+  },
 };
 
 module.exports = placesResolver;

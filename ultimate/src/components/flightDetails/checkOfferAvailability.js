@@ -9,8 +9,6 @@ const checkOfferAvailability = (props) => {
   let { joinedQueryVariable, userInfo } = props.location.state;
   let queryObj = {};
 
-  console.log(userInfo);
-  console.log(joinedQueryVariable);
   joinedQueryVariable.map((queryVariable, index) => {
     let key = index;
     return (queryObj[key] = ({ render }) => (
@@ -20,7 +18,6 @@ const checkOfferAvailability = (props) => {
     ));
   });
 
-  console.log(queryObj);
   const Composed = adopt(queryObj);
 
   return (
@@ -42,7 +39,6 @@ const checkOfferAvailability = (props) => {
               </div>
             );
           if (result[name].error) {
-            console.log(result[name].error);
             return (
               <div className="query_status">
                 Sorry, we are currently unable to check this flight
@@ -52,7 +48,6 @@ const checkOfferAvailability = (props) => {
           }
           allData.push(result[name].data);
         }
-        console.log(allData);
 
         if (allData.some((tripData) => tripData.checkOffer === null)) {
           return (

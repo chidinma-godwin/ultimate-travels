@@ -18,7 +18,6 @@ class TourDetailsResult extends React.Component {
 
   onChange = (evt) => {
     const { name, checked } = evt.target;
-    console.log(checked, name);
     this.setState((prevState) => {
       // Add selected tour to tour list
       let joinedData = prevState.selectedTourDetails.concat(name);
@@ -45,9 +44,6 @@ class TourDetailsResult extends React.Component {
         );
         tour.TourDetails.advertised_departures = formattedTour;
 
-        console.log(advertised_departures);
-        console.log(formattedTour);
-
         // Get only the tour overview link
         tour.TourDetails.site_links = tour.TourDetails.site_links.filter(
           (link) => link.type === "OVERVIEW"
@@ -63,17 +59,14 @@ class TourDetailsResult extends React.Component {
         return tour.TourDetails;
       })
       .filter((tour) => selectedTourDetails.includes(tour.id));
-    console.log(selectedTours);
     try {
       data = await saveTour({
         variables: { input: selectedTours },
         update: (store, { data: { saveTour } }) => {
           const { ok } = saveTour;
-          console.log(ok);
           if (!ok) return;
           let data = store.readQuery({ query: getToursFromDatabase });
           data.getDatabaseTours.push(...selectedTours);
-          console.log(data);
           store.writeQuery({ query: getToursFromDatabase, data });
         },
       });
@@ -81,7 +74,6 @@ class TourDetailsResult extends React.Component {
     } catch (err) {
       console.log(err);
     }
-    console.log(data);
 
     if (!data.data.saveTour.ok) {
       this.setState({
@@ -100,7 +92,6 @@ class TourDetailsResult extends React.Component {
 
   render() {
     const { allData } = this.props;
-    console.log(allData);
 
     if (this.state.redirect) {
       return <Redirect push to={this.state.redirect} />;
@@ -155,7 +146,6 @@ class TourDetailsResult extends React.Component {
                     (link) => link.type === "OVERVIEW"
                   );
 
-                  console.log(tourOverviewLink);
                   return (
                     <React.Fragment key={tourDetails.id}>
                       <Row>

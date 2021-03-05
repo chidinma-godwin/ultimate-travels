@@ -43,8 +43,6 @@ export default class TourQuery extends React.Component {
             );
           }
 
-          console.log(data);
-
           const tours = data.getDatabaseTours;
           if (!tours.length)
             return (

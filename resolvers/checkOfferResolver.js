@@ -9,26 +9,23 @@ const checkOfferResolver = {
         method: "POST",
         url: "https://api.amadeus.com/v1/shopping/flight-offers/pricing",
         headers: {
-          authorization: `Bearer ${token}`
+          authorization: `Bearer ${token}`,
           // "content-type": "application/json"
         },
         params: { include: "bags,credit-card-fees,other-services" },
-        data: args.input
+        data: args.input,
       })
-        .then(res => {
-          console.log(res.data, util.inspect(res.data, { depth: 10 }));
+        .then((res) => {
           return res.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
-
-            console.log(util.inspect(response.data, { depth: 10 }));
-            console.log(error.response.status);
-            console.log(error.response.headers);
+            // TODO: Use sentry for error notification
+            console.log(util.inspect(error.response.data, { depth: 10 }));
           } else if (error.request) {
             /*
              * The request was made but no response was received, `error.request`
@@ -42,8 +39,8 @@ const checkOfferResolver = {
           }
           console.log(error.config);
         });
-    }
-  }
+    },
+  },
 };
 
 module.exports = checkOfferResolver;

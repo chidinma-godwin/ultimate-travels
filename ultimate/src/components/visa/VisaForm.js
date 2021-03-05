@@ -52,7 +52,6 @@ class VisaForm extends React.Component {
   };
 
   handleDateChange = (name, date) => {
-    console.log(date);
     this.setState({
       [name]: date,
     });
@@ -66,7 +65,6 @@ class VisaForm extends React.Component {
   // };
 
   render() {
-    console.log(this.state);
     return (
       <Mutation mutation={addVisaRequest}>
         {(addVisaRequest) => (
@@ -139,7 +137,6 @@ class VisaForm extends React.Component {
                       type="submit"
                       onClick={async (evt) => {
                         evt.preventDefault();
-                        console.log("it is working");
                         await addVisaRequest({
                           variables: { input: this.state },
                         });

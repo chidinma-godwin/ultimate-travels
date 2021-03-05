@@ -16,7 +16,6 @@ const ShowMore = (props) => {
     args[str[0]] = str[1];
     return item;
   });
-  console.log(userInfo);
 
   // Display star ratings
   let ratings = [];
@@ -129,15 +128,12 @@ const ShowMore = (props) => {
                   </div>
                 );
               if (error) {
-                console.log(error);
                 return (
                   <div className="query_status">
                     More info not available presently, please try again
                   </div>
                 );
               }
-
-              console.log(data);
 
               return <HotelOffers hotelOffers={data.hotelOffers.data} />;
             }}

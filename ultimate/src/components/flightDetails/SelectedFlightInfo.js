@@ -42,9 +42,6 @@ function SelectedFlightInfo(props) {
     )
   );
 
-  console.log(uniqueTravelerPricings);
-  console.log(unique);
-
   return (
     <Card>
       <Card.Header
@@ -93,13 +90,6 @@ function SelectedFlightInfo(props) {
           // Get the currency
           let currency = traveler.price.currency;
 
-          console.log(
-            totalPrice,
-            basePrice,
-            taxAndFees,
-            refundableTaxes,
-            currency
-          );
           return (
             <div key={traveler.travelerId}>
               <div

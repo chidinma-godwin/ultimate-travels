@@ -30,7 +30,6 @@ class HotelForm extends React.Component {
   }
 
   handleDateChange = (name, date) => {
-    console.log(date);
     this.setState({
       [name]: date,
     });
@@ -99,7 +98,6 @@ class HotelForm extends React.Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(this.state);
     this.setState({
       redirect: "/hotels",
     });
@@ -135,8 +133,6 @@ class HotelForm extends React.Component {
         />
       </Popover>
     );
-
-    // console.log(this.state.childrenAges);
 
     let travellers = this.state.adults + this.state.children;
     return (

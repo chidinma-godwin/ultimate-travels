@@ -12,43 +12,38 @@ class FilterHotels extends React.Component {
       openStars: true,
       prices: false,
       priceValue: [0, 100],
-      priceRange: { min: 0, max: 100 }
+      priceRange: { min: 0, max: 100 },
     };
   }
 
   onClickStars = () => {
-    this.setState(prevState => ({
-      openStars: !prevState.openStars
+    this.setState((prevState) => ({
+      openStars: !prevState.openStars,
     }));
   };
 
   onClickPrices = () => {
     let priceList = [];
-    this.props.hotelData.map(data =>
+    this.props.hotelData.map((data) =>
       priceList.push(data.offers[0].price.total * 1)
     );
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       prices: !prevState.prices,
       priceValue: [Math.min(...priceList), Math.max(...priceList)],
       priceRange: {
         min: Math.min(...priceList),
-        max: Math.max(...priceList)
-      }
+        max: Math.max(...priceList),
+      },
     }));
   };
 
   onPriceSlide = (render, handle, value, un, percent) => {
-    console.log(render);
-    console.log(handle);
-    console.log(un);
     this.setState({
-      priceValue: [value[0].toFixed(2), value[1].toFixed(2)]
+      priceValue: [value[0].toFixed(2), value[1].toFixed(2)],
     });
   };
 
   render() {
-    console.log(this.state);
-
     return (
       <React.Fragment>
         <div
@@ -56,7 +51,7 @@ class FilterHotels extends React.Component {
             backgroundColor: "rgb(123, 123, 204)",
             padding: "0.5em",
             textAlign: "center",
-            color: "white"
+            color: "white",
           }}
         >
           Filter Results
@@ -73,7 +68,7 @@ class FilterHotels extends React.Component {
               width: "inherit",
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             <span>Price Range</span>
@@ -90,7 +85,7 @@ class FilterHotels extends React.Component {
                   display: "flex",
                   justifyContent: "space-between",
                   marginLeft: "2em",
-                  marginRight: "2em"
+                  marginRight: "2em",
                 }}
               >
                 <span>{this.state.priceValue[0]}</span>
@@ -120,7 +115,7 @@ class FilterHotels extends React.Component {
               width: "inherit",
               display: "flex",
               justifyContent: "space-between",
-              backgroundColor: "white"
+              backgroundColor: "white",
             }}
           >
             <span>Stops</span>
@@ -138,8 +133,8 @@ class FilterHotels extends React.Component {
                 ["2", "2 Star"],
                 ["3", "3 Star"],
                 ["4", "4 Star"],
-                ["5", "5 Star and above"]
-              ].map(star => (
+                ["5", "5 Star and above"],
+              ].map((star) => (
                 <CheckBox
                   key={star[0]}
                   type="checkbox"

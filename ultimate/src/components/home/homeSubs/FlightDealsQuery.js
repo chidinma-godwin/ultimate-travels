@@ -58,7 +58,6 @@ class FlightDealsQuery extends React.Component {
               </div>
             );
           if (error) {
-            console.log(error);
             return (
               <div className="flight_deal_status">
                 Sorry, we're presently unable to show top flight deals. Please

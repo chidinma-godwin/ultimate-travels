@@ -203,7 +203,6 @@ class QueryResult extends React.Component {
   };
 
   onChangeDuration = (render, handle, value, un, percent) => {
-    console.log(value);
     let flightData = this.resizeData(this.formattedData);
 
     this.setState((prevState) => {
@@ -246,7 +245,6 @@ class QueryResult extends React.Component {
           // Convert the flight time to minutes
           let calculatedTime =
             splittedTimeArray[0] * 60 + splittedTimeArray[1] * 1;
-          console.log(calculatedTime, value[0], value[1]);
 
           return (
             calculatedTime >= Math.round(value[0]) &&
@@ -290,7 +288,6 @@ class QueryResult extends React.Component {
           // Convert the flight time to minutes
           let calculatedTime =
             splittedTimeArray[0] * 60 + splittedTimeArray[1] * 1;
-          console.log(calculatedTime, value[0], value[1]);
 
           return (
             calculatedTime >= Math.round(value[0]) &&
@@ -306,7 +303,6 @@ class QueryResult extends React.Component {
         })
       );
 
-      console.log(array);
       let resizedArray = this.resizeData(array);
       return {
         flightData: resizedArray,
@@ -366,7 +362,6 @@ class QueryResult extends React.Component {
       if (!isChecked) {
         arrayUnchecked = prevState.flightData.map((trip) =>
           trip.filter((flight) => {
-            console.log(flight);
             return !flight.numStops.includes(item * 1);
           })
         );
@@ -506,7 +501,6 @@ class QueryResult extends React.Component {
     this.unCheckedStops = [];
     this.unCheckedAirlines = [];
     this.priceList = this.getPrices(this.resizeData(this.formattedData));
-    console.log(this.priceList);
     this.setState({
       flightData: this.resizeData(this.formattedData),
       showAllResultBtn: false,

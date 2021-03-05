@@ -20,7 +20,6 @@ const userResolver = {
     }),
 
     users: (root, args, { req }, info) => {
-      console.log(req.session);
       return User.find();
     },
   },
@@ -41,7 +40,6 @@ const userResolver = {
         } catch (err) {
           // Format graphql errors and show users
           const formattedError = formatErrors(err);
-          console.log(formattedError);
           return {
             ok: false,
             errors: formattedError,
@@ -61,7 +59,6 @@ const userResolver = {
           };
         } catch (err) {
           let email_err = [];
-          console.log(err.errors);
           if (err.errors.email) {
             email_err = [
               {
@@ -118,15 +115,11 @@ const userResolver = {
             req.session.userID = user.id;
             req.session.save(function (err) {
               if (err) {
-                console.log("Error saving session to store", err);
                 return reject(err); // some error object
               }
-              console.log("session saved");
               return resolve(req.session); // some success object
             });
           });
-          console.log(req.sessionID);
-          console.log(req.session);
           return {
             ok: true,
             user: user,

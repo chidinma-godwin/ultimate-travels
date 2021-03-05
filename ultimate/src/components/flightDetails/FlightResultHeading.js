@@ -39,7 +39,6 @@ class FlightResultHeading extends React.Component {
       adults,
       currencyCode: this.props.currency,
     };
-    console.log(redirectState);
 
     this.setState({
       redirect: "/",

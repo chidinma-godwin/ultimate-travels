@@ -5,9 +5,6 @@ const { requireAdminAuth } = require("../auth");
 const tourResolver = {
   Query: {
     Tour: requireAdminAuth((root, { name, page }, context, info) => {
-      console.log("hey");
-      console.log(context.req.sessionID);
-
       return axios({
         method: "GET",
         url: `https://rest.gadventures.com/tour_dossiers?name=${name}&page=${page}`,
@@ -17,10 +14,6 @@ const tourResolver = {
         },
       })
         .then((response) => {
-          console.log(
-            response.data,
-            util.inspect(response.data, { depth: 10 })
-          );
           return response.data;
         })
         .catch((error) => {
@@ -29,9 +22,8 @@ const tourResolver = {
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
+            // TODO: Use sentry for error notification
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             /*
              * The request was made but no response was received, `error.request`

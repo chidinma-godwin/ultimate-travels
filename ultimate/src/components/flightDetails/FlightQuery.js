@@ -33,7 +33,6 @@ function FlightQuery(props) {
     ));
   });
 
-  console.log(queryObj);
   const Composed = adopt(queryObj);
 
   return (
@@ -55,7 +54,6 @@ function FlightQuery(props) {
               </div>
             );
           if (result[name].error) {
-            console.log(result[name].error);
             return (
               <div className="query_status">
                 Sorry, we are currently unable to retrieve flight data. Please
@@ -65,7 +63,6 @@ function FlightQuery(props) {
           }
           allData.push(result[name].data);
         }
-        console.log(allData);
 
         if (allData.some((tripData) => tripData.flightDetails === null)) {
           return (

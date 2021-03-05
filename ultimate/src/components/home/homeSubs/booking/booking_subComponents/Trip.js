@@ -138,12 +138,10 @@ class Trip extends React.Component {
       from: origin,
       to: destination,
     };
-    console.log(this.userInfo);
     this.setState({ redirect: "/flightDetails" });
   };
 
   render() {
-    console.log(this.state);
     if (this.state.redirect) {
       return (
         <Redirect

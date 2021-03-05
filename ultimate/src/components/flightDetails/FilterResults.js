@@ -63,7 +63,6 @@ class FilterResults extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     let dictionaryData = this.props.dictionaryData;
 
     // Join the dictionary data into a single array

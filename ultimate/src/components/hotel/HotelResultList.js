@@ -21,7 +21,6 @@ class HotelResultList extends React.Component {
 
   render() {
     let { hotelData, userInfo } = this.props;
-    console.log(userInfo);
 
     if (this.state.redirect) {
       return (

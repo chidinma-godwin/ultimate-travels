@@ -18,7 +18,6 @@ function SortResult(props) {
   // Get the duration and price of the cheapest and fastest flight
   let lowestPrice = 0;
   let lestDuration = 0;
-  console.log(durationArray);
   for (let i = 1; i < durationArray.length; i++) {
     if (durationArray[i][0] < durationArray[lowestPrice][0]) lowestPrice = i;
     if (durationArray[i][1] < durationArray[lestDuration][1]) lestDuration = i;

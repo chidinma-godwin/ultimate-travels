@@ -35,7 +35,6 @@ class HotelResult extends React.Component {
             (i) => data.offers[0].price.total * 1 === i
           ))
       );
-      console.log(this.priceList);
       return {
         hotelData: array,
         showAllResultBtn: true,
@@ -61,10 +60,8 @@ class HotelResult extends React.Component {
           (hotel) => hotel.hotel.rating !== item
         );
         this.checkedStars = this.checkedStars.filter((i) => {
-          console.log(item, i);
           return item != i;
         });
-        console.log(this.checkedStars);
       }
 
       // return an array of hotels that contains the checked number of stars
@@ -78,8 +75,6 @@ class HotelResult extends React.Component {
         this.checkedStars.push(item);
 
         let newArray = prevState.hotelData.concat(requiredArray);
-
-        console.log(newArray);
 
         // Remove duplicates
         const starMap = new Map();

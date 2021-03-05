@@ -81,8 +81,6 @@ const server = new ApolloServer({
   resolvers,
   context: async ({ req, res }) => {
     // req.session.userId = req.userId;
-    console.log(req.sessionID);
-    console.log(req.session);
     const token = await getToken();
     return {
       req,

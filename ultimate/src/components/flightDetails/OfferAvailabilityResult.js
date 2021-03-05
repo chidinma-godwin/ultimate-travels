@@ -57,12 +57,10 @@ class OfferAvailabilityResult extends React.Component {
 
   handleEmailChange = (evt) => {
     this.setState({ email: evt.target.value });
-    console.log(this.state);
   };
 
   onChangePhone = (phone) => {
     this.setState({ phone });
-    console.log(this.state);
   };
 
   handleDateChange = (name, date) => {
@@ -96,7 +94,6 @@ class OfferAvailabilityResult extends React.Component {
     this.traveler.title = title;
     this.traveler.email = this.state.email;
     this.traveler.phoneNum = this.state.phone;
-    console.log(this.traveler);
     return this.traveler;
   };
 
@@ -104,8 +101,6 @@ class OfferAvailabilityResult extends React.Component {
     const flightOffer = this.state.flightOffer;
     const warnings = this.props.data.map((trip) => trip.checkOffer.warnings);
     const userInfo = this.props.userInfo;
-    console.log(this.state);
-    console.log(warnings);
     let hasWarnings;
     if (warnings.includes(null)) {
       hasWarnings = false;

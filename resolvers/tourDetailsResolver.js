@@ -15,10 +15,6 @@ const tourDetailsResolver = {
         },
       })
         .then((response) => {
-          console.log(
-            response.data,
-            util.inspect(response.data, { depth: 10 })
-          );
           return response.data;
         })
         .catch((error) => {
@@ -27,9 +23,8 @@ const tourDetailsResolver = {
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
+            // TODO: Use sentry for error notification
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             /*
              * The request was made but no response was received, `error.request`
@@ -51,7 +46,6 @@ const tourDetailsResolver = {
   },
   Mutation: {
     saveTour: requireAdminAuth((parent, { input }, context, info) => {
-      console.log(input, util.inspect(input, { depth: 10 }));
       try {
         Tours.create(input);
         return {

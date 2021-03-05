@@ -39,7 +39,6 @@ class TopFlightDeals extends React.Component {
       pageNumbers,
       currentPage,
     } = this.props;
-    console.log(pageNumbers, currentPage);
     return (
       <Row>
         {currentPage == 1 ? (
@@ -126,7 +125,6 @@ class TopFlightDeals extends React.Component {
               userInfo.originCity = originLocation[0].details.detailedName;
               userInfo.destinationCity =
                 destinationLocation[0].details.detailedName;
-              console.log(userInfo);
 
               return (
                 // <Col md={4} lg={3} key={flight.destination} className="mb-3">

@@ -7,24 +7,23 @@ class TourAvailabilityResult extends React.Component {
     super();
     this.state = {
       selectedTour: [],
-      redirect: null
+      redirect: null,
     };
   }
 
-  onChange = evt => {
+  onChange = (evt) => {
     const { name, checked } = evt.target;
-    console.log(checked, name);
-    this.setState(prevState => {
+    this.setState((prevState) => {
       // Add selected tour to tour list
       let joinedData = [];
       if (checked) joinedData = prevState.selectedTour.concat(name);
       if (!checked)
-        joinedData = prevState.selectedTour.filter(tour => tour !== name);
+        joinedData = prevState.selectedTour.filter((tour) => tour !== name);
 
       // Remove duplicates
       let uniqueJoinedData = Array.from(new Set(joinedData));
       return {
-        selectedTour: uniqueJoinedData
+        selectedTour: uniqueJoinedData,
       };
     });
   };
@@ -37,7 +36,6 @@ class TourAvailabilityResult extends React.Component {
   render() {
     let { selectedTour, redirect } = this.state;
     let { dataArray } = this.props;
-    console.log(selectedTour);
 
     if (redirect) {
       return <Redirect push to={redirect} />;

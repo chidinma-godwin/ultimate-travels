@@ -28,8 +28,7 @@ class UserPage extends React.Component {
 
   render() {
     let { url } = this.props.match;
-    console.log(url);
-    const  { username } = this.props.match.params;
+    const { username } = this.props.match.params;
     return (
       <React.Fragment>
         <UserHeader username={username} />

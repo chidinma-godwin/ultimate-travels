@@ -5,14 +5,14 @@ import { Spinner } from "react-bootstrap";
 import { tourDetailsQuery } from "../../queries/tour";
 import TourDetailsResult from "./TourDetailsResult";
 
-const TourDetailsQuery = props => {
+const TourDetailsQuery = (props) => {
   let { params } = props.match;
   let selectedTour = [];
   for (const key in params) {
     if (params[key]) selectedTour.push(params[key]);
   }
   let queryObj = {};
-  selectedTour.map(id => {
+  selectedTour.map((id) => {
     return (queryObj[id] = ({ render }) => (
       <Query query={tourDetailsQuery} variables={{ id }}>
         {render}
@@ -24,7 +24,7 @@ const TourDetailsQuery = props => {
 
   return (
     <Composed>
-      {result => {
+      {(result) => {
         let allData = [];
         for (let index in queryObj) {
           if (result[index].loading)
@@ -42,7 +42,6 @@ const TourDetailsQuery = props => {
             );
 
           if (result[index].error) {
-            console.log(result[index].error);
             return (
               <div className="query_status">
                 Currently unable to return tour details. Please try again.
@@ -51,9 +50,8 @@ const TourDetailsQuery = props => {
           }
           allData.push(result[index].data);
         }
-        console.log(allData);
 
-        if (allData.some(tourData => tourData.tourDetails === null)) {
+        if (allData.some((tourData) => tourData.tourDetails === null)) {
           return (
             <div className="query_status">
               No Result Found, please try again

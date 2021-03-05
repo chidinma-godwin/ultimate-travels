@@ -31,10 +31,6 @@ const flightResolver = {
           let carriersArray = [];
           for (let i in carriers) carriersArray.push([i, carriers[i]]);
           response.data.dictionaries.carriers = carriersArray;
-          console.log(
-            response.data,
-            util.inspect(response.data, { depth: 10 })
-          );
           return response.data;
         })
         .catch((error) => {
@@ -43,9 +39,8 @@ const flightResolver = {
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
+            // TODO: Use sentry for error notification
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             /*
              * The request was made but no response was received, `error.request`

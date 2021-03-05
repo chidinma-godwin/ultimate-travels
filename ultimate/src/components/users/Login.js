@@ -61,7 +61,6 @@ class Login extends React.Component {
           token,
         },
       });
-      console.log(data);
       const signinData = data.data.signIn;
       if (signinData.ok) {
         this.setState({
@@ -78,6 +77,7 @@ class Login extends React.Component {
       }
     } catch (err) {
       if (this.loginRecaptcha) this.loginRecaptcha.current.reset();
+      // TODO: Use sentry for error notification
       console.log(err.message);
       console.log(err.graphQLErrors);
       // Format graphql errors and show users

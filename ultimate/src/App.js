@@ -44,7 +44,6 @@ class App extends React.Component {
   }
 
   handleCurrencyToggle = (selected) => {
-    console.log(selected);
     this.setState({ currency: selected });
   };
 

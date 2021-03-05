@@ -9,15 +9,15 @@ const flightInspirationResolver = {
         method: "Get",
         url: "https://api.amadeus.com/v1/shopping/flight-destinations",
         headers: {
-          AUTHORIZATION: `Bearer ${token}`
+          AUTHORIZATION: `Bearer ${token}`,
         },
         params: {
           origin: args.origin,
           departureDate: args.departureDate,
-          viewBy: args.viewBy
-        }
+          viewBy: args.viewBy,
+        },
       })
-        .then(response => {
+        .then((response) => {
           // format the currency data from the api to an array
           let currencies = response.data.dictionaries.currencies;
           let currenciesArray = [];
@@ -33,21 +33,16 @@ const flightInspirationResolver = {
             locationsArray.push(locationsObject);
           }
           response.data.dictionaries.locations = locationsArray;
-          console.log(
-            response.data,
-            util.inspect(response.data, { depth: 10 })
-          );
           return response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.response) {
             /*
              * The request was made and the server responded with a
              * status code that falls out of the range of 2xx
              */
+            // TODO: Use sentry for errors notification
             console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
           } else if (error.request) {
             /*
              * The request was made but no response was received, `error.request`
@@ -60,10 +55,9 @@ const flightInspirationResolver = {
             console.log("Error", error.message);
           }
           console.log(error.config);
-          //res.send(error.request);
         });
-    }
-  }
+    },
+  },
 };
 
 module.exports = flightInspirationResolver;
