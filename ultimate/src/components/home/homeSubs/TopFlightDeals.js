@@ -41,7 +41,7 @@ class TopFlightDeals extends React.Component {
     } = this.props;
     return (
       <Row>
-        {currentPage == 1 ? (
+        {currentPage === 1 ? (
           <Col sm={1}></Col>
         ) : (
           <Col sm={12} md={12} lg={1} className="align-self-center">
@@ -58,7 +58,9 @@ class TopFlightDeals extends React.Component {
         )}
         <Col
           sm={
-            currentPage != 1 || currentPage < Math.max(...pageNumbers) ? 10 : 11
+            currentPage !== 1 || currentPage < Math.max(...pageNumbers)
+              ? 10
+              : 11
           }
           className="flight_deals"
           style={{ marginLeft: "auto", marginRight: "auto" }}
@@ -88,7 +90,7 @@ class TopFlightDeals extends React.Component {
 
               const userInfo = {};
 
-              variables.map((v) => {
+              variables.forEach((v) => {
                 userInfo[v[0]] = v[1];
               });
 

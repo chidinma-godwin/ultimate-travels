@@ -6,7 +6,6 @@ function PassengersCabinPopover(props) {
     increment,
     decrement,
     handleChange,
-    handleChildrenChange,
     cabin,
     adults,
     children,
@@ -33,7 +32,6 @@ function PassengersCabinPopover(props) {
           as="select"
           name="c_age"
           id="c_age"
-          // onChange={handleChildrenChange}
           value={c_age}
           size="sm"
         >

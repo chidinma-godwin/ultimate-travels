@@ -23,7 +23,8 @@ const CustomForm = ({
   showMore = true,
   minDate = undefined,
   plaintext = false,
-  type = "text"
+  readOnly = false,
+  type = "text",
 }) => {
   if (elementType === "select") {
     return (
@@ -44,6 +45,7 @@ const CustomForm = ({
           name={name}
           size="sm"
           plaintext={plaintext}
+          readOnly={readOnly}
         >
           {option}
         </Form.Control>
@@ -99,6 +101,7 @@ const CustomForm = ({
           size="sm"
           type={type}
           plaintext={plaintext}
+          readOnly={readOnly}
         ></Form.Control>
       </Form.Group>
     );
@@ -112,18 +115,18 @@ CustomForm.propTypes = {
   type: PropTypes.string,
   value: PropTypes.any,
   placeholder: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   elementType: PropTypes.string,
   option: PropTypes.node,
   labelClassName: PropTypes.string,
   formGroupClassName: PropTypes.string,
   showMore: PropTypes.bool,
-  minDate: PropTypes.node,
+  minDate: PropTypes.instanceOf(Date),
   plaintext: PropTypes.bool,
   lg: PropTypes.string,
   md: PropTypes.string,
   sm: PropTypes.string,
-  xs: PropTypes.string
+  xs: PropTypes.string,
 };
 
 export default CustomForm;

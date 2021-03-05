@@ -2,7 +2,7 @@ import React from "react";
 import { Row } from "react-bootstrap";
 import CustomForm from "../CustomForm";
 
-const TravelInfo = props => {
+const TravelInfo = (props) => {
   return (
     <Row>
       <CustomForm
@@ -49,6 +49,7 @@ const TravelInfo = props => {
         name="destination"
         value={props.destination}
         plainText={true}
+        readOnly
         lg="4"
         md="6"
         sm="12"

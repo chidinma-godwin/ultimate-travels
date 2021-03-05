@@ -87,14 +87,14 @@ class HotelForm extends React.Component {
     });
   };
 
-  handleChildrenChange = (evt) => {
-    this.setState((prevState) => {
-      return {
-        [evt.target.id]: evt.target.value,
-        childrenAges: prevState.childrenAges.concat(evt.target.value),
-      };
-    });
-  };
+  // handleChildrenChange = (evt) => {
+  //   this.setState((prevState) => {
+  //     return {
+  //       [evt.target.id]: evt.target.value,
+  //       childrenAges: prevState.childrenAges.concat(evt.target.value),
+  //     };
+  //   });
+  // };
 
   handleSubmit = (evt) => {
     evt.preventDefault();
@@ -123,7 +123,6 @@ class HotelForm extends React.Component {
           adults={this.state.adults}
           children={this.state.children}
           infants={this.state.infants}
-          handleChildrenChange={this.handleChildrenChange}
           childrenAges={this.state.childrenAges}
           c_age={this.state.c_age}
           numAdults={9}

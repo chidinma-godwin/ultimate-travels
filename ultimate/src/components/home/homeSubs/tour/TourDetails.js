@@ -11,7 +11,7 @@ class TourDetails extends React.Component {
           src={tour.images[0].image_href}
           style={{ maxHeight: "400px" }}
         />
-        <Container>
+        <Container fluid="md">
           <h2 className="mt-5">{tour.name}</h2>
           <div>{tour.description}</div>
           <Card className="mt-5 p-3">
@@ -21,7 +21,7 @@ class TourDetails extends React.Component {
               variant="tabs"
               id="tour-details"
             >
-              {tour.details.map(detail => {
+              {tour.details.map((detail) => {
                 const included = detail.body.split(":");
                 return (
                   <Tab
@@ -33,7 +33,7 @@ class TourDetails extends React.Component {
                       {detail.detail_type.label === "What's Included" ? (
                         <ul>
                           {included.map((item, i) => (
-                            <li>{item}</li>
+                            <li key={item}>{item}</li>
                           ))}
                         </ul>
                       ) : (

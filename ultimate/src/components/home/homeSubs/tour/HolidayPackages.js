@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, CardDeck, Container, Row, Col } from "react-bootstrap";
+import { Card, Button, CardDeck, Row, Col } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 
 class HolidayPackages extends React.Component {

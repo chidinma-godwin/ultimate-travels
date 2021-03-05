@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Redirect } from "react-router-dom";
 
@@ -108,13 +108,13 @@ class FlightResultHeading extends React.Component {
                   ${info.adults === "1" ? "Adult" : "Adults"}  | ${
             info.children > 1
               ? info.children + " children |"
-              : info.children == 1
+              : info.children === 1
               ? info.children + " child |"
               : ""
           }  ${
             info.infants > 1
               ? info.infants + " infants |"
-              : info.infants == 1
+              : info.infants === 1
               ? info.infants + " infant |"
               : ""
           }

@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../images/logo.svg";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -42,16 +42,6 @@ const Header = (props) => {
             >
               Home
             </Nav.Link>
-            {/* <NavLink
-              className="mr-3 header-link"
-              style={{
-                marginTop: "auto",
-                marginBottom: "auto",
-              }}
-              to="/login"
-            >
-              Login
-            </NavLink> */}
             <Nav.Link className="header-link" href="#contact">
               Contact
             </Nav.Link>
