@@ -4,7 +4,7 @@ import { getNames } from "country-list";
 import { Form, Col, Row } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
 
-const PersonalInfo = props => {
+const PersonalInfo = (props) => {
   return (
     <Row>
       <CustomForm
@@ -151,11 +151,11 @@ const PersonalInfo = props => {
             id: "phone",
             className: "form-control phone-form-control",
             required: true,
-            autoFocus: true
+            autoFocus: true,
           }}
           country={"ng"}
           value={props.phone}
-          onChange={phone => props.onChangePhone(phone)}
+          onChange={(phone) => props.onChangePhone(phone)}
         />
       </Form.Group>
 
@@ -185,9 +185,9 @@ const PersonalInfo = props => {
         elementType="select"
         option={
           <>
-            {getNames().map(name => {
-              return <option>{name}</option>;
-            })}
+            {getNames().map((name) => (
+              <option key={name}>{name}</option>
+            ))}
           </>
         }
         lg="4"

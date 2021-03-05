@@ -16,18 +16,6 @@ function SelectedFlightInfo(props) {
   });
 
   // Get a unique flightOffer array which contains one object for adults, children, and infants each
-  const unique = flightOffer[0].travelerPricings.reduce(
-    (accumulator, traveler) =>
-      accumulator.concat(
-        accumulator.find(
-          (travelerObj) => travelerObj.travelerType === traveler.travelerType
-        )
-          ? []
-          : [traveler]
-      ),
-    []
-  );
-
   const uniqueTravelerPricings = flightOffer.map((flight) =>
     flight.travelerPricings.reduce(
       (accumulator, traveler) =>

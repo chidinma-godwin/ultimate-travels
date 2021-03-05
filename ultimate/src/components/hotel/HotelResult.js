@@ -59,9 +59,7 @@ class HotelResult extends React.Component {
         array = prevState.hotelData.filter(
           (hotel) => hotel.hotel.rating !== item
         );
-        this.checkedStars = this.checkedStars.filter((i) => {
-          return item != i;
-        });
+        this.checkedStars = this.checkedStars.filter((i) => item !== i);
       }
 
       // return an array of hotels that contains the checked number of stars
@@ -108,7 +106,7 @@ class HotelResult extends React.Component {
           <Col lg={12} className="mb-4">
             <HotelResultHeading userInfo={this.state.userInfo} />
           </Col>
-          <Col lg={3} classname="mb-4">
+          <Col lg={3} className="mb-4">
             <FilterHotels
               hotelData={this.state.hotelData}
               stars={this.state.stars}

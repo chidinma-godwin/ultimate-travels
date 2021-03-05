@@ -1,6 +1,6 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { Row, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { getInspirationPlaces } from "../../../queries";
 import TopFlightDeals from "./TopFlightDeals";
 import ErrorBoundary from "../../ErrorBoundary";

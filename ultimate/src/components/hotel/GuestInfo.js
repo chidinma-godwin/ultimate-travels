@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Form, Col } from "react-bootstrap";
 
-const GuestInfo = props => {
-  const { offerId } = props.location.state;
+const GuestInfo = (props) => {
+  // const { offerId } = props.location.state;
   return (
     <Container>
       <Form>

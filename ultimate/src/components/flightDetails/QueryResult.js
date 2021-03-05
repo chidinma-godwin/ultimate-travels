@@ -43,7 +43,6 @@ class QueryResult extends React.Component {
       priceArray: this.getPrices(this.resizeData(this.formattedData)),
       outboundTime: [0, 1439],
       inboundTime: [0, 1439],
-      durationValue: [0, 100],
       priceValue: [Math.min(...this.priceList), Math.max(...this.priceList)],
       durationValue: [
         Math.round(Math.min(...this.durationList.map((item) => item[1]))),
@@ -118,7 +117,7 @@ class QueryResult extends React.Component {
       let array = prevState.flightData.map((trip) => {
         let low = 0;
 
-        trip.map((item, index, arr) => {
+        trip.forEach((item, index, arr) => {
           if (item.accumulatedPrice < arr[low].accumulatedPrice) low = index;
         });
 
@@ -144,7 +143,7 @@ class QueryResult extends React.Component {
       const flightArray = prevState.flightData.map((trip) => {
         let low = 0;
 
-        trip.map((item, index, arr) => {
+        trip.forEach((item, index, arr) => {
           if (item.averageDuration < arr[low].averageDuration) low = index;
         });
 
@@ -216,7 +215,7 @@ class QueryResult extends React.Component {
             !flight.uniqueAirlinesList.some((item) =>
               this.unCheckedAirlines.includes(item)
             ) &&
-            this.priceList.some((item) => flight.accumulatedPrice == item)
+            this.priceList.some((item) => flight.accumulatedPrice === item)
           );
         })
       );
@@ -255,7 +254,7 @@ class QueryResult extends React.Component {
             !flight.uniqueAirlinesList.some((item) =>
               this.unCheckedAirlines.includes(item)
             ) &&
-            this.priceList.some((item) => flight.accumulatedPrice == item)
+            this.priceList.some((item) => flight.accumulatedPrice === item)
           );
         })
       );
@@ -298,7 +297,7 @@ class QueryResult extends React.Component {
             !flight.uniqueAirlinesList.some((item) =>
               this.unCheckedAirlines.includes(item)
             ) &&
-            this.priceList.some((item) => flight.accumulatedPrice == item)
+            this.priceList.some((item) => flight.accumulatedPrice === item)
           );
         })
       );
@@ -386,7 +385,7 @@ class QueryResult extends React.Component {
               !flight.uniqueAirlinesList.some((item) =>
                 this.unCheckedAirlines.includes(item)
               ) &&
-              this.priceList.some((item) => flight.accumulatedPrice == item)
+              this.priceList.some((item) => flight.accumulatedPrice === item)
             );
           })
         );

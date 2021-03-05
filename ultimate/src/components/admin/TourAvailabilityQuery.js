@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { adopt } from "react-adopt";
-import { Spinner, Table } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { tourAvailabilityQuery } from "../../queries/tour";
 import TourAvailabilityResult from "./TourAvailabilityResult";
 

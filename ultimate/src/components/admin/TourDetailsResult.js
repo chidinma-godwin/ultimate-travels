@@ -198,6 +198,7 @@ class TourDetailsResult extends React.Component {
                             style={{ textDecoration: "none" }}
                             href={tourOverviewLink[0].href}
                             target="_blank"
+                            rel="noopener noreferrer"
                           >
                             {tourOverviewLink[0].href}
                           </a>

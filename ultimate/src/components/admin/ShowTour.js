@@ -3,7 +3,6 @@ import { Redirect } from "react-router-dom";
 import { getNames } from "country-list";
 import {
   Form,
-  Card,
   OverlayTrigger,
   Tooltip,
   Button,
@@ -11,7 +10,6 @@ import {
   Row,
 } from "react-bootstrap";
 import { Picky } from "react-picky";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TourAvailabilityQuery from "./TourAvailabilityQuery";
 import TourQuery from "./TourQuery";
 
@@ -30,7 +28,7 @@ class ShowTour extends React.Component {
   removeCountry = (country) => {
     this.setState((prevState) => {
       let newCountriesList = prevState.countries.filter(
-        (item) => country != item
+        (item) => country !== item
       );
       return {
         countries: newCountriesList,
@@ -81,13 +79,7 @@ class ShowTour extends React.Component {
   };
 
   render() {
-    let {
-      selectedCountries,
-      selectedPlaces,
-      checkAvailability,
-      city,
-      redirect,
-    } = this.state;
+    let { selectedCountries, checkAvailability, city, redirect } = this.state;
 
     return (
       <React.Fragment>

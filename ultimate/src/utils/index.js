@@ -3,7 +3,7 @@ const getPrices = (tripData) => {
   let priceArray = [];
   let resizedTripData = resizeData(tripData);
 
-  resizedTripData[0].map((trip, index) => {
+  resizedTripData[0].forEach((trip, index) => {
     let total = 0;
     for (let i = 0; i < tripData.length; i++) {
       total += tripData[i][index].price.total * 1;
@@ -34,9 +34,6 @@ const getDuration = (tripData) => {
         return mins;
       });
 
-      // Declare a variable for the price of each returned flight
-      let price = flight.price.total * 1;
-
       // get the average duration from each flight
       let sumDuration = time.reduce((total, each) => total + each, 0);
       let averageDuration = sumDuration / time.length;
@@ -51,7 +48,7 @@ const getDuration = (tripData) => {
   );
   let totalAvgDuration = 0;
   let totalPrice = 0;
-  tripData[0].map((trip, index) => {
+  tripData[0].forEach((trip, index) => {
     totalAvgDuration = trip.averageDuration;
     totalPrice = trip.price.total * 1;
     for (let i = 1; i < tripData.length; i++) {
@@ -102,7 +99,7 @@ const formatData = (propsData) =>
         let airlineList = [];
         let uniqueAirlinesList = [];
 
-        flight.itineraries.map((itinerary) => {
+        flight.itineraries.forEach((itinerary) => {
           // Push airlines to the list declared above
           itinerary.segments.map((segment) =>
             airlineList.push(segment.carrierCode)
