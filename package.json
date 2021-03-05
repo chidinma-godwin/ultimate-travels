@@ -26,7 +26,6 @@
     "apollo-server-express": "^2.12.0",
     "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
-    "bootstrap": "^4.4.1",
     "connect-redis": "^4.0.4",
     "cors": "^2.8.5",
     "dot-env": "0.0.1",
@@ -36,13 +35,9 @@
     "graphql": "^14.6.0",
     "graphql-passport": "^0.6.3",
     "joi-phone-number": "^4.1.0",
-    "mathjs": "^6.6.2",
     "mongoose": "^5.9.7",
     "passport": "^0.4.1",
     "qs": "^6.9.3",
-    "react-admin": "^3.4.0",
-    "react-adopt": "^0.6.0",
-    "react-burger-menu": "^2.6.13",
     "redis": "^3.0.2"
   }
 }

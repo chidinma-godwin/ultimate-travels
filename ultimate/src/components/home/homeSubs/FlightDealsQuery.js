@@ -16,7 +16,6 @@ class FlightDealsQuery extends React.Component {
 
   showNextPage = () => {
     this.setState((prevState) => {
-      console.log(this.state.currentPage);
       return {
         currentPage: prevState.currentPage + 1,
       };
@@ -25,7 +24,6 @@ class FlightDealsQuery extends React.Component {
 
   showPreviousPage = () => {
     this.setState((prevState) => {
-      console.log(this.state.currentPage);
       return {
         currentPage: prevState.currentPage - 1,
       };
@@ -39,7 +37,7 @@ class FlightDealsQuery extends React.Component {
         variables={{
           origin: "LON",
           //   departureDate: String
-          viewBy: "COUNTRY",
+          // viewBy: "COUNTRY",
         }}
       >
         {({ error, loading, data }) => {
@@ -69,8 +67,6 @@ class FlightDealsQuery extends React.Component {
             );
           }
 
-          console.log(data);
-
           let { currentPage, dealsPerpage } = this.state;
           const deals = data.flightInspiration
             ? data.flightInspiration.data
@@ -84,8 +80,6 @@ class FlightDealsQuery extends React.Component {
           for (let i = 1; i <= Math.ceil(deals.length / dealsPerpage); i++) {
             pageNumbers.push(i);
           }
-
-          console.log(this.state.currentPage);
 
           // const emptyData = {};
           // emptyData.flightInspiration = {};
