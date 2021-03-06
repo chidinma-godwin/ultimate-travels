@@ -83,7 +83,7 @@ class HotelForm extends React.Component {
 
   handleChange = (evt) => {
     this.setState({
-      [evt.target.id]: evt.target.value,
+      [evt.target.name]: Number(evt.target.value),
     });
   };
 
@@ -252,7 +252,7 @@ class HotelForm extends React.Component {
                 trigger="click"
                 rootClose
                 overlay={popover}
-                placement="top"
+                placement="bottom"
               >
                 <Form.Control
                   className="form-control-sm"

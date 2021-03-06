@@ -297,7 +297,7 @@ class Trip extends React.Component {
                 trigger="click"
                 rootClose
                 overlay={popover}
-                placement="top"
+                placement="bottom"
               >
                 <FormControl
                   id="passengers"

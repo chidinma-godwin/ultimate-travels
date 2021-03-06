@@ -111,10 +111,8 @@ class OfferAvailabilityResult extends React.Component {
     return (
       <Container
         fluid
-        // classname="p-4"
         style={{
           marginTop: "2em",
-          //  padding: "1.5em",
           paddingTop: "0",
         }}
       >

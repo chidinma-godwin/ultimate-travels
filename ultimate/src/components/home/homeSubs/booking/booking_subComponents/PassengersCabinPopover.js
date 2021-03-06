@@ -32,7 +32,7 @@ function PassengersCabinPopover(props) {
           as="select"
           name="c_age"
           id="c_age"
-          value={c_age}
+          defaultValue={c_age}
           size="sm"
         >
           {childrenAge.map((age, i) => (
@@ -140,6 +140,7 @@ function PassengersCabinPopover(props) {
         ""
       )}
 
+      {!!ageForm.length && <p>Select age of each child</p>}
       <Form.Row>{ageForm}</Form.Row>
       <Button onClick={() => document.body.click()}>Done</Button>
     </React.Fragment>
