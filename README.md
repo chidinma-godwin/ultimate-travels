@@ -1,4 +1,5 @@
 # Ultimate Travels and Tours
-A travel website for online flight, hotel, and tour bookings.
 
-[View the website](https://ultimate-travels-webapp.herokuapp.com/)
+A travel website for getting flight, hotel, and tour prices.
+
+[View the website](http://ultimate-travels.co.uk)
